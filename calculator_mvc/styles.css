@@ -1,4 +1,4 @@
-.calculator {
+.root {
     max-width: 750px;
     margin: 50px auto;
     padding: 10px;
@@ -29,4 +29,8 @@ button {
     font-size: 20px;
     cursor: pointer;
     background-color: #c08f17;
+}
+
+.zero, .reset {
+    grid-column: span 2;
 }

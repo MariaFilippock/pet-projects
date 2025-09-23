@@ -1,6 +1,5 @@
-//собираем все файлы вместе
-import { CalculatorController } from "./controller.js";
-import { CalculatorView } from "./view.js";
-import { CalculatorModel } from "./model.js";
+import { Controller } from "./controller.js";
+import { View } from "./view.js";
+import { Model } from "./model.js";
 
-new CalculatorController(new CalculatorModel(), new CalculatorView());
+new Controller(new Model(), new View());

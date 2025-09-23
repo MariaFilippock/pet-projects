@@ -1,30 +1,32 @@
-//обработка событий, посредник между view и model
+export class Controller {
+    constructor(model, view) {
+        this.model = model;
+        this.view = view;
 
-export class CalculatorController {
-  constructor(model, view) {
-    this.model = model;
-    this.view = view;
-    this.currentInput = "";
-    this.view.onButtonClick(this.handleInput.bind(this));
-  }
+        this.model.onChange(this.onChanged.bind(this));
 
-  handleInput(input) {
-    if (input === "C") {
-      this.currentInput = "";
-      this.view.updateDisplay("");
-    } else if (input === "=") {
-      this.currentInput = this.model.makeOperation(
-        this.currentInput.split(" ")
-      );
-      this.view.updateDisplay(this.currentInput);
-    } else {
-      if (isFinite(input)) {
-        this.currentInput += input;
-      } else {
-        this.currentInput += " " + input + " ";
-      }
+        this.view.renderApp();
+        this.view.onButtonClick(this.handleInput.bind(this));
+        this.view.onInput(this.handleInput.bind(this));
+        this.view.onCommaClick(this.handleCommaClick.bind(this));
+        this.view.onResetClick(this.handleResetOperation.bind(this));
 
-      this.view.updateDisplay(this.currentInput);
+        this.onChanged();
     }
-  }
+
+    handleInput(input) {
+        this.model.makeOperation(input);
+    }
+
+    handleResetOperation() {
+        this.model.resetOperation();
+    }
+
+    handleCommaClick(comma) {
+        this.model.addComma(comma);
+    }
+
+    onChanged() {
+        this.view.updateDisplay(this.model.state);
+    }
 }
