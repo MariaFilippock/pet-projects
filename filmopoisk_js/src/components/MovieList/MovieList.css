@@ -1,0 +1,80 @@
+.film-list-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1415px;
+    min-height: 600px;
+}
+
+.film-list-group div {
+    max-width: 180px;
+    min-width: 180px;
+    transition: all 200ms ease-in-out;
+}
+
+.film-list-group div:hover {
+    scale: 1.04;
+}
+
+.film-list-group img {
+    max-width: 180px;
+    min-width: 180px;
+    height: 260px;
+    cursor: pointer;
+}
+
+.film-list-group span {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.reccomend-message {
+    display: flex;
+    justify-items: center;
+    padding: 5px 2px 25px 2px;
+    font-size: 30px;
+}
+
+#page-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+
+}
+
+.page {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    padding: 6px 8px 6px 8px;
+    /* background-color: gray; */
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.next {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    padding: 5px 8px 5px 8px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 99999;
+}
+
+.page:hover {
+    scale: 1.08;
+}
+
+span.active {
+    background-color: #FF3D00;
+}
+
+ion-icon {
+    z-index: 0;
+    contain: unset;
+}
