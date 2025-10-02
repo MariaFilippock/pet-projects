@@ -1,130 +1,129 @@
-import { ROWS_PER_PAGE } from "./const.js";
+import {ROWS_PER_PAGE} from "./const.js";
 
 export class View {
-  constructor() {
-    this.root = document.getElementById("root");
-  }
+    constructor() {
+        this.root = document.getElementById("root");
+    }
 
-  _getHTMLElements() {
-    this.form = document.getElementById("form-input");
-    this.input = document.querySelector(".search-input");
-    this.button = document.querySelector(".search-button");
-    this.list = document.querySelector(".todos-container");
-    this.pages = document.querySelector(".container-pages");
-    this.filters = document.querySelector(".filters-container");
-  }
+    _attachHTMLElements() {
+        this.form = document.getElementById("form-input");
+        this.input = document.querySelector(".search-input");
+        this.list = document.querySelector(".todos-container");
+        this.pages = document.querySelector(".container-pages");
+        this.filters = document.querySelector(".filters-container");
+    }
 
-  get _todoTask() {
-    return this.input.value;
-  }
+    get _todoTask() {
+        return this.input.value;
+    }
 
-  _inputClear() {
-    this.input.value = "";
-  }
+    _clearInput() {
+        this.input.value = "";
+    }
 
-  initAddTaskHandler(handler) {
-    this.form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (this._todoTask) {
-        handler(this._todoTask);
-        this._inputClear();
-      }
-    });
-  }
+    initAddTaskHandler(handler) {
+        this.form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (this._todoTask) {
+                handler(this._todoTask);
+                this._clearInput();
+            }
+        });
+    }
 
-  initSetFilter(handler) {
-    this.filters.addEventListener("click", (e) => {
-      if (e.target.id) {
-        handler(e.target.id);
-      }
-    });
-  }
+    initSetFilter(handler) {
+        this.filters.addEventListener("click", (e) => {
+            if (e.target.id) {
+                handler(e.target.id);
+            }
+        });
+    }
 
-  initRemoveTaskHandler(handler) {
-    this.list.addEventListener("click", (e) => {
-      if (e.target.textContent === "✖") {
-        handler(Number(e.target.id));
-      }
-    });
-  }
+    initRemoveTaskHandler(handler) {
+        this.list.addEventListener("click", (e) => {
+            if (e.target.dataset.action === "delete") {
+                handler(Number(e.target.id));
+            }
+        });
+    }
 
-  initCompleteTaskHandler(handler) {
-    this.list.addEventListener("click", (e) => {
-      if (e.target.textContent === "✔") {
-        handler(Number(e.target.id));
-      }
-    });
-  }
+    initCompleteTaskHandler(handler) {
+        this.list.addEventListener("click", (e) => {
+            if (e.target.dataset.action === "completed") {
+                handler(Number(e.target.id));
+            }
+        });
+    }
 
-  initAddToFavoriteTaskHandler(handler) {
-    this.list.addEventListener("click", (e) => {
-      if (e.target.textContent === "★") {
-        handler(Number(e.target.id));
-      }
-    });
-  }
+    initAddToFavoriteTaskHandler(handler) {
+        this.list.addEventListener("click", (e) => {
+            if (e.target.dataset.action === "favorites") {
+                handler(Number(e.target.id));
+            }
+        });
+    }
 
-  renderPagination(state, todos, handler) {
-    let pageCount = Math.ceil(todos.length / ROWS_PER_PAGE);
-    this.pages.addEventListener("click", (e) => {
-      if (e.target.tagName === "BUTTON") {
-        handler(Number(e.target.id));
-      }
-    });
-    this.pages.innerHTML = "";
-    let buttons = "";
+    renderPagination(state, todos, handler) {
+        let pageCount = Math.ceil(todos.length / ROWS_PER_PAGE);
+        this.pages.addEventListener("click", (e) => {
+            if (e.target.tagName === "BUTTON") {
+                handler(Number(e.target.id));
+            }
+        });
+        this.pages.innerHTML = "";
+        let buttons = "";
 
-    for (let i = 0; i < pageCount; i++) {
-      buttons += `<button class="${
-        state.currentPage === i + 1 ? "currentPage page-btn" : "page-btn"
-      }" id="${i + 1}">
+        for (let i = 0; i < pageCount; i++) {
+            buttons += `<button class="${
+                state.currentPage === i + 1 ? "currentPage page-btn" : "page-btn"
+            }" id="${i + 1}">
           ${i + 1}
         </button>`;
+        }
+        this.pages.innerHTML = buttons;
     }
-    this.pages.innerHTML = buttons;
-  }
 
-  renderFilters(filter) {
-    this.filters.innerHTML = `<div id="all" class="${
-      filter === "all" ? "all active" : "all"
-    }">Все задачи</div>
+    renderFilters(filter) {
+        this.filters.innerHTML = `<div id="all" class="${
+            filter === "all" ? "all active" : "all"
+        }">Все задачи</div>
                 <div id="complete" class="${
-                  filter === "complete" ? "complete active" : "complete"
-                }">Выполненные</div>
+            filter === "complete" ? "complete active" : "complete"
+        }">Выполненные</div>
                 <div id="favorite" class="${
-                  filter === "favorite" ? "favorite active" : "favorite"
-                }">Избранное</div>`;
-  }
+            filter === "favorite" ? "favorite active" : "favorite"
+        }">Избранное</div>`;
+    }
 
-  renderTodoList(todos) {
-    let displayList = "";
-    this.list.innerHTML = "";
-    if (todos.length > 0) {
-      todos.forEach((todo) => {
-        displayList += `<li id=${todo.id}>
+    renderTodoList(todos) {
+        let displayList = "";
+        this.list.innerHTML = "";
+        if (todos.length > 0) {
+            todos.forEach((todo) => {
+                displayList += `<li id=${todo.id}>
         <span class="${todo.completed ? "completed" : ""}">${todo.text}</span>
         <div class="todo-buttons">
-        <button id=${todo.id} class="${
-          todo.isFavorite ? "favorite-task" : ""
-        }">★</button>
-        <button id=${todo.id} class="${
-          todo.completed ? "completed-task" : ""
-        }">✔</button>
-        <button id=${todo.id}>✖</button>
+        <button id=${todo.id} data-action="favorites" class="${
+                    todo.isFavorite ? "favorite-task" : ""
+                }">★</button>
+        <button id=${todo.id} data-action="completed" class="${
+                    todo.completed ? "completed-task" : ""
+                }">✔</button>
+        <button data-action="delete" id=${todo.id}>✖</button>
         </div>
         </li>`;
 
-        this.list.innerHTML = displayList;
-      });
+                this.list.innerHTML = displayList;
+            });
+        }
     }
-  }
 
-  renderApp() {
-    this.root.innerHTML = `<h1>TODO APP</h1>
+    renderApp() {
+        this.root.innerHTML = `<h1>TODO APP</h1>
         <div class="container">
             <form id="form-input" class="form">
                 <input type="text" class="search-input" placeholder="Добавьте новую задачу..." />
-                <button class="search-button" type="submit">Добавить</button>
+                <button class="add-button" type="submit">Добавить</button>
             </form>
             <div class="filters-container">
             </div>
@@ -132,6 +131,6 @@ export class View {
         <div class="container-pages"></div>
         </div>`;
 
-    this._getHTMLElements();
-  }
+        this._attachHTMLElements();
+    }
 }
