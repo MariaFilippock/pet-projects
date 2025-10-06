@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    background-color: #f5f6fa;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    color: #333;
+}
+
+.App {
+    display: flex;
+    min-height: 100vh;
+}
+
+.route-container {
+    flex: 1;
+    margin-left: 280px; /* чтобы не заезжать под навбар */
+    padding: 40px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .route-container {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .navbar a {
+    margin: 0;
+    padding: 10px;
+  }
+}
