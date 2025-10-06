@@ -1,7 +1,9 @@
 import React from 'react';
-import styles from './FilmopoiskJS.module.css';
-import common from '../pageStyles.module.css';
+import styles from './FilmopoiskJS.module.scss';
+import common from '../pageStyles.module.scss';
 
-export const FilmopoiskJS = () => {
+const FilmopoiskJS = () => {
     return <div className={common.contentBox}>FilmopoiskJS</div>
 }
+
+export default FilmopoiskJS;

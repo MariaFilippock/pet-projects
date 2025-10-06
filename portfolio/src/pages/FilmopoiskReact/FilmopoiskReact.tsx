@@ -1,7 +1,9 @@
 import React from 'react';
-import styles from './FilmopoiskReact.module.css';
-import common from '../pageStyles.module.css';
+import styles from './FilmopoiskReact.module.scss';
+import common from '../pageStyles.module.scss';
 
-export const FilmopoiskReact = () => {
+const FilmopoiskReact = () => {
     return <div className={common.contentBox}>FilmopoiskReact</div>
 }
+
+export default FilmopoiskReact;

@@ -1,7 +1,9 @@
 import React from 'react';
-import styles from './WeatherForecastJS.module.css';
-import common from '../pageStyles.module.css';
+import styles from './WeatherForecastJS.module.scss';
+import common from '../pageStyles.module.scss';
 
-export const WeatherForecastJS = () => {
+const WeatherForecastJS = () => {
     return <div className={common.contentBox}>WeatherForecastJS</div>
 }
+
+export default WeatherForecastJS;

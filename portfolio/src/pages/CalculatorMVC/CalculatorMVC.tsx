@@ -1,7 +1,9 @@
 import React from 'react';
-import styles from './CalculatorMVC.module.css';
-import common from '../pageStyles.module.css';
+import styles from './CalculatorMVC.module.scss';
+import common from '../pageStyles.module.scss';
 
-export const CalculatorMVC = () => {
+const CalculatorMVC = () => {
     return <div className={common.contentBox}>CalculatorMVC</div>
 }
+
+export default CalculatorMVC;

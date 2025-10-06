@@ -1,7 +1,9 @@
 import React from 'react';
-import styles from './TodoMVC.module.css';
-import common from '../pageStyles.module.css';
+import styles from './TodoMVC.module.scss';
+import common from '../pageStyles.module.scss';
 
-export const TodoMVC = () => {
+const TodoMVC = () => {
     return <div className={common.contentBox}>TodoMVC</div>
 }
+
+export default TodoMVC;
