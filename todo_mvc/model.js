@@ -1,11 +1,11 @@
-import {ROWS_PER_PAGE, TODO} from "./const.js";
+import {ROWS_PER_PAGE, LOCAL_STORAGE_APP_STATE_KEY, FILTER_TYPE} from "./const.js";
 
 export class Model {
     constructor() {
-        this.state = JSON.parse(localStorage.getItem(TODO)) || {
+        this.state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_APP_STATE_KEY)) || {
             tasks: [],
             currentPage: 1,
-            filter: "all",
+            filter: FILTER_TYPE.all,
         };
     }
 
@@ -54,28 +54,30 @@ export class Model {
 
     deleteTask(id) {
         this.state.tasks = this.state.tasks.filter((task) => task.id !== id);
-        let filteredList = this.filterTaskList(this.state);
 
-        if (
-            Math.ceil(filteredList.length / ROWS_PER_PAGE) < this.state.currentPage
-        ) {
-            this.setCurrentPage(Math.ceil(filteredList.length / ROWS_PER_PAGE));
+        const pageCount = this.getPageCount();
+
+        if (pageCount < this.state.currentPage) {
+            this.setCurrentPage(pageCount);
         }
         this.saveToLocalStorage();
         this.onChange(this.state);
     }
 
     completeTask(id) {
-        const completedTask = this.filterTaskList(this.state).find(
-            (task) => task.id === id
-        );
-        completedTask.completed = !completedTask.completed;
+        this.state.tasks = this.state.tasks.map((task) => {
+            if (task.id === id) {
+                return {
+                    ...task,
+                    completed: !task.completed,
+                }
+            }
+            return task;
+        });
 
         const pageCount = this.getPageCount();
 
-        if (
-            pageCount < this.state.currentPage
-        ) {
+        if (pageCount < this.state.currentPage) {
             this.setCurrentPage(pageCount);
         }
         this.saveToLocalStorage();
@@ -83,14 +85,19 @@ export class Model {
     }
 
     addToFavoriteTask(id) {
-        const favoriteTask = this.state.tasks.find((task) => task.id === id);
-        favoriteTask.isFavorite = !favoriteTask.isFavorite;
+        this.state.tasks = this.state.tasks.map((task) => {
+            if (task.id === id) {
+                return {
+                    ...task,
+                    isFavorite: !task.isFavorite,
+                }
+            }
+            return task;
+        });
 
         const pageCount = this.getPageCount();
 
-        if (
-            pageCount < this.state.currentPage
-        ) {
+        if (pageCount < this.state.currentPage) {
             this.setCurrentPage(pageCount);
         }
         this.saveToLocalStorage();
@@ -104,15 +111,15 @@ export class Model {
     filterTaskList(state) {
         let filteredList = [];
 
-        if (state.filter === "all") {
+        if (state.filter === FILTER_TYPE.all) {
             filteredList = state.tasks;
         }
-        if (state.filter === "favorite") {
+        if (state.filter === FILTER_TYPE.favorite) {
             filteredList = state.tasks.filter((task) => {
                 return task.isFavorite;
             });
         }
-        if (state.filter === "complete") {
+        if (state.filter === FILTER_TYPE.complete) {
             filteredList = state.tasks.filter((task) => {
                 return task.completed;
             });
@@ -121,7 +128,7 @@ export class Model {
         return filteredList;
     }
 
-    getTasksPerPage(state) {
+    getTasksForCurrentPage(state) {
         const start = (state.currentPage - 1) * ROWS_PER_PAGE;
         const end = start + ROWS_PER_PAGE;
 
@@ -129,6 +136,6 @@ export class Model {
     }
 
     saveToLocalStorage() {
-        localStorage.setItem(TODO, JSON.stringify(this.state));
+        localStorage.setItem(LOCAL_STORAGE_APP_STATE_KEY, JSON.stringify(this.state));
     }
 }

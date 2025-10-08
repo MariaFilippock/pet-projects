@@ -32,6 +32,7 @@ export class Controller {
 
   handleCompleteTask = (id) => {
     this.model.completeTask(id);
+    this.onTodosChanged();
   };
 
   handleChangePage = (page) => {
@@ -50,7 +51,7 @@ export class Controller {
 
   onTodosChanged = () => {
     this.view.renderFilters(this.model.state.filter);
-    this.view.renderTodoList(this.model.getTasksPerPage(this.model.state));
+    this.view.renderTodoList(this.model.getTasksForCurrentPage(this.model.state));
     this.view.renderPagination(
       this.model.state,
       this.model.filterTaskList(this.model.state),

@@ -70,7 +70,7 @@ export class View {
                 handler(Number(e.target.id));
             }
         });
-        this.pages.innerHTML = "";
+
         let buttons = "";
 
         for (let i = 0; i < pageCount; i++) {
@@ -97,19 +97,19 @@ export class View {
 
     renderTodoList(todos) {
         let displayList = "";
-        this.list.innerHTML = "";
+
         if (todos.length > 0) {
             todos.forEach((todo) => {
                 displayList += `<li id=${todo.id}>
         <span class="${todo.completed ? "completed" : ""}">${todo.text}</span>
         <div class="todo-buttons">
-        <button id=${todo.id} data-action="favorites" class="${
+        <button data-action="favorites" class="${
                     todo.isFavorite ? "favorite-task" : ""
                 }">★</button>
-        <button id=${todo.id} data-action="completed" class="${
+        <button data-action="completed" class="${
                     todo.completed ? "completed-task" : ""
                 }">✔</button>
-        <button data-action="delete" id=${todo.id}>✖</button>
+        <button data-action="delete">✖</button>
         </div>
         </li>`;
 
