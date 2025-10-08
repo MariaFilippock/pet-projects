@@ -1,0 +1,63 @@
+.wrapper {
+  color: #8e8e8e;
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  min-width: 200px;
+  padding: 20px 15px;
+  background-color: #111;
+  border-right: 1px solid #222;
+  height: calc(100vh - 70px); /* высота минус высота хедера */
+  position: sticky;
+  top: 70px; /* отступ под фиксированный header */
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.typesSearch div, .typesSearch span {
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+  //margin-bottom: 15px;
+}
+
+.typesSearch div:hover, .typesSearch span:hover {
+  color: #FFFFFF;
+  //scale: 1.1;
+}
+
+.typesSearch, .genresSearch, .yearSearch {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  text-transform: uppercase;
+  font-weight: 900;
+  border-bottom: 1px solid rgba(171, 169, 169, 0.3);
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  font-size: 16px;
+}
+
+.genresSearch div {
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+}
+
+.genresSearch div:hover {
+  color: #FFFFFF;
+  //scale: 1.1;
+}
+
+.chosen {
+  //padding: 2px 4px;
+  border-radius: 5px;
+  //scale: 1.05;
+  color: white;
+  background-color: rgba(171, 169, 169, 0.2);
+}
+
+.yearSearchTitle {
+  padding-bottom: 15px;
+}
