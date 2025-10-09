@@ -3,10 +3,11 @@ export class Controller {
         this.model = model;
         this.view = view;
 
-        this.model.onChange(this.onChanged.bind(this));
+        this.model.initOnChange(this.onChanged.bind(this));
 
         this.view.renderApp();
         this.view.onButtonClick(this.handleInput.bind(this));
+        this.view.onEqualClick(this.handleCalculateResult.bind(this));
         this.view.onInput(this.handleInput.bind(this));
         this.view.onCommaClick(this.handleCommaClick.bind(this));
         this.view.onResetClick(this.handleResetOperation.bind(this));
@@ -16,6 +17,10 @@ export class Controller {
 
     handleInput(input) {
         this.model.makeOperation(input);
+    }
+
+    handleCalculateResult(el) {
+        this.model.calculateResult(el);
     }
 
     handleResetOperation() {

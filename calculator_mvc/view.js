@@ -1,3 +1,5 @@
+import {ONLY_LETTERS_REGEX} from "./const.js";
+
 export class View {
     constructor() {
         this.root = document.getElementById("root")
@@ -6,8 +8,9 @@ export class View {
     _getHTMLElements() {
         this.input = document.getElementById("display");
         this.buttons = document.querySelectorAll("[data-action='button']");
-        this.commaBtn = document.querySelector(".comma");
+        this.commaBtn = document.getElementById("comma");
         this.resetBtn = document.getElementById("reset");
+        this.equalBtn = document.getElementById("equal");
     };
 
     _clearInput() {
@@ -30,15 +33,20 @@ export class View {
     onButtonClick(handler) {
         this.buttons.forEach((btn) => {
             btn.addEventListener("click", (event) => {
-
                 handler(event.target.textContent);
             });
         })
     }
 
+    onEqualClick(handler) {
+        this.equalBtn.addEventListener("click", (event) => {
+            handler(event.target.textContent);
+        });
+    }
+
     onInput(handler) {
         this.input.addEventListener("keyup", (event) => {
-            if (/^[a-zA-Zа-яА-Я]+$/.test(event.target.value)) {
+            if (ONLY_LETTERS_REGEX.test(event.target.value)) {
                 this._clearInput();
                 return;
             }
@@ -61,9 +69,9 @@ export class View {
         <button data-action="button">2</button>
         <button data-action="button">3</button>
         <button data-action="button">-</button>
-        <button data-action="button">=</button>
+        <button id="equal">=</button>
         <button data-action="button">+</button>
-        <button class="comma">.</button>
+        <button id="comma">.</button>
         <button data-action="button">%</button>
         <button data-action="button" class="zero">0</button>
         <button id="reset" class="reset">C</button>
