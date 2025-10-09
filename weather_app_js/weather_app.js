@@ -30,7 +30,7 @@ function renderApp() {
 
     <div class="cards_container"></div>`;
 
-    attachHTMLElements();
+    attachHTMLElementsHandlers();
 }
 
 function getHTMLElements() {
@@ -44,7 +44,7 @@ function getHTMLElements() {
     };
 }
 
-function attachHTMLElements() {
+function attachHTMLElementsHandlers() {
     const elements = getHTMLElements();
 
     elements.searchBtn.addEventListener('click', handleSearchCity);
