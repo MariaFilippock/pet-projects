@@ -1,4 +1,4 @@
-import {ROWS_PER_PAGE} from "./const.js";
+import {FILTER_TYPE, ROWS_PER_PAGE} from "./const.js";
 
 export class View {
     constructor() {
@@ -39,10 +39,16 @@ export class View {
         });
     }
 
+    getId(e, handler) {
+        const li = e.target.closest('li');
+        if (!li) return;
+        handler(Number(li.id));
+    }
+
     initRemoveTaskHandler(handler) {
         this.list.addEventListener("click", (e) => {
             if (e.target.dataset.action === "delete") {
-                handler(Number(e.target.id));
+                this.getId(e, handler);
             }
         });
     }
@@ -50,7 +56,7 @@ export class View {
     initCompleteTaskHandler(handler) {
         this.list.addEventListener("click", (e) => {
             if (e.target.dataset.action === "completed") {
-                handler(Number(e.target.id));
+                this.getId(e, handler);
             }
         });
     }
@@ -58,7 +64,7 @@ export class View {
     initAddToFavoriteTaskHandler(handler) {
         this.list.addEventListener("click", (e) => {
             if (e.target.dataset.action === "favorites") {
-                handler(Number(e.target.id));
+                this.getId(e, handler);
             }
         });
     }
@@ -80,19 +86,22 @@ export class View {
           ${i + 1}
         </button>`;
         }
+
         this.pages.innerHTML = buttons;
     }
 
     renderFilters(filter) {
-        this.filters.innerHTML = `<div id="all" class="${
-            filter === "all" ? "all active" : "all"
+        this.filters.innerHTML = `
+            <div id=${FILTER_TYPE.all} class="${
+            filter === FILTER_TYPE.all ? "all active" : FILTER_TYPE.all
         }">Все задачи</div>
-                <div id="complete" class="${
-            filter === "complete" ? "complete active" : "complete"
+                <div id=${FILTER_TYPE.complete} class="${
+            filter === FILTER_TYPE.complete ? "complete active" : FILTER_TYPE.complete
         }">Выполненные</div>
-                <div id="favorite" class="${
-            filter === "favorite" ? "favorite active" : "favorite"
-        }">Избранное</div>`;
+                <div id=${FILTER_TYPE.favorite} class="${
+            filter === FILTER_TYPE.favorite ? "favorite active" : FILTER_TYPE.favorite
+        }">Избранное</div>
+            `;
     }
 
     renderTodoList(todos) {
@@ -100,36 +109,37 @@ export class View {
 
         if (todos.length > 0) {
             todos.forEach((todo) => {
-                displayList += `<li id=${todo.id}>
-        <span class="${todo.completed ? "completed" : ""}">${todo.text}</span>
-        <div class="todo-buttons">
-        <button data-action="favorites" class="${
+                displayList += `
+                    <li id=${todo.id}>
+                        <span class="${todo.completed ? FILTER_TYPE.complete : ""}">${todo.text}</span>
+                        <div class="todo-buttons">
+                            <button data-action="favorites" class="${
                     todo.isFavorite ? "favorite-task" : ""
                 }">★</button>
-        <button data-action="completed" class="${
+                            <button data-action="completed" class="${
                     todo.completed ? "completed-task" : ""
                 }">✔</button>
-        <button data-action="delete">✖</button>
-        </div>
-        </li>`;
-
-                this.list.innerHTML = displayList;
+                            <button data-action="delete">✖</button>
+                        </div>
+                    </li>`;
             });
         }
+
+        this.list.innerHTML = displayList;
     }
 
     renderApp() {
-        this.root.innerHTML = `<h1>TODO APP</h1>
-        <div class="container">
-            <form id="form-input" class="form">
-                <input type="text" class="search-input" placeholder="Добавьте новую задачу..." />
-                <button class="add-button" type="submit">Добавить</button>
-            </form>
-            <div class="filters-container">
-            </div>
-            <div class="todos-container"></div>
-        <div class="container-pages"></div>
-        </div>`;
+        this.root.innerHTML = `
+            <h1>TODO APP</h1>
+            <div class="container">
+                 <form id="form-input" class="form">
+                      <input type="text" class="search-input" placeholder="Добавьте новую задачу..." />
+                      <button class="add-button" type="submit">Добавить</button>
+                 </form>
+                 <div class="filters-container"></div>
+                 <div class="todos-container"></div>
+                 <div class="container-pages"></div>
+            </div>`;
 
         this._attachHTMLElements();
     }

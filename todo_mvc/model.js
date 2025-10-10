@@ -49,19 +49,23 @@ export class Model {
 
         this.state.tasks.push(task);
         this.saveToLocalStorage();
-        this.onChange(this.state);
+        // this.onChange(this.state);
     }
 
-    deleteTask(id) {
-        this.state.tasks = this.state.tasks.filter((task) => task.id !== id);
-
+    checkUpdateCurrentPage() {
         const pageCount = this.getPageCount();
 
         if (pageCount < this.state.currentPage) {
             this.setCurrentPage(pageCount);
         }
         this.saveToLocalStorage();
-        this.onChange(this.state);
+    }
+
+    deleteTask(id) {
+        debugger
+        this.state.tasks = this.state.tasks.filter((task) => task.id !== id);
+
+        this.checkUpdateCurrentPage();
     }
 
     completeTask(id) {
@@ -75,13 +79,7 @@ export class Model {
             return task;
         });
 
-        const pageCount = this.getPageCount();
-
-        if (pageCount < this.state.currentPage) {
-            this.setCurrentPage(pageCount);
-        }
-        this.saveToLocalStorage();
-        this.onChange(this.state);
+        this.checkUpdateCurrentPage();
     }
 
     addToFavoriteTask(id) {
@@ -95,13 +93,7 @@ export class Model {
             return task;
         });
 
-        const pageCount = this.getPageCount();
-
-        if (pageCount < this.state.currentPage) {
-            this.setCurrentPage(pageCount);
-        }
-        this.saveToLocalStorage();
-        this.onChange(this.state);
+        this.checkUpdateCurrentPage();
     }
 
     bindOnChange(callback) {

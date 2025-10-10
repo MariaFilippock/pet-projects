@@ -23,6 +23,7 @@ export class Controller {
 
   handleAddTask = (text) => {
     this.model.addTask(text);
+     this.onTodosChanged();
   };
 
   handleRemoveTask = (id) => {
@@ -42,6 +43,7 @@ export class Controller {
 
   handleAddToFavorite = (id) => {
     this.model.addToFavoriteTask(id);
+    this.onTodosChanged();
   };
 
   handleChangeFilter = (filter) => {
