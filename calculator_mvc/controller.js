@@ -16,11 +16,11 @@ export class Controller {
     }
 
     handleInput(input) {
-        this.model.makeOperation(input);
+        this.model.addDigitOrOperator(input);
     }
 
-    handleCalculateResult(el) {
-        this.model.calculateResult(el);
+    handleCalculateResult() {
+        this.model.calculateResult();
     }
 
     handleResetOperation() {
