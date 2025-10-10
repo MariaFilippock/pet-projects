@@ -1,8 +1,11 @@
+const API_KEY = '5ed60a5aaf934bf49c7150247243010';
+const LOCAL_STORAGE_APP_STATE_KEY = 'weatherApp';
+
 const container = document.querySelector('.container_main');
 
 renderApp();
 
-const state = JSON.parse(localStorage.getItem('weatherApp')) || {
+const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_APP_STATE_KEY)) || {
     cities: [],
     switch: 'C',
     error: '',
@@ -184,7 +187,7 @@ function handleSwitchTemp() {
 }
 
 function loadWeatherOfCity(cityName) {
-    const apiKey = '5ed60a5aaf934bf49c7150247243010';
+    const apiKey = API_KEY;
     const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityName}`;
     const searchInput = getHTMLElements().searchInput;
 
@@ -227,7 +230,7 @@ function updateCityState(responseData, cityName) {
 }
 
 function saveToLocalStorage() {
-    localStorage.setItem('weatherApp', JSON.stringify(state));
+    localStorage.setItem(LOCAL_STORAGE_APP_STATE_KEY, JSON.stringify(state));
 }
 
 function renderEmpty() {
