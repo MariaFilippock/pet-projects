@@ -111,7 +111,7 @@ export class View {
             todos.forEach((todo) => {
                 displayList += `
                     <li id=${todo.id}>
-                        <span class="${todo.completed ? FILTER_TYPE.complete : ""}">${todo.text}</span>
+                        <span class="${todo.completed ? "completed" : ""}">${todo.text}</span>
                         <div class="todo-buttons">
                             <button data-action="favorites" class="${
                     todo.isFavorite ? "favorite-task" : ""

@@ -24,6 +24,13 @@ export class Model {
         });
     }
 
+    setTasks(tasks) {
+        this.setState({
+            ...this.state,
+            tasks,
+        });
+    }
+
     setState(newState) {
         this.state = newState;
         this.saveToLocalStorage();
@@ -47,9 +54,7 @@ export class Model {
             isFavorite: false,
         };
 
-        this.state.tasks.push(task);
-        this.saveToLocalStorage();
-        // this.onChange(this.state);
+        this.setTasks([...this.state.tasks, task]);
     }
 
     checkUpdateCurrentPage() {
@@ -58,18 +63,17 @@ export class Model {
         if (pageCount < this.state.currentPage) {
             this.setCurrentPage(pageCount);
         }
-        this.saveToLocalStorage();
     }
 
     deleteTask(id) {
-        debugger
-        this.state.tasks = this.state.tasks.filter((task) => task.id !== id);
+        const tasks = this.state.tasks.filter((task) => task.id !== id);
 
+        this.setTasks(tasks);
         this.checkUpdateCurrentPage();
     }
 
     completeTask(id) {
-        this.state.tasks = this.state.tasks.map((task) => {
+        const tasks = this.state.tasks.map((task) => {
             if (task.id === id) {
                 return {
                     ...task,
@@ -79,11 +83,12 @@ export class Model {
             return task;
         });
 
+        this.setTasks(tasks);
         this.checkUpdateCurrentPage();
     }
 
     addToFavoriteTask(id) {
-        this.state.tasks = this.state.tasks.map((task) => {
+        const tasks = this.state.tasks.map((task) => {
             if (task.id === id) {
                 return {
                     ...task,
@@ -93,11 +98,8 @@ export class Model {
             return task;
         });
 
+        this.setTasks(tasks);
         this.checkUpdateCurrentPage();
-    }
-
-    bindOnChange(callback) {
-        this.onChange = callback;
     }
 
     filterTaskList(state) {

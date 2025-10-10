@@ -4,7 +4,7 @@ export class Controller {
     this.view = view;
 
     //связка модели с обновлением view
-    this.model.bindOnChange(this.onTodosChanged);
+    // this.model.bindOnChange(this.onTodosChanged);
 
     this.view.renderApp();
 
