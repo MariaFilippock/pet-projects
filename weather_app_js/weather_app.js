@@ -187,8 +187,7 @@ function handleSwitchTemp() {
 }
 
 function loadWeatherOfCity(cityName) {
-    const apiKey = API_KEY;
-    const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityName}`;
+    const url = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${cityName}`;
     const searchInput = getHTMLElements().searchInput;
 
     return fetch(url).then((response) => {
