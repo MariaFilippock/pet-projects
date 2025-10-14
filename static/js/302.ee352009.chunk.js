@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkportfolio=self.webpackChunkportfolio||[]).push([[302],{302:(o,t,e)=>{e.r(t),e.d(t,{default:()=>n});e(43);var s=e(503),c=e(579);const n=()=>(0,c.jsx)("div",{className:s.A.contentBox,children:"FilmopoiskReact"})},503:(o,t,e)=>{e.d(t,{A:()=>s});const s={contentBox:"pageStyles_contentBox__RxoaY"}}}]);
+//# sourceMappingURL=302.ee352009.chunk.js.map
