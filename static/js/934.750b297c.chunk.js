@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkportfolio=self.webpackChunkportfolio||[]).push([[934],{503:(e,t,o)=>{o.d(t,{A:()=>l});const l={contentBox:"pageStyles_contentBox__RxoaY"}},934:(e,t,o)=>{o.r(t),o.d(t,{default:()=>a});o(43);var l=o(503),n=o(579);const a=()=>(0,n.jsx)("div",{className:l.A.contentBox,children:(0,n.jsx)("iframe",{src:"./native_projects/todo_mvc/index.html",title:"\u0421\u043f\u0438\u0441\u043e\u043a \u0437\u0430\u0434\u0430\u0447 MVC",width:"800",height:"600",frameBorder:"0",allowFullScreen:!0,loading:"lazy"})})}}]);
-//# sourceMappingURL=934.750b297c.chunk.js.map
