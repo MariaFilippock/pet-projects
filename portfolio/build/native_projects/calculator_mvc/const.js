@@ -1,0 +1,1 @@
+export const LOCAL_STORAGE_APP_STATE_KEY="calculator_mvc";export const ONLY_LETTERS_REGEX=/^[a-zA-Z\u0430-\u044f\u0410-\u042f]+$/;
