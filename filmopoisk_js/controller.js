@@ -1,30 +1,71 @@
 import {
-    // loadVideoPlayersByMovieId,
     getMoviesByFirstLetters,
     getMoviesById,
-    // fetchMovieAndVideoDataById,
     fetchMovie,
     fetchRandomMovies,
 } from "./api.js";
-import {EVERY_YEAR} from "./const.js";
+import {EVERY_YEAR, FILTER_YEAR_TYPE, PAGE_TYPE} from "./const.js";
 import {Store} from "./store.js";
 import {renderSideBar} from "./src/components/SideBar/SideBar.js";
 import {renderMovieCard} from "./src/components/MovieCard/MovieCard.js";
 import {renderFilmList} from "./src/components/MovieList/MovieList.js";
 import {renderDropdownMovieList} from "./src/components/DropdownMovieList/DropdownMovieList.js";
 
-const searchBtn = document.getElementById("btn-search");
-const searchInput = document.getElementById("search-input");
-const formSearch = document.getElementById("form-search");
-const navBrand = document.getElementById("nav-brand");
-const loader = document.getElementById("preloader-wrapper");
+const root = document.getElementById('root');
 
-searchBtn.addEventListener("click", handleSearchMovieByName);
-searchInput.addEventListener("input", handleShowDropdownMovieList);
 document.addEventListener("click", handleClickOutsideSearchInput);
-navBrand.addEventListener("click", handleShowRandomFilmList);
+
+function renderApp() {
+    root.innerHTML = `<div id="preloader-wrapper" class="preloader-wrapper">
+        <div id="preloader"></div>
+    </div>
+
+    <nav class="header">
+        <div class="search-container">
+            <div class="nav-brand" id="nav-brand">Фильмопоиск</div>
+            <div class="form-search" id="form-search">
+                <input id="search-input" type="text" placeholder="Фильмы" autoComplete="off">
+                    <div id="btn-search" class="btn-search">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </div>
+                    <div id="dropdown-container"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="wrapper-sidebar" class="wrapper-sidebar"></div>
+        <div id="wrapper" class="wrapper"></div>
+    </div>`
+
+    attachHTMLElementsHandlers();
+}
+
+export function getHTMLElements() {
+    return {
+        searchBtn: document.getElementById("btn-search"),
+        searchInput: document.getElementById("search-input"),
+        formSearch: document.getElementById("form-search"),
+        navBrand: document.getElementById("nav-brand"),
+        loader: document.getElementById("preloader-wrapper"),
+        wrapperSidebar: document.getElementById("wrapper-sidebar"),
+        dropdownContainer: document.getElementById('dropdown-container'),
+        wrapper: document.getElementById('wrapper'),
+    }
+}
+
+function attachHTMLElementsHandlers() {
+    const elements = getHTMLElements();
+
+    elements.searchBtn.addEventListener("click", handleSearchMovieByName);
+    elements.searchInput.addEventListener("input", handleShowDropdownMovieList);
+    elements.navBrand.addEventListener("click", handleShowRandomFilmList);
+}
+
 
 function renderLoader() {
+    const loader = getHTMLElements().loader;
+
     return Store.state.isLoading
         ? loader.classList.remove("hidden")
         : loader.classList.add("hidden");
@@ -38,6 +79,9 @@ function resetPaginationAndRender(pageNumber) {
 
 //убираем выпадающий список с предложениями фильмов
 function handleClickOutsideSearchInput(event) {
+    const formSearch = getHTMLElements().formSearch;
+    const searchInput = getHTMLElements().searchInput;
+
     if (formSearch.contains(event.target)) {
         return;
     }
@@ -55,7 +99,7 @@ function handleYearsNavItemClick(event) {
 
     if (Store.state.sideBarFilter.year !== event.target.value) {
         Store.setSideBarFilter({
-            year: event.target.value === "Любой" ? EVERY_YEAR : event.target.value,
+            year: event.target.value === FILTER_YEAR_TYPE ? EVERY_YEAR : event.target.value,
         });
     }
 
@@ -64,7 +108,7 @@ function handleYearsNavItemClick(event) {
     fetchMovie(Store.state.sideBarFilter, Store.state.pagination.chosenPage).then(
         (responseMoviesData) => {
             Store.setPagesQuantity(responseMoviesData.pages);
-            Store.setPageType("FilmList");
+            Store.setPageType(PAGE_TYPE.FilmList);
             Store.updateMoviesList(responseMoviesData.docs);
             Store.setIsLoading(false);
             render();
@@ -78,7 +122,7 @@ function handleShowRandomFilmList() {
     fetchRandomMovies(Store.state.pagination.chosenPage).then(
         (responseMoviesData) => {
             Store.setPagesQuantity(responseMoviesData.pages);
-            Store.setPageType("StartList");
+            Store.setPageType(PAGE_TYPE.StartList);
             Store.updateMoviesList(responseMoviesData.docs);
             Store.setIsLoading(false);
             render();
@@ -101,7 +145,7 @@ function handleTypesNavItemClick(event) {
     fetchMovie(Store.state.sideBarFilter, Store.state.pagination.chosenPage).then(
         (responseMoviesData) => {
             Store.setPagesQuantity(responseMoviesData.pages);
-            Store.setPageType("FilmList");
+            Store.setPageType(PAGE_TYPE.FilmList);
             Store.updateMoviesList(responseMoviesData.docs);
             Store.setIsLoading(false);
             render();
@@ -110,7 +154,6 @@ function handleTypesNavItemClick(event) {
 }
 
 function handleGenresNavItemClick(event) {
-    //проверка для клика по нужному элементу
     const genresSearchContainerId = document.getElementById("genres-search")?.id;
     if (event.target.id === genresSearchContainerId) {
         return;
@@ -125,7 +168,7 @@ function handleGenresNavItemClick(event) {
     fetchMovie(Store.state.sideBarFilter, Store.state.pagination.chosenPage).then(
         (responseMoviesData) => {
             Store.setPagesQuantity(responseMoviesData.pages);
-            Store.setPageType("FilmList");
+            Store.setPageType(PAGE_TYPE.FilmList);
             Store.updateMoviesList(responseMoviesData.docs);
             Store.setIsLoading(false);
             render();
@@ -133,9 +176,8 @@ function handleGenresNavItemClick(event) {
     );
 }
 
-//пагинация
 function handlePageClick(event) {
-    let pageID = event.target.id;
+    const pageID = event.target.id;
 
     if (!pageID) {
         return;
@@ -147,7 +189,7 @@ function handlePageClick(event) {
 
 //выбор фильма из списка по фильтрам
 function handleFindMovieFromFilmList(event) {
-    let parentNode = event.target.closest(".film-list-element");
+    const parentNode = event.target.closest(".film-list-element");
     onCardClick(parentNode.id);
 }
 
@@ -173,7 +215,7 @@ function loadByPage() {
     render();
 
     const request =
-        Store.state.pageType === "StartList"
+        Store.state.pageType === PAGE_TYPE.StartList
             ? fetchRandomMovies(Store.state.pagination.chosenPage)
             : fetchMovie(
                 Store.state.sideBarFilter,
@@ -187,8 +229,29 @@ function loadByPage() {
     });
 }
 
-function handleShowDropdownMovieList(event) {
+function throttle(fn, delay) {
+    let lastCall = 0;
+    return function(...args) {
+        const now = Date.now();
+        if (now - lastCall >= delay) {
+            lastCall = now;
+            fn.apply(this, args);
+        }
+    };
+}
+
+const handleShowDropdownMovieList = throttle((event) => {
     event.preventDefault();
+
+    const searchInput = getHTMLElements().searchInput;
+    const query = searchInput.value.trim();
+
+    if (!query) {
+        Store.setListOfMovies([]);
+        renderDropdownMovieList();
+        return;
+    }
+
     Store.setIsLoadedListVisible(true);
 
     getMoviesByFirstLetters(searchInput.value).then((responseData) => {
@@ -198,7 +261,7 @@ function handleShowDropdownMovieList(event) {
         renderDropdownMovieList();
         initDropdownMovieListEvent();
     });
-}
+}, 1000);
 
 function initDropdownMovieListEvent() {
     const dropdownListMovies = document.getElementById("dropdown-list-movies");
@@ -216,13 +279,12 @@ function handleFindMovieIdAtDropdownList(event) {
     Store.setIsLoading(true);
     render();
 
-    let parentNode = event.target.closest(".dropdown-movie-item");
-    let parentNodeID = Number(parentNode.id);
+    const parentNode = event.target.closest(".dropdown-movie-item");
+    const parentNodeID = Number(parentNode.id);
 
     getMoviesById(parentNodeID).then((responseData) => {
-    // fetchMovieAndVideoDataById(parentNodeID).then((responseData) => {
         Store.updateMovieInfo(responseData);
-        Store.setPageType("FilmCard");
+        Store.setPageType(PAGE_TYPE.FilmCard);
         Store.setIsLoading(false);
         render();
     });
@@ -230,6 +292,8 @@ function handleFindMovieIdAtDropdownList(event) {
 
 function handleSearchMovieByName(event) {
     event.preventDefault();
+
+    const searchInput = getHTMLElements().searchInput;
 
     if (!searchInput.value) {
         return;
@@ -240,11 +304,12 @@ function handleSearchMovieByName(event) {
 
 
     getMoviesByFirstLetters(searchInput.value).then((responseData) => {
-        let movieData = responseData.docs.find((film) => film.name === searchInput.value);
+        const searchInput = getHTMLElements().searchInput;
+        const movieData = responseData.docs.find((film) => film.name === searchInput.value);
+
         if (responseData) {
-            console.log(responseData);
             Store.updateMovieInfo(movieData);
-            Store.setPageType("FilmCard");
+            Store.setPageType(PAGE_TYPE.FilmCard);
             Store.setIsLoading(false);
             searchInput.value = "";
             render();
@@ -253,18 +318,17 @@ function handleSearchMovieByName(event) {
 }
 
 function handleFindMovieIdAtFavoriteList(event) {
-    let parentNode = event.target.closest(".favorite-movie-item");
+    const parentNode = event.target.closest(".favorite-movie-item");
     onCardClick(Number(parentNode.id));
 }
 
 function handleSequelsPrequelsClick(event) {
-    let parentNode = event.target.closest(".sequel-prequel-item");
+    const parentNode = event.target.closest(".sequel-prequel-item");
     onCardClick(Number(parentNode.id));
 }
 
 function handleSimilarMoviesClick(event) {
-    let parentNode = event.target.closest(".similar-movie-item");
-    debugger
+    const parentNode = event.target.closest(".similar-movie-item");
     onCardClick(Number(parentNode.id));
 }
 
@@ -272,17 +336,17 @@ function onCardClick(movieId) {
     Store.setIsLoading(true);
     render();
 
-    let foundFilm = Store.state.favoritesMovieList.find((favorite) => favorite.idMovie === movieId);
+    const foundFilm = Store.state.favoritesMovieList.find((favorite) => favorite.idMovie === movieId);
 
     if (foundFilm) {
         Store.updateMovieInfo(foundFilm);
-        Store.setPageType("FilmCard");
+        Store.setPageType(PAGE_TYPE.FilmCard);
         Store.setIsLoading(false);
         render();
     } else {
         getMoviesById(movieId).then((responseData) => {
             Store.updateMovieInfo(responseData);
-            Store.setPageType("FilmCard");
+            Store.setPageType(PAGE_TYPE.FilmCard);
             Store.setIsLoading(false);
             render();
         });
@@ -293,14 +357,14 @@ function onCardClick(movieId) {
 //выбор плеера из выпадающего списка и отрисовка
 function handleSearchPlayerAtSelect(event) {
     Store.setSelectedVideoPlayer(event.target.value);
-    Store.setPageType("FilmCard");
+    Store.setPageType(PAGE_TYPE.FilmCard);
     render();
 }
 
 //клик, чтобы добавить в избранное
 function handleClickFavorites() {
     Store.changeCurrentFavoriteMovie();
-    Store.setPageType("FilmCard");
+    Store.setPageType(PAGE_TYPE.FilmCard);
     render();
 }
 
@@ -330,7 +394,7 @@ function render() {
     renderLoader();
     renderSideBar();
     initSideBarEvents();
-    if (Store.state.pageType === "FilmCard") {
+    if (Store.state.pageType === PAGE_TYPE.FilmCard) {
         renderMovieCard();
         initMovieCardEvents();
     } else {
@@ -346,7 +410,7 @@ function initMovieCardEvents() {
     const favoritesList = document.getElementById("favorites-list");
     const genresList = document.getElementById("genres-list");
     const sequelsPrequelsContainer = document.getElementById("sequels-and-prequels-container");
-    const similarMoviesContainer =document.getElementById("similar-movies-container");
+    const similarMoviesContainer = document.getElementById("similar-movies-container");
 
     selectPlayer?.addEventListener("change", handleSearchPlayerAtSelect);
     watchBtn.addEventListener("click", () => {
@@ -362,6 +426,7 @@ function initMovieCardEvents() {
 }
 
 export function startApp() {
+    renderApp();
     Store.initStateFromLocalStorage();
     Store.setIsLoading(false);
     render();

@@ -1,11 +1,16 @@
 import {Store} from "../../../store.js";
 import {MAX_VISIBLE_DROPDOWN_FILMS} from "../../../const.js";
+import {getHTMLElements} from "../../../controller.js";
 
-const dropdownContainer = document.getElementById('dropdown-container');
 
 //отрисовка выпадающего списка и слушатель на клик по одному из выпадающего списка фильму
 export function renderDropdownMovieList() {
-    //рендерим список фильмов по введенным значениям
+    const dropdownContainer = getHTMLElements().dropdownContainer;
+
+    if (!dropdownContainer) {
+        return;
+    }
+
     dropdownContainer.innerHTML = Store.state.isLoadedListVisible ? `<div class="dropdown-list-movies" id="dropdown-list-movies">
                                  ${createDropdownMovieList()}
                                  </div>` : '';

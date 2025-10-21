@@ -165,7 +165,10 @@
 
 .rating-details {
     display: inline-block;
+}
 
+.genres-list {
+    cursor: pointer;
 }
 
 .kinobox_player {

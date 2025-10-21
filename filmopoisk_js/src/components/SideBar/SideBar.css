@@ -1,12 +1,3 @@
-.wrapper-sidebar {
-    padding-left: 15px;
-    color: #8e8e8e;
-    display: flex;
-    flex-direction: column;
-    max-width: 180px;
-    min-width: 180px;
-}
-
 .types-search {
     display: flex;
     flex-direction: column;

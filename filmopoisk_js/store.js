@@ -1,4 +1,4 @@
-import {EVERY_YEAR} from "./const.js";
+import {EVERY_YEAR, LOCAL_STORAGE_APP_STATE_KEY, minRatingKp, PAGE_TYPE, startYear} from "./const.js";
 
 const Store = {
     state: {
@@ -7,7 +7,7 @@ const Store = {
         isLoadedListVisible: false,
         loadedList: [],
         favoritesMovieList: [],
-        pageType: "FilmList",
+        pageType: PAGE_TYPE.FilmList,
         moviesList: [],
 
         sideBarFilter: {
@@ -62,9 +62,8 @@ const Store = {
     years: getYearsArray(),
 
     setListOfMovies: function (responseData) {
-        //получаем данные по фильмам по введенным значениям
         this.state.loadedList = responseData.filter((movieData) => {
-            return movieData.rating.kp > 5;
+            return movieData.rating.kp > minRatingKp;
         });
     },
 
@@ -74,13 +73,12 @@ const Store = {
     },
 
     saveToLocalStorage: function () {
-        localStorage.setItem("state", JSON.stringify(this.state));
+        localStorage.setItem(LOCAL_STORAGE_APP_STATE_KEY, JSON.stringify(this.state));
     },
 
     initStateFromLocalStorage: function () {
-        if (localStorage.getItem("state")) {
-            // get - получить данные по ключу (в данном случае ключ: state)
-            this.state = JSON.parse(localStorage.getItem("state"));
+        if (localStorage.getItem(LOCAL_STORAGE_APP_STATE_KEY)) {
+            this.state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_APP_STATE_KEY));
         }
     },
 
@@ -167,7 +165,6 @@ const Store = {
         this.state.isLoadedListVisible = isVisible;
     },
 
-    //сохраняем текстовку
     setSideBarFilter: function (filter) {
         this.state.sideBarFilter = {...this.state.sideBarFilter, ...filter};
         this.saveToLocalStorage();
@@ -190,7 +187,7 @@ function getYearsArray() {
     let arr = [];
     let nowYear = new Date().getFullYear();
 
-    while (nowYear > 1990) {
+    while (nowYear > startYear) {
         arr.push(nowYear.toString());
         nowYear--;
     }

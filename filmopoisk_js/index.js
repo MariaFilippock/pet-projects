@@ -1,3 +1,5 @@
 import { startApp } from "./controller.js";
 
-startApp();
+document.addEventListener("DOMContentLoaded", () => {
+  startApp(); // запуск приложения после полной загрузки DOM
+});

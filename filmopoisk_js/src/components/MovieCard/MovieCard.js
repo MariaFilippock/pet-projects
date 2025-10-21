@@ -1,6 +1,6 @@
 import {Store} from "../../../store.js";
-
-const Content = document.getElementById('wrapper');
+import {getHTMLElements} from "../../../controller.js";
+import {MAX_ELEMENT_NUMBER, PERSON_PROFESSION_TYPE} from "../../../const.js";
 
 function showAge(data) {
     return Number(data) > 0 ? data.toFixed(0) : `0`;
@@ -11,8 +11,8 @@ function showInfo(data) {
 }
 
 function countHoursAndMinutes(minutes, tvMinutes) {
-    let hours = Math.floor(minutes / 60);
-    let time = `${hours} ч ${minutes - (hours * 60)} мин`;
+    const hours = Math.floor(minutes / 60);
+    const time = `${hours} ч ${minutes - (hours * 60)} мин`;
 
     if (minutes && hours >= 1) {
         return `${minutes} мин. / ${time}`
@@ -26,13 +26,15 @@ function countHoursAndMinutes(minutes, tvMinutes) {
 }
 
 export function renderMovieCard() {
-    if (!Store.state.movie.idMovie) {
+    const content = getHTMLElements().wrapper;
+
+    if (!content || !Store.state.movie.idMovie) {
         return;
     }
 
     const url = Store.getSelectedTrailerUrl();
 
-    Content.innerHTML = `
+    content.innerHTML = `
     <div class = "wrapper-join-column">
         <div class = "wrapper-join-row">
             <div class="wrapper-col-1">
@@ -62,7 +64,8 @@ export function renderMovieCard() {
                     <li><span class="text-muted">Жанр </span>
                     <span class="genres-list" id = "genres-list">${createGenresHTML()}</span>
                     </li>
-                    <li><span class="text-muted">Длительность </span>
+                    <li>
+                        <span class="text-muted">Длительность </span>
                         <time class="text-muted">${countHoursAndMinutes(Store.state.movie.movieLength, Store.state.movie.seriesLength)}</time>
                     </li>
                     <li><span class="text-muted">Описание </span>${Store.state.movie.description}</li>
@@ -75,9 +78,10 @@ export function renderMovieCard() {
         </div>
         
         <div class="kinobox_player">
-           ${url ? `  ${createPlayerSelectField()}   
-    <iframe controls id = "iframe-player" src="${url}" width="100%" height="800px" style = "border: none; border-radius: 3px;"></iframe>
-    ` : `<div class = "video-is-undefined">Видеоплеер отсутствует</div>`}
+            ${url ? `  
+            ${createPlayerSelectField()}<iframe id = "iframe-player" src="${url}" width="100%" height="800px" style = "border: none; border-radius: 3px;"></iframe>`
+        :
+        `<div class = "video-is-undefined">Видеоплеер отсутствует</div>`}
         </div>
         
         ${Store.state.movie.similarMovies ?
@@ -89,26 +93,26 @@ export function renderMovieCard() {
         ``}
     </div>
 
-        <div class="wrapper-col-3">
-            <div class="rating-container">
-                <span class="rating-main">${(Store.state.movie.ratingKp).toFixed(1)}</span>
-                <span class="rating-counts">${(Store.state.movie.votesKp).toLocaleString()} оценки</span>
-                <a href="#" class="rating-details">${Store.state.movie.filmCritics} рецензий</a>
-            </div>
+    <div class="wrapper-col-3">
+        <div class="rating-container">
+            <span class="rating-main">${(Store.state.movie.ratingKp).toFixed(1)}</span>
+            <span class="rating-counts">${(Store.state.movie.votesKp).toLocaleString()} оценки</span>
+             <a href="#" class="rating-details">${Store.state.movie.filmCritics} рецензий</a>
+        </div>
             
-            ${Store.state.movie.sequelsAndPrequels?.length > 0 ?
+        ${Store.state.movie.sequelsAndPrequels?.length > 0 ?
         `<div id="sequels-and-prequels-container" class="sequels-and-prequels-container">
-                    <h4 class="sequel-title">Сиквелы и приквелы</h4>${createSequelsAndPrequelsList()}
-                 </div>` : ``}
+            <h4 class="sequel-title">Сиквелы и приквелы</h4>${createSequelsAndPrequelsList()}
+        </div>` : ``}
 
-            <h4 class = "favorites-title"> Мое избранное </h4>   
-                ${createFavoriteMovieList()}
-        </div>`;
+        <h4 class = "favorites-title"> Мое избранное </h4>   
+        ${createFavoriteMovieList()}
+    </div>`;
 }
 
 function createGenresHTML() {
     const genresAll = Store.state.movie.genres.map((genre) => {
-        return `<a href="#" id = "${genre.name}">${genre.name}</a>`;
+        return `<a id = "${genre.name}">${genre.name}</a>`;
     })
 
     return genresAll.join(',  ');
@@ -126,10 +130,11 @@ function createPlayerSelectField() {
 function createFavoriteMovieList() {
     const favoriteMovieList = Store.state.favoritesMovieList.map((favoriteEl) => {
         return `<div class = "favorite-movie-item" id = "${favoriteEl.idMovie}">
-                    <img alt="poster" id = "favorite-movie-poster" src = "${favoriteEl.poster}"> <div class="favorite-movie-name">${favoriteEl.name}
-                    </div>
+                    <img alt="poster" id = "favorite-movie-poster" src = "${favoriteEl.poster}"> 
+                    <div class="favorite-movie-name">${favoriteEl.name}</div>
                 </div>`;
     })
+
     return `<div id="favorites-list">${favoriteMovieList.join(' ')}</div>`;
 }
 
@@ -144,14 +149,14 @@ function createFavoritesBtn() {
 //отрисовка списка актеров
 function createActorsList() {
     const actorsList = Store.state.movie.persons.filter((person) => {
-        return person.enProfession === "actor"
+        return person.enProfession === PERSON_PROFESSION_TYPE.actor
     });
     const list = actorsList.map((person) => {
         return `<div class="actor-item" id="${person.id}">
                     <img alt="photo" class="actor-photo" src="${person.photo}" />
                     <div class="actor-name">${person.name}</div>
                 </div>`;
-    }).slice(0, 8);
+    }).slice(0, MAX_ELEMENT_NUMBER);
 
     return `<div id="actor-list">${list.join(' ')}</div>`;
 }
@@ -173,7 +178,7 @@ function createSimilarMoviesList() {
                     <img alt="similar-movie" class="similar-movie-poster" src="${movie.poster.url}" />
                     <div class="similar-movie-name">${movie.name}</div>
                 </div>`
-    }).slice(0, 8);
+    }).slice(0, MAX_ELEMENT_NUMBER);
 
     return `<div id="similar-movie-list">${list.join(' ')}</div>`;
 }

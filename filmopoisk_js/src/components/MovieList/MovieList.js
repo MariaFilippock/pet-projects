@@ -1,11 +1,18 @@
 import {Store} from "../../../store.js";
-import {MAX_PAGES_COUNT, CORNER_PAGE_COUNT} from "../../../const.js";
+import {MAX_PAGES_COUNT, CORNER_PAGE_COUNT, PAGE_TYPE} from "../../../const.js";
+import {getHTMLElements} from "../../../controller.js";
 
-const Content = document.getElementById('wrapper');
 
 export function renderFilmList() {
-    const isMainScreen = Store.state.pageType === 'StartList';
-    Content.innerHTML = `
+    const content = getHTMLElements().wrapper;
+
+    if (!content) {
+        return;
+    }
+
+    const isMainScreen = Store.state.pageType === PAGE_TYPE.StartList;
+
+    content.innerHTML = `
             <div>
                 <div>${isMainScreen ? '<span class="reccomend-message">Рекомендуем присмотреться к фильмам из подборки ТОП-250:</span>' : ''}</div>
 
@@ -29,8 +36,8 @@ function createFilmList() {
 }
 
 function calculatePagination() {
-    let pagesCount = Store.state.pagination.pages;
-    let chosenPage = Store.state.pagination.chosenPage;
+    const pagesCount = Store.state.pagination.pages;
+    const chosenPage = Store.state.pagination.chosenPage;
     let pagination = [];
     if (pagesCount < MAX_PAGES_COUNT) {
         pagination = [...Array(pagesCount).keys()].map(i => i + 1);

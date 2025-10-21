@@ -105,9 +105,3 @@ export function getMoviesById(id) {
         return data.json();
     });
 }
-
-// export function fetchMovieAndVideoDataById(movieId) {
-//   return getMoviesById(movieId).then((responseData) => {
-//     return responseData;
-//   });
-// }
