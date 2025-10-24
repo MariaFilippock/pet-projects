@@ -41,6 +41,20 @@ function renderApp() {
     attachHTMLElementsHandlers();
 }
 
+function throttle(fn, wait) {
+    let shouldThrottle = false;
+
+    return function (...args) {
+        if (!shouldThrottle) {
+            fn.apply(this, args);
+            shouldThrottle = true;
+            setTimeout(() => {
+                shouldThrottle = false;
+            }, wait)
+        }
+    }
+}
+
 export function getHTMLElements() {
     return {
         searchBtn: document.getElementById("btn-search"),
@@ -58,7 +72,7 @@ function attachHTMLElementsHandlers() {
     const elements = getHTMLElements();
 
     elements.searchBtn.addEventListener("click", handleSearchMovieByName);
-    elements.searchInput.addEventListener("input", handleShowDropdownMovieList);
+    elements.searchInput.addEventListener("input", throttledHandleShowDropdownMovieList);
     elements.navBrand.addEventListener("click", handleShowRandomFilmList);
 }
 
@@ -229,18 +243,7 @@ function loadByPage() {
     });
 }
 
-function throttle(fn, delay) {
-    let lastCall = 0;
-    return function(...args) {
-        const now = Date.now();
-        if (now - lastCall >= delay) {
-            lastCall = now;
-            fn.apply(this, args);
-        }
-    };
-}
-
-const handleShowDropdownMovieList = throttle((event) => {
+const throttledHandleShowDropdownMovieList = throttle((event) => {
     event.preventDefault();
 
     const searchInput = getHTMLElements().searchInput;
@@ -254,14 +257,14 @@ const handleShowDropdownMovieList = throttle((event) => {
 
     Store.setIsLoadedListVisible(true);
 
-    getMoviesByFirstLetters(searchInput.value).then((responseData) => {
+    getMoviesByFirstLetters(query).then((responseData) => {
         if (responseData) {
             Store.setListOfMovies(responseData.docs);
         }
         renderDropdownMovieList();
         initDropdownMovieListEvent();
     });
-}, 1000);
+}, 2000);
 
 function initDropdownMovieListEvent() {
     const dropdownListMovies = document.getElementById("dropdown-list-movies");
