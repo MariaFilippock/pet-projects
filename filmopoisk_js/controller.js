@@ -1,9 +1,4 @@
-import {
-    getMoviesByFirstLetters,
-    getMoviesById,
-    fetchMovie,
-    fetchRandomMovies,
-} from "./api.js";
+import {ApiClient} from "./api.js";
 import {EVERY_YEAR, FILTER_YEAR_TYPE, PAGE_TYPE} from "./const.js";
 import {Store} from "./store.js";
 import {renderSideBar} from "./src/components/SideBar/SideBar.js";
@@ -119,7 +114,7 @@ function handleYearsNavItemClick(event) {
 
     resetPaginationAndRender(1);
 
-    fetchMovie(Store.state.sideBarFilter, Store.state.pagination.chosenPage).then(
+    ApiClient.fetchMovie(Store.state.sideBarFilter, Store.state.pagination.chosenPage).then(
         (responseMoviesData) => {
             Store.setPagesQuantity(responseMoviesData.pages);
             Store.setPageType(PAGE_TYPE.FilmList);
@@ -133,7 +128,7 @@ function handleYearsNavItemClick(event) {
 function handleShowRandomFilmList() {
     resetPaginationAndRender(1);
 
-    fetchRandomMovies(Store.state.pagination.chosenPage).then(
+    ApiClient.fetchRandomMovies(Store.state.pagination.chosenPage).then(
         (responseMoviesData) => {
             Store.setPagesQuantity(responseMoviesData.pages);
             Store.setPageType(PAGE_TYPE.StartList);
@@ -156,7 +151,7 @@ function handleTypesNavItemClick(event) {
 
     resetPaginationAndRender(1);
 
-    fetchMovie(Store.state.sideBarFilter, Store.state.pagination.chosenPage).then(
+    ApiClient.fetchMovie(Store.state.sideBarFilter, Store.state.pagination.chosenPage).then(
         (responseMoviesData) => {
             Store.setPagesQuantity(responseMoviesData.pages);
             Store.setPageType(PAGE_TYPE.FilmList);
@@ -179,7 +174,7 @@ function handleGenresNavItemClick(event) {
 
     resetPaginationAndRender(1);
 
-    fetchMovie(Store.state.sideBarFilter, Store.state.pagination.chosenPage).then(
+    ApiClient.fetchMovie(Store.state.sideBarFilter, Store.state.pagination.chosenPage).then(
         (responseMoviesData) => {
             Store.setPagesQuantity(responseMoviesData.pages);
             Store.setPageType(PAGE_TYPE.FilmList);
@@ -230,8 +225,8 @@ function loadByPage() {
 
     const request =
         Store.state.pageType === PAGE_TYPE.StartList
-            ? fetchRandomMovies(Store.state.pagination.chosenPage)
-            : fetchMovie(
+            ? ApiClient.fetchRandomMovies(Store.state.pagination.chosenPage)
+            : ApiClient.fetchMovie(
                 Store.state.sideBarFilter,
                 Store.state.pagination.chosenPage
             );
@@ -257,7 +252,7 @@ const throttledHandleShowDropdownMovieList = throttle((event) => {
 
     Store.setIsLoadedListVisible(true);
 
-    getMoviesByFirstLetters(query).then((responseData) => {
+     ApiClient.getMoviesByFirstLetters(query).then((responseData) => {
         if (responseData) {
             Store.setListOfMovies(responseData.docs);
         }
@@ -285,7 +280,7 @@ function handleFindMovieIdAtDropdownList(event) {
     const parentNode = event.target.closest(".dropdown-movie-item");
     const parentNodeID = Number(parentNode.id);
 
-    getMoviesById(parentNodeID).then((responseData) => {
+    ApiClient.getMoviesById(parentNodeID).then((responseData) => {
         Store.updateMovieInfo(responseData);
         Store.setPageType(PAGE_TYPE.FilmCard);
         Store.setIsLoading(false);
@@ -306,7 +301,7 @@ function handleSearchMovieByName(event) {
     render();
 
 
-    getMoviesByFirstLetters(searchInput.value).then((responseData) => {
+    ApiClient.getMoviesByFirstLetters(searchInput.value).then((responseData) => {
         const searchInput = getHTMLElements().searchInput;
         const movieData = responseData.docs.find((film) => film.name === searchInput.value);
 
@@ -338,7 +333,7 @@ function handleSimilarMoviesClick(event) {
 function onCardClick(movieId) {
     Store.setIsLoading(true);
     render();
-
+    debugger
     const foundFilm = Store.state.favoritesMovieList.find((favorite) => favorite.idMovie === movieId);
 
     if (foundFilm) {
@@ -347,7 +342,7 @@ function onCardClick(movieId) {
         Store.setIsLoading(false);
         render();
     } else {
-        getMoviesById(movieId).then((responseData) => {
+        ApiClient.getMoviesById(movieId).then((responseData) => {
             Store.updateMovieInfo(responseData);
             Store.setPageType(PAGE_TYPE.FilmCard);
             Store.setIsLoading(false);

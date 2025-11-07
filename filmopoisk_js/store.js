@@ -1,4 +1,4 @@
-import {EVERY_YEAR, LOCAL_STORAGE_APP_STATE_KEY, minRatingKp, PAGE_TYPE, startYear} from "./const.js";
+import {EVERY_YEAR, LOCAL_STORAGE_APP_STATE_KEY, MIN_RATING_KP, PAGE_TYPE, START_YEAR} from "./const.js";
 
 const Store = {
     state: {
@@ -63,7 +63,7 @@ const Store = {
 
     setListOfMovies: function (responseData) {
         this.state.loadedList = responseData.filter((movieData) => {
-            return movieData.rating.kp > minRatingKp;
+            return movieData.rating.kp > MIN_RATING_KP;
         });
     },
 
@@ -136,17 +136,17 @@ const Store = {
     },
 
     changeCurrentFavoriteMovie: function () {
-        if (!this.isFavoriteMovie()) {
-            this.state.favoritesMovieList.push({
-                ...this.state.movie
-            });
-        } else {
+        if (this.isFavoriteMovie()) {
             //если повторно жму на фильм, который уже есть в списке избранного
             this.state.favoritesMovieList = this.state.favoritesMovieList.filter(
                 (favMovie) => {
                     return favMovie.idMovie !== this.state.movie.idMovie;
                 }
             );
+        } else {
+            this.state.favoritesMovieList.push({
+                ...this.state.movie
+            });
         }
         this.saveToLocalStorage();
     },
@@ -187,7 +187,7 @@ function getYearsArray() {
     let arr = [];
     let nowYear = new Date().getFullYear();
 
-    while (nowYear > startYear) {
+    while (nowYear > START_YEAR) {
         arr.push(nowYear.toString());
         nowYear--;
     }

@@ -146,10 +146,10 @@ function createFavoritesBtn() {
              </div>`;
 }
 
-//отрисовка списка актеров
+//отрисовка списка актеров, фильтруем по актерам и имени, тк попадаются с пустыми полями
 function createActorsList() {
     const actorsList = Store.state.movie.persons.filter((person) => {
-        return person.enProfession === PERSON_PROFESSION_TYPE.actor
+        return person.enProfession === PERSON_PROFESSION_TYPE.actor && person.name
     });
     const list = actorsList.map((person) => {
         return `<div class="actor-item" id="${person.id}">

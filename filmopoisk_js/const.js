@@ -6,8 +6,8 @@ export const MAX_PAGES_COUNT = 8;
 export const CORNER_PAGE_COUNT = 5;
 /* значение дл хранения стейта приложения */
 export const LOCAL_STORAGE_APP_STATE_KEY = 'javascript_js';
-export const minRatingKp = 5;
-export const startYear = 1990;
+export const MIN_RATING_KP = 5;
+export const START_YEAR = 1990;
 export const PAGE_TYPE = {
     FilmList: 'FilmList',
     StartList: 'StartList',
