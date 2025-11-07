@@ -1,0 +1,24 @@
+.wrapperJoinColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+select {
+  margin-bottom: 10px;
+  width: 150px;
+  padding: 4px;
+  border-radius: 3px;
+  border-color: #aaa;
+  background-color: #000000;
+  color: #aaa;
+}
+
+ion-icon {
+  contain: unset;
+}

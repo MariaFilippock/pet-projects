@@ -1,12 +1,10 @@
 import React from 'react';
 import styles from './CalculatorMVC.module.scss';
-import common from '../pageStyles.module.scss';
 
 
 const CalculatorMVC = () => {
-    console.log(process.env.PUBLIC_URL);
     return (
-        <div className={common.contentBox}>
+        <div>
             <iframe
                 src={`${process.env.PUBLIC_URL}/native_projects/calculator_mvc/index.html`}
                 title='Калькулятор MVC'

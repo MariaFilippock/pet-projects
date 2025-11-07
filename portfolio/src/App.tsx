@@ -14,13 +14,13 @@ const WeatherForecastJS = lazy(() => import('./pages/WeatherForecastJS/WeatherFo
 const App = () => {
     return (
         <div className='App'>
-            <Navbar />
+            <Navbar/>
             <div className='route-container'>
                 <Routes>
                     <Route path='/todo_mvc' element={<TodoMVC/>}/>
-                    <Route  path='/filmopoisk_js' element={<FilmopoiskJS/>}/>
+                    <Route path='/filmopoisk_js' element={<FilmopoiskJS/>}/>
                     <Route path='/calculator_mvc' element={<CalculatorMVC/>}/>
-                    <Route  path='/filmopoisk_react' element={<FilmopoiskReact/>}/>
+                    <Route path='/filmopoisk_react' element={<FilmopoiskReact/>}/>
                     <Route path='/weather_forecast_js' element={<WeatherForecastJS/>}/>
                 </Routes>
             </div>

@@ -1,10 +1,9 @@
 import React from 'react';
 import styles from './TodoMVC.module.scss';
-import common from '../pageStyles.module.scss';
 
 const TodoMVC = () => {
     return (
-        <div className={common.contentBox}>
+        <div>
             <iframe
                 src={`${process.env.PUBLIC_URL}/native_projects/todo_mvc/index.html`}
                 title='Список задач MVC'

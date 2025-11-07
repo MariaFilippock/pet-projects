@@ -1,10 +1,9 @@
 import React from 'react';
 import styles from './WeatherForecastJS.module.scss';
-import common from '../pageStyles.module.scss';
 
 const WeatherForecastJS = () => {
     return (
-        <div className={common.contentBox}>
+        <div>
             <iframe
                 src={`${process.env.PUBLIC_URL}/native_projects/weather_app_js/index.html`}
                 title='Калькулятор MVC'
