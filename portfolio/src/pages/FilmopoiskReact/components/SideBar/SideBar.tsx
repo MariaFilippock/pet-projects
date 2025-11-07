@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './SideBar.module.scss';
 import {Text} from '../../const';
-import {IAppState, useAppDispatch} from '../../store';
-import {setMovieFilter} from '../../store/reducers/movieList-reducer';
+import {IAppState, useAppDispatch} from 'store';
+import {setMovieFilter} from 'store/reducers/movieList-reducer';
 import {useSelector} from 'react-redux';
 
 type GenreKey = keyof typeof Text.GenresMap;
@@ -26,7 +26,6 @@ const SideBar = () => {
         e: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const year = e.target.value;
-        console.log(year);
         dispatch(setMovieFilter({...filters, year}, 1));
     };
 

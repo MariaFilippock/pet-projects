@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { IMovie } from '../store/reducers/movieCard-reducer';
-import { ISideBarFilter } from '../store/reducers/movieList-reducer';
+import {IMovie, ISideBarFilter} from 'pages/FilmopoiskReact/Models';
 
 const config: { headers: { 'X-API-KEY': string }; baseURL: string } = {
   baseURL: 'https://api.kinopoisk.dev/v1.4/movie/',
@@ -30,33 +29,12 @@ export const moviesListAPI = {
       });
   },
 
-  // /** Данные по найденному по названию фильму */
-  // getMovieByName(name: string, limit = 1, page = 1): Promise<MovieResponse> {
-  //   return instance
-  //     .get<MovieResponse>(`search?query=${name}&limit=${limit}&page=${page}`)
-  //     .then((response) => {
-  //       return response.data;
-  //     });
-  // },
-
   /** Данные по id фильма */
   getMovieById(id: string): Promise<MovieResponse> {
     return instance.get<MovieResponse>(`${id}`).then((response) => {
       return response.data;
     });
   },
-
-  // getVideoById(page = 1, limit = 1, id: string): Promise<MovieResponse> {
-  //   return instance
-  //     .get<MovieResponse>(
-  //       `page=${page}&limit=${limit}&selectFields=${Number(
-  //         id
-  //       )}&selectFields=videos&notNullFields=videos.trailers.url`
-  //     )
-  //     .then((response) => {
-  //       return response.data;
-  //     });
-  // },
 
   /** Список фильмов по фильтрам (тип, жанр, год) */
   getMovieListByFilter(
@@ -69,8 +47,6 @@ export const moviesListAPI = {
       limit: String(limit),
       'rating.kp': '6-10',
     };
-
-
 
     if (filters.year !== 'all' && filters.year) {
       queryParams.year = filters.year;

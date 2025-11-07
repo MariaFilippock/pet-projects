@@ -2,11 +2,11 @@ import React from 'react';
 import styles from './FilmopoiskReact.module.scss';
 import Header from './components/Header/Header';
 import {useSelector} from 'react-redux';
-import {IAppState} from './store';
-import SideBar from './components/SideBar/SideBar';
-import {FilmList} from './const';
-import {MovieCard} from './components/MovieCard/MovieCard';
-import {MovieList} from './components/MovieList/MovieList';
+import {IAppState} from 'store';
+import SideBar from 'pages/FilmopoiskReact/components/SideBar/SideBar';
+import {MovieList} from 'pages/FilmopoiskReact/components/MovieList/MovieList';
+import {MovieCard} from 'pages/FilmopoiskReact/components/MovieCard/MovieCard';
+import {EPageType} from 'pages/FilmopoiskReact/Models';
 
 const FilmopoiskReact = () => {
     const pageType = useSelector((state: IAppState) => state.pageType.pageType);
@@ -17,7 +17,7 @@ const FilmopoiskReact = () => {
             <div className={styles.container}>
                 <SideBar/>
                 <div id="wrapper" className={styles.wrapper}>
-                    {pageType === FilmList ? <MovieList/> : <MovieCard/>}
+                    {pageType === EPageType.FilmList ? <MovieList/> : <MovieCard/>}
                 </div>
             </div>
         </div>

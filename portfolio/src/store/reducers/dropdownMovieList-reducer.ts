@@ -1,22 +1,11 @@
 // import {moviesListAPI} from "../../api/api";
-import { SET_MOVIES_LIST } from '../../const';
+import { SET_MOVIES_LIST } from 'pages/FilmopoiskReact/const';
 // import { MOCK_DATA } from '../mock';
 import { ThunkAction } from 'redux-thunk';
 import { IAppState } from '../index';
 import { AnyAction, Dispatch } from 'redux';
-import { IMovie } from './movieCard-reducer';
-import { moviesListAPI } from '../../api/apiFilmopoisk';
-
-export interface IDropdownMovieListState {
-  loadedList: IMovie[];
-}
-
-export interface IRating {
-  kp?: number;
-  imdb?: number;
-  russianFilmCritics?: number;
-  filmCritics?: number;
-}
+import { moviesListAPI } from 'pages/FilmopoiskReact/api/apiFilmopoisk';
+import {IDropdownMovieListState, IMovie} from 'pages/FilmopoiskReact/Models';
 
 let initialState: IDropdownMovieListState = {
   loadedList: [],
@@ -34,7 +23,7 @@ export const mapToLoadedMovie = (movie: any): IMovie => {
     year: movie.year || '',
     alternativeName: movie.alternativeName,
     ageRating: movie.ageRating,
-    isSerial: movie.isSerial,
+    isSeries: movie.isSeries,
     countries: movie.countries || [],
     genres: movie.genres || [],
     movieLength: movie.movieLength || 0,

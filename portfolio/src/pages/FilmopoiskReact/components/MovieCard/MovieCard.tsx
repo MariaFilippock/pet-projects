@@ -1,23 +1,16 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styles from './MovieCard.module.scss';
 import {MovieMainInfo} from './MovieMainInfo/MovieMainInfo';
 import {VideoPlayer} from './VideoPlayer/VideoPlayer';
 import {RatingInfo} from './RatingInfo/RatingInfo';
 import {useSelector} from 'react-redux';
-import {IAppState} from '../../store';
+import {IAppState} from 'store';
 
 /** Карточка с информацией по фильму (название, постер, описание) и видеоплеером */
 export const MovieCard = () => {
-    const favoriteMovieList = useSelector(
-        (state: IAppState) => state.movie?.favoritesMovieList ?? []
+    const {movie, favoritesMovieList} = useSelector((state: IAppState) => state.movie ?? {});
+    const isFavorite = favoritesMovieList.some((favMovie) => favMovie.id  === movie?.id
     );
-    const movie = useSelector((state: IAppState) => state.movie?.movie ?? null);
-    const isFavorite = favoriteMovieList.some(
-        (favMovie) => favMovie.id === movie?.id
-    );
-
-    useEffect(() => {
-    }, [movie?.id]);
 
     return (
         <>
@@ -28,8 +21,8 @@ export const MovieCard = () => {
                 </div>
             ) : null}
 
-            {movie && favoriteMovieList.length ? (
-                <RatingInfo movie={movie} favoriteMovieList={favoriteMovieList}/>
+            {movie && favoritesMovieList.length ? (
+                <RatingInfo movie={movie} favoriteMovieList={favoritesMovieList}/>
             ) : null}
         </>
     );

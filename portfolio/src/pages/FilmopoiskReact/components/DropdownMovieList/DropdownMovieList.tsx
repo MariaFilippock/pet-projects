@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styles from './DropdownMovieList.module.scss';
 import { useSelector } from 'react-redux';
-import { getMovieById } from '../../store/reducers/movieCard-reducer';
-import { IAppState, useAppDispatch } from '../../store';
+import { getMovieById } from 'store/reducers/movieCard-reducer';
+import { IAppState, useAppDispatch } from 'store';
 import { DROPDOWN_QUANTITY_OF_MOVIES } from '../../const';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { getMoviesList } from '../../store/reducers/dropdownMovieList-reducer';
+import { getMoviesList } from 'store/reducers/dropdownMovieList-reducer';
 
 export const DropdownMovieList = () => {
   const [isDropdownMovieListVisible, setDropdownMovieListVisible] =
@@ -44,9 +44,7 @@ export const DropdownMovieList = () => {
     dispatch(getMoviesList(e.target.value));
   };
 
-  //переделать на поиск данных по id фильма
   const handleSearchMovieByName = (e: React.MouseEvent<HTMLDivElement>) => {
-    //убираем выпадающий список
     setDropdownMovieListVisible(false);
 
     const foundMovie = loadedList.find(

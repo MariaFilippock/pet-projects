@@ -1,14 +1,12 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {IAppState, useAppDispatch} from '../../store';
+import {IAppState, useAppDispatch} from 'store';
 import styles from './MovieList.module.scss';
 import {IoChevronBackOutline, IoChevronForwardOutline} from 'react-icons/io5';
-import {CORNER_PAGE_COUNT, MAX_PAGES_COUNT} from '../../const';
-import {
-    ISideBarFilter,
-    setMovieFilter,
-} from '../../store/reducers/movieList-reducer';
-import {getMovieById} from '../../store/reducers/movieCard-reducer';
+import {CORNER_PAGE_COUNT, ELLIPSIS, MAX_PAGES_COUNT} from '../../const';
+import {setMovieFilter} from 'store/reducers/movieList-reducer';
+import {getMovieById} from 'store/reducers/movieCard-reducer';
+import {ISideBarFilter} from 'pages/FilmopoiskReact/Models';
 
 const BackOutline = IoChevronBackOutline;
 const ForwardOutline = IoChevronForwardOutline;
@@ -20,17 +18,17 @@ const calculatePagination = (pages: number, chosenPage: number) => {
         pagination = [...Array(pages).keys()].map((i) => i + 1);
     } else if (chosenPage < CORNER_PAGE_COUNT) {
         pagination = [...Array(CORNER_PAGE_COUNT).keys()].map((i) => i + 1);
-        pagination.push('...', pages);
+        pagination.push(ELLIPSIS, pages);
     } else if (pages - chosenPage < CORNER_PAGE_COUNT - 1) {
-        pagination = [1, '...', pages - 4, pages - 3, pages - 2, pages - 1, pages];
+        pagination = [1, ELLIPSIS, pages - 4, pages - 3, pages - 2, pages - 1, pages];
     } else {
         pagination = [
             1,
-            '...',
+            ELLIPSIS,
             chosenPage - 1,
             chosenPage,
             chosenPage + 1,
-            '...',
+            ELLIPSIS,
             pages,
         ];
     }
@@ -52,7 +50,7 @@ export const MovieList = () => {
     );
     const dispatch = useAppDispatch();
 
-    const handlePageClick = (filters: ISideBarFilter, page: number) => {
+    const handlePageClick = (page: number) => {
         if (!page) {
             return;
         }
@@ -116,11 +114,11 @@ export const MovieList = () => {
                             className={`${styles.page} ${
                                 page === chosenPage ? styles.active : ''
                             }`}
-                            key={page === '...' ? 'ellipsis' : page}
+                            key={page === ELLIPSIS ? 'ellipsis' : page}
                             onClick={
-                                page !== '...'
+                                page !== ELLIPSIS
                                     ? () =>
-                                        handlePageClick(filters as ISideBarFilter, page as number)
+                                        handlePageClick(page as number)
                                     : undefined
                             }
                         >
@@ -135,23 +133,3 @@ export const MovieList = () => {
         </div>
     );
 };
-
-// //загружаю новую страницу со списком фильмов при клике на стрелку "вперед", "назад" или номер страницы
-// function loadByPage() {
-//   Store.setIsLoading(true);
-//   render();
-//
-//   const request =
-//     Store.state.pageType === "StartList"
-//       ? fetchRandomMovies(Store.state.pagination.chosenPage)
-//       : fetchMovie(
-//           Store.state.sideBarFilter,
-//           Store.state.pagination.chosenPage
-//         );
-//
-//   request.then((responseMoviesData) => {
-//     Store.updateMoviesList(responseMoviesData.docs);
-//     Store.setIsLoading(false);
-//     render();
-//   });
-// }

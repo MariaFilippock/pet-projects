@@ -2,15 +2,13 @@ import React from 'react';
 import styles from './MovieMainInfo.module.scss';
 import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai';
 import {useSelector} from 'react-redux';
-import {
-    IMovie,
-    toggleFavoriteMovieAC,
-} from '../../../store/reducers/movieCard-reducer';
-import {IAppState, useAppDispatch} from '../../../store';
-import {setMovieFilter} from '../../../store/reducers/movieList-reducer';
+import {toggleFavoriteMovieAC} from 'store/reducers/movieCard-reducer';
+import {IAppState, useAppDispatch} from 'store';
+import {setMovieFilter} from 'store/reducers/movieList-reducer';
+import {IMovie} from 'pages/FilmopoiskReact/Models';
 
 let countHoursAndMinutes = (minutes?: number, tvMinutes?: number): string => {
-    if (minutes != null) {
+    if (minutes != null && minutes !== 0) {
         const hours = Math.floor(minutes / 60);
         const mins = minutes % 60;
         return hours
@@ -34,11 +32,10 @@ export const MovieMainInfo: React.FC<IProps> = ({movie, isFavorite}) => {
     const {id, name, poster}: IMovie = movie;
 
     const getHandleChangeGenresFilter = (genre: string) => {
-        console.log(genre);
         dispatch(setMovieFilter({...filters, genre}, 1));
     };
 
-    const handleAddToFavoritesList = () => {
+    const handleToggleFavouriteMovie = () => {
         dispatch(
             toggleFavoriteMovieAC({
                 id,
@@ -55,7 +52,7 @@ export const MovieMainInfo: React.FC<IProps> = ({movie, isFavorite}) => {
             </div>
             <div className={styles.mainMovieInfo}>
                 <div
-                    onClick={handleAddToFavoritesList}
+                    onClick={handleToggleFavouriteMovie}
                     className={styles.addToFavorites}
                 >
                     {isFavorite ? (
@@ -89,7 +86,7 @@ export const MovieMainInfo: React.FC<IProps> = ({movie, isFavorite}) => {
                 <ul className={styles.params + ' ' + styles.subcontainer}>
                     <li>
                         <span className={styles.textMuted}>Формат </span>{' '}
-                        {movie.isSerial ? `Сериал` : `Фильм`}
+                        {movie.isSeries ? `Сериал` : `Фильм`}
                     </li>
                     <li>
                         <span className={styles.textMuted}>Аудиодорожки </span>Русский

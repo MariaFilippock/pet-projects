@@ -1,20 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import styles from './VideoPlayer.module.scss';
-import {IMovie} from '../../../store/reducers/movieCard-reducer';
+import {IMovie} from 'pages/FilmopoiskReact/Models';
 
 interface IProps {
     movie: IMovie;
 }
 
 export const VideoPlayer: React.FC<IProps> = ({movie}) => {
-    const trailers = Array.isArray(movie.trailers) ? movie.trailers : [];
-    const [selectedTrailerUrl, setSelectTrailerUrl] = useState(
-        'https://www.youtube.com/'
-    );
+    const trailers = movie?.trailers?.filter((trailer) => trailer.url) || [];
+    const [selectedTrailerUrl, setSelectTrailerUrl] = useState( 'https://www.youtube.com/');
 
     useEffect(() => {
-        const validTrailers = Array.isArray(movie.trailers) ? movie.trailers : [];
-        setSelectTrailerUrl(validTrailers[0]?.url || '');
+        setSelectTrailerUrl(trailers[0]?.url || '');
     }, [movie.trailers]);
 
     const handleChangeTrailer = (e: React.ChangeEvent<HTMLSelectElement>) => {

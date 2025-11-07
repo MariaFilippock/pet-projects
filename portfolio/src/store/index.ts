@@ -5,23 +5,17 @@ import {
     createStore,
 } from 'redux';
 import {
-    dropdownMovieListReducer,
-    IDropdownMovieListState,
+    dropdownMovieListReducer
 } from './reducers/dropdownMovieList-reducer';
 import {thunk, ThunkDispatch} from 'redux-thunk';
 import {useDispatch} from 'react-redux';
-import {
-    IMovieState,
-    movieCardReducer,
-} from './reducers/movieCard-reducer';
-import {
-    IMovieListState,
-    movieListReducer,
-} from './reducers/movieList-reducer';
+import {movieCardReducer} from './reducers/movieCard-reducer';
+import {movieListReducer} from './reducers/movieList-reducer';
 import {
     IPageTypeState,
     pageTypeReducer,
 } from './reducers/pageType-reducer';
+import {IDropdownMovieListState, IMovieListState, IMovieState} from 'pages/FilmopoiskReact/Models';
 
 export interface IAppState {
     dropdownMovieList: IDropdownMovieListState;
@@ -40,7 +34,7 @@ let reducers = combineReducers({
 export type AppDispatch = ThunkDispatch<IAppState, unknown, AnyAction>;
 export const useAppDispatch: () => AppDispatch = useDispatch;
 
-const loadState = () => {
+const initState = () => {
     try {
         const lsState = localStorage.getItem('filmopoisk');
         if (lsState === null) {
@@ -53,18 +47,18 @@ const loadState = () => {
     }
 };
 
-const persistedState = loadState();
+const persistedState = initState();
 
-export let index = createStore(
+export const store = createStore(
     reducers,
     persistedState,
     applyMiddleware(thunk)
 );
 
 //Подписываемся на изменения и сохраняем state в Local Storage
-index.subscribe(() => {
+store.subscribe(() => {
     try {
-        const savedState = JSON.stringify(index.getState());
+        const savedState = JSON.stringify(store.getState());
         localStorage.setItem('filmopoisk', savedState);
     } catch (err) {
         console.error('Ошибка сохранения состояние в localStorage', err);

@@ -1,28 +1,11 @@
-import {IMovie} from './movieCard-reducer';
 import {AnyAction} from 'redux';
-import {FilmList, SET_MOVIE_FILTER, SET_MOVIES} from '../../const';
+import {SET_MOVIE_FILTER, SET_MOVIES} from 'pages/FilmopoiskReact/const';
 import {ThunkAction} from 'redux-thunk';
 import {IAppState} from '../index';
 import {Dispatch} from 'redux';
-import {moviesListAPI} from '../../api/apiFilmopoisk';
+import {moviesListAPI} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
 import {setPageTypeAC} from './pageType-reducer';
-
-export interface IMovieListState {
-    moviesList: IMovie[];
-    sideBarFilter: ISideBarFilter;
-    pagination: IPagination;
-}
-
-export interface IPagination {
-    chosenPage: number;
-    pages: number;
-}
-
-export interface ISideBarFilter {
-    genre?: string;
-    type?: string;
-    year?: string;
-}
+import {EPageType, IMovie, IMovieListState, ISideBarFilter} from 'pages/FilmopoiskReact/Models';
 
 export const setMovieFilterAC = (filters: ISideBarFilter) => ({
     type: SET_MOVIE_FILTER,
@@ -52,7 +35,7 @@ export const setMovieFilter = (
                 page
             );
 
-            dispatch(setPageTypeAC(FilmList));
+            dispatch(setPageTypeAC(EPageType.FilmList));
             dispatch(setMovieFilterAC(filters));
             dispatch(
                 setMoviesAC(

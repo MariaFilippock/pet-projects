@@ -1,12 +1,13 @@
-import {SET_PAGE_TYPE} from '../../const';
+import {SET_PAGE_TYPE} from 'pages/FilmopoiskReact/const';
 import {AnyAction} from 'redux';
+import {EPageType} from 'pages/FilmopoiskReact/Models';
 
 export interface IPageTypeState {
     pageType: string;
 }
 
 const initialState = {
-    pageType: 'FilmList',
+    pageType: EPageType.FilmList,
 };
 
 export const setPageTypeAC = (pageType: string) => ({

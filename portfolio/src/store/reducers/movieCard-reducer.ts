@@ -1,62 +1,15 @@
 // import {moviesListAPI} from "../../api/api";
-import {FilmCard, SET_MOVIE, TOGGLE_FAVORITE_MOVIE} from '../../const';
+import {SET_MOVIE, TOGGLE_FAVORITE_MOVIE} from 'pages/FilmopoiskReact/const';
 // import { MOCK_DATA } from '../mock';
 import {ThunkAction} from 'redux-thunk';
 import {IAppState} from '../index';
 import {AnyAction, Dispatch} from 'redux';
 import {
-    IRating,
-    mapToLoadedMovie,
+    mapToLoadedMovie
 } from './dropdownMovieList-reducer';
-import {moviesListAPI} from '../../api/apiFilmopoisk';
+import {moviesListAPI} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
 import {setPageTypeAC} from './pageType-reducer';
-
-export interface IMovieState {
-    movie: IMovie | null;
-    favoritesMovieList: IMovie[];
-}
-
-export interface IMovie {
-    id: string;
-    name: string;
-    poster?: IPoster;
-    description?: string;
-    shortDescription?: string;
-    year?: string;
-    alternativeName?: string;
-    ageRating?: number;
-    isSerial?: boolean;
-    countries?: IStringName[];
-    genres?: IStringName[];
-    movieLength?: number;
-    seriesLength?: number;
-    rating?: IRating;
-    votes?: IVotes;
-    trailers?: IVideoTrailer[] | [];
-}
-
-interface IVideoTrailer {
-    url?: string;
-    name?: string;
-    site?: string;
-    type?: string;
-}
-
-export interface IVotes {
-    kp?: number;
-    imdb?: number;
-    russianFilmCritics?: number;
-    filmCritics?: number;
-}
-
-export interface IStringName {
-    name: string;
-}
-
-export interface IPoster {
-    url: string;
-    previewUrl: string;
-}
+import {EPageType, IMovie, IMovieState} from 'pages/FilmopoiskReact/Models';
 
 let initialState: IMovieState = {
     movie: null,
@@ -99,36 +52,14 @@ export const toggleFavoriteMovieAC = ({id, name, poster}: IMovie) => ({
     favoriteMovie: {id, name, poster},
 });
 
-// export const getMovieDataByName = (
-//   name: string
-// ): ThunkAction<void, IAppState, unknown, any> => {
-//   return (dispatch: Dispatch): void => {
-//     //надо предварительно найти айдишник по имени фильма
-//     moviesListAPI.getMovieByName(name).then((response) => {
-//       console.log(response);
-//       dispatch(setMovieDataAC(mapToLoadedMovie(response.docs[0])));
-//     });
-//   };
-
-//мок данные
-// return (dispatch: Dispatch): void => {
-//     const mockMovie = MOCK_DATA.docs.find(movie => movie.name.toLowerCase().includes(name.toLowerCase()));
-//
-//     if (mockMovie) {
-//         dispatch(setMovieDataAC(mapToLoadedMovie(mockMovie)));
-//     } else {
-//         console.warn("Мок-данные не найдены по имени:", name);
-//     }
-// }
-// };
-
 export const getMovieById = (
     id: string
 ): ThunkAction<void, IAppState, unknown, any> => {
     return async (dispatch: Dispatch) => {
+        debugger
         try {
             const movieResponse = await moviesListAPI.getMovieById(id);
-            dispatch(setPageTypeAC(FilmCard));
+            dispatch(setPageTypeAC(EPageType.FilmCard));
             dispatch(setMovieDataAC(mapToLoadedMovie(movieResponse)));
         } catch (error) {
             console.error('Ошибка при получении фильма:', error);

@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './RatingInfo.module.scss';
-import {getMovieById, IMovie} from '../../../store/reducers/movieCard-reducer';
-import {useAppDispatch} from '../../../store';
+import {getMovieById} from 'store/reducers/movieCard-reducer';
+import {useAppDispatch} from 'store';
+import {IMovie} from 'pages/FilmopoiskReact/Models';
 
 interface IProps {
     movie: IMovie;
