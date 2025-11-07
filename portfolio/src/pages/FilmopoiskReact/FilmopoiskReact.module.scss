@@ -1,0 +1,27 @@
+.bodyContainer {
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  background-color: #000;
+  color: #fff;
+  overflow-x: visible;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  max-width: 1400px;
+  //padding-bottom: 80px;
+}
+
+.wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-start;
+  overflow-y: auto;
+  gap: 20px;
+  padding: 25px 15px;
+}

@@ -1,0 +1,59 @@
+.ratingMain {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 42px;
+  color: #44C916;
+}
+
+.ratingCounts {
+  display: block;
+  margin-bottom: 10px;
+  line-height: 19px;
+  color: #8e8e8e;
+}
+
+.rating-details {
+  display: inline-block;
+}
+
+.ratingInfoColumn {
+  display: flex;
+  flex-direction: column;
+  max-width: 150px;
+  min-width: 50px;
+  width: 150px;
+  margin-right: 10px;
+  margin-left: 20px;
+}
+
+.favoritesTitle {
+  margin-top: 100px;
+  margin-bottom: 16px;
+  color: #8e8e8e;
+}
+
+.favoriteMovieItem {
+  font-weight: 400;
+  font-size: 14px;
+  color: #ffffff;
+  padding-bottom: 15px;
+  cursor: pointer;
+}
+
+.favoriteMoviePoster {
+  transition: all 200ms ease-in-out;
+  padding-bottom: 4px;
+}
+
+.favoriteMoviePoster:hover {
+  scale: 1.05;
+}
+
+.favoriteMovieName {
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+}
