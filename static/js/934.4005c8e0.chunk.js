@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkportfolio=self.webpackChunkportfolio||[]).push([[934],{934:(e,t,o)=>{o.r(t),o.d(t,{default:()=>r});o(43);var l=o(579);const r=()=>(0,l.jsx)("div",{children:(0,l.jsx)("iframe",{src:"".concat("/pet-projects","/native_projects/todo_mvc/index.html"),title:"\u0421\u043f\u0438\u0441\u043e\u043a \u0437\u0430\u0434\u0430\u0447 MVC",width:"800",height:"600",frameBorder:"0",allowFullScreen:!0,loading:"lazy"})})}}]);
+//# sourceMappingURL=934.4005c8e0.chunk.js.map

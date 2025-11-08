@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkportfolio=self.webpackChunkportfolio||[]).push([[930],{930:(e,t,r)=>{r.r(t),r.d(t,{default:()=>a});r(43);var l=r(579);const a=()=>(0,l.jsx)("div",{children:(0,l.jsx)("iframe",{src:"".concat("/pet-projects","/native_projects/weather_app_js/index.html"),title:"\u041a\u0430\u043b\u044c\u043a\u0443\u043b\u044f\u0442\u043e\u0440 MVC",width:"1150",height:"600",frameBorder:"0",allowFullScreen:!0,loading:"lazy"})})}}]);
+//# sourceMappingURL=930.d1ce7f87.chunk.js.map
