@@ -1,0 +1,1 @@
+import{startApp}from"./controller.js";document.addEventListener("DOMContentLoaded",()=>{startApp()});

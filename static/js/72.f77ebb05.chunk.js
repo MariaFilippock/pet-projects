@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkportfolio=self.webpackChunkportfolio||[]).push([[72],{72:(e,t,l)=>{l.r(t),l.d(t,{default:()=>r});l(43);var o=l(579);const r=()=>(0,o.jsx)("div",{children:(0,o.jsx)("iframe",{src:"".concat("/pet-projects","/native_projects/filmopoisk_js/src/index.html"),title:"\u0424\u0438\u043b\u044c\u043c\u043e\u043f\u043e\u0438\u0441\u043a JS",width:"800",height:"600",frameBorder:"0",allowFullScreen:!0,loading:"lazy"})})}}]);
-//# sourceMappingURL=72.f77ebb05.chunk.js.map
