@@ -6,6 +6,7 @@ import { IAppState, useAppDispatch } from 'store';
 import { DROPDOWN_QUANTITY_OF_MOVIES } from '../../const';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { getMoviesList } from 'store/reducers/dropdownMovieList-reducer';
+import {IMovie} from 'pages/FilmopoiskReact/Models';
 
 export const DropdownMovieList = () => {
   const [isDropdownMovieListVisible, setDropdownMovieListVisible] =
@@ -17,10 +18,10 @@ export const DropdownMovieList = () => {
   const dispatch = useAppDispatch();
 
   const handleFindMovieIdAtDropdownList = (
-    e: React.MouseEvent<HTMLDivElement>
+   movieItem: IMovie
   ) => {
     setDropdownMovieListVisible(false);
-    const id = e.currentTarget.id;
+    const id = Number(movieItem.id);
 
     if (id) {
       dispatch(getMovieById(id));
@@ -80,10 +81,9 @@ export const DropdownMovieList = () => {
               .map((movieItem) => (
                 <div
                   className={styles.dropdownMovieItem}
-                  id={movieItem.id}
                   key={movieItem.id}
                   data-name={movieItem.name}
-                  onClick={handleFindMovieIdAtDropdownList}
+                  onClick={() => handleFindMovieIdAtDropdownList(movieItem)}
                 >
                   {movieItem.name}
                   <span className={styles.dropdownMovieRating}>

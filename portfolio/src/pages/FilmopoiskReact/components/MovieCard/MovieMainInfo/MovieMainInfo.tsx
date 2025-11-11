@@ -8,7 +8,7 @@ import {setMovieFilter} from 'store/reducers/movieList-reducer';
 import {IMovie} from 'pages/FilmopoiskReact/Models';
 
 let countHoursAndMinutes = (minutes?: number, tvMinutes?: number): string => {
-    if (minutes != null && minutes !== 0) {
+    if (minutes) {
         const hours = Math.floor(minutes / 60);
         const mins = minutes % 60;
         return hours
@@ -58,7 +58,7 @@ export const MovieMainInfo: React.FC<IProps> = ({movie, isFavorite}) => {
                     {isFavorite ? (
                         <>
                             Убрать из избранного{' '}
-                            <AiFillHeart className={styles.favoritesImg}/>
+                            <AiFillHeart  className={styles.favoritesImg}/>
                         </>
                     ) : (
                         <>
@@ -132,7 +132,7 @@ export const MovieMainInfo: React.FC<IProps> = ({movie, isFavorite}) => {
                     <li>
                         <span className={styles.textMuted}>Длительность </span>
                         <time className={styles.textMuted}>
-                            {countHoursAndMinutes(movie?.movieLength, movie?.seriesLength)}
+                            {countHoursAndMinutes(movie?.movieLength ?? 0, movie?.seriesLength ?? 0)}
                         </time>
                     </li>
                     <li>

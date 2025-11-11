@@ -1,17 +1,12 @@
 .wrapper {
+  padding-left: 15px;
   color: #8e8e8e;
   display: flex;
   flex-direction: column;
-  width: 220px;
-  padding: 20px 15px;
-  background-color: #111;
-  border-right: 1px solid #222;
-  height: calc(100vh - 70px); /* высота минус высота хедера */
-  position: sticky;
-  top: 70px; /* отступ под фиксированный header */
-  box-sizing: border-box;
-  overflow-y: auto;
+  max-width: 180px;
+  min-width: 180px;
 }
+
 
 .typesSearch div, .typesSearch span {
   cursor: pointer;
@@ -20,7 +15,6 @@
 
 .typesSearch div:hover, .typesSearch span:hover {
   color: #FFFFFF;
-  //scale: 1.1;
 }
 
 .typesSearch, .genresSearch, .yearSearch {

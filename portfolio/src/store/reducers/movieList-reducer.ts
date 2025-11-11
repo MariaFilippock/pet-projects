@@ -3,7 +3,7 @@ import {SET_MOVIE_FILTER, SET_MOVIES} from 'pages/FilmopoiskReact/const';
 import {ThunkAction} from 'redux-thunk';
 import {IAppState} from '../index';
 import {Dispatch} from 'redux';
-import {moviesListAPI} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
+import {ApiClient} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
 import {setPageTypeAC} from './pageType-reducer';
 import {EPageType, IMovie, IMovieListState, ISideBarFilter} from 'pages/FilmopoiskReact/Models';
 
@@ -30,7 +30,7 @@ export const setMovieFilter = (
     return async (dispatch: Dispatch) => {
         try {
             //получаю с сервера данные со списком фильмов по фильтрам
-            const movieListResponse = await moviesListAPI.getMovieListByFilter(
+            const movieListResponse = await ApiClient.getMovieListByFilter(
                 filters,
                 page
             );

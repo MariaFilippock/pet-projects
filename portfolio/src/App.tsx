@@ -1,9 +1,7 @@
 import React, {lazy} from 'react';
 import './App.scss';
 import {Routes, Route} from 'react-router-dom';
-import {Navbar} from './components/Navbar/Navbar';
-// import CalculatorMVC from './pages/CalculatorMVC/CalculatorMVC';
-// import TodoMVC from './pages/TodoMVC/TodoMVC';
+import {Navbar} from 'components/Navbar/Navbar';
 
 const TodoMVC = lazy(() => import('./pages/TodoMVC/TodoMVC'));
 const FilmopoiskJS = lazy(() => import('./pages/FilmopoiskJS/FilmopoiskJS'));

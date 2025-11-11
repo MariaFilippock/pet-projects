@@ -76,3 +76,22 @@ ion-icon {
     z-index: 0;
     contain: unset;
 }
+
+.filterMessage {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    font-size: 30px;
+}
+
+.startMovieListTitle {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    font-size: 30px;
+    padding-bottom: 20px;
+}

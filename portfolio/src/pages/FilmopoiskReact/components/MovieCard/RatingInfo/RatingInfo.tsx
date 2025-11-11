@@ -13,7 +13,7 @@ export const RatingInfo: React.FC<IProps> = ({movie, favoriteMovieList}) => {
     const dispatch = useAppDispatch();
 
     const handleSearchMovieById = (e: React.MouseEvent<HTMLDivElement>) => {
-        const id = e.currentTarget.getAttribute('data-film-id');
+        const id = Number(e.currentTarget.getAttribute('data-film-id'));
 
         if (!id) return;
 

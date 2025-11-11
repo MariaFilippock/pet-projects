@@ -1,7 +1,17 @@
 export enum EPageType {
     FilmList = 'FilmList',
     FilmCard = 'FilmCard',
+    StartList = 'StartList',
 }
+
+export interface MovieResponse {
+  docs: IMovie[];
+  total: number;
+  page: number;
+  pages: number;
+  limit: number;
+}
+
 
 /** для movieCard*/
 export interface IMovieState {
@@ -10,19 +20,19 @@ export interface IMovieState {
 }
 
 export interface IMovie {
-    id: string;
+    id: number;
     name: string;
     poster?: IPoster;
     description?: string;
-    shortDescription?: string;
-    year?: string;
+    shortDescription?: string | null;
+    year?: string | number;
     alternativeName?: string;
-    ageRating?: number;
+    ageRating?: number | null;
     isSeries?: boolean;
     countries?: IStringName[];
     genres?: IStringName[];
-    movieLength?: number;
-    seriesLength?: number;
+    movieLength?: number | null;
+    seriesLength?: number | null;
     rating?: IRating;
     votes?: IVotes;
     trailers?: IVideoTrailer[] | [];
@@ -78,5 +88,10 @@ export interface IPagination {
 export interface ISideBarFilter {
     genre?: string;
     type?: string;
-    year?: string;
+    year?: string | number;
+}
+
+export interface IStartMoviesListState {
+    startMoviesList: IMovie[];
+    pagination: IPagination;
 }

@@ -1,17 +1,13 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {IAppState, useAppDispatch} from 'store';
 import styles from './MovieList.module.scss';
 import {IoChevronBackOutline, IoChevronForwardOutline} from 'react-icons/io5';
 import {CORNER_PAGE_COUNT, ELLIPSIS, MAX_PAGES_COUNT} from '../../const';
-import {setMovieFilter} from 'store/reducers/movieList-reducer';
-import {getMovieById} from 'store/reducers/movieCard-reducer';
-import {ISideBarFilter} from 'pages/FilmopoiskReact/Models';
+import {IMovie} from 'pages/FilmopoiskReact/Models';
 
 const BackOutline = IoChevronBackOutline;
 const ForwardOutline = IoChevronForwardOutline;
 
-const calculatePagination = (pages: number, chosenPage: number) => {
+export const calculatePagination = (pages: number, chosenPage: number) => {
     let pagination: (number | string)[] = [];
 
     if (pages < MAX_PAGES_COUNT) {
@@ -35,67 +31,28 @@ const calculatePagination = (pages: number, chosenPage: number) => {
     return pagination;
 };
 
-export const MovieList = () => {
-    const movieList = useSelector(
-        (state: IAppState) => state.movieList.moviesList
-    );
-    const {pages, chosenPage} = useSelector((state: IAppState) => {
-        const pages = state.movieList.pagination.pages ?? 1;
-        const chosenPage = state.movieList.pagination.chosenPage ?? 1;
+interface IProps {
+    onPageClick: (page: number) => void;
+    onSearchMovieById: (id: number) => void;
+    movieList: IMovie[];
+    onNextPageClick: () => void;
+    onPreviousPageClick: () => void;
+    pages: number;
+    chosenPage: number;
+    title?: string;
+}
 
-        return {pages, chosenPage};
-    });
-    const filters = useSelector(
-        (state: IAppState) => state.movieList.sideBarFilter
-    );
-    const dispatch = useAppDispatch();
-
-    const handlePageClick = (page: number) => {
-        if (!page) {
-            return;
-        }
-
-        dispatch(setMovieFilter(filters, page));
-    };
-
-    const handleSearchMovieById = (e: React.MouseEvent<HTMLDivElement>) => {
-        const id = e.currentTarget.getAttribute('data-film-id');
-
-        if (!id) return;
-
-        dispatch(getMovieById(id));
-    };
-
-    const handleNextPageClick = () => {
-        const nextPage = chosenPage + 1;
-
-        if (nextPage > pages) {
-            return;
-        }
-
-        dispatch(setMovieFilter(filters, nextPage));
-    };
-
-    const handlePreviousPageClick = () => {
-        const previousPage = chosenPage - 1;
-
-        if (previousPage < 1) {
-            return;
-        }
-
-        dispatch(setMovieFilter(filters, previousPage));
-    };
-
-    return (
+export const MovieList: React.FC<IProps> = ({onPageClick, onSearchMovieById, movieList, onNextPageClick, onPreviousPageClick, pages, chosenPage, title}) => {
+     return (
         <div>
+            {title && <h2 className={styles.startMovieListTitle}>{title}</h2>}
+            {movieList.length === 0 && <div className={styles.filterMessage}>Ничего не найдено по выбранным фильтрам. Попробуйте выбрать другие фильтры.</div>}
             <div className={styles.movieList}>
                 {movieList.map((item) => {
                     return (
                         <div
-                            id={item.id}
                             key={item.id}
-                            data-film-id={item.id}
-                            onClick={handleSearchMovieById}
+                            onClick={() => onSearchMovieById(item.id)}
                         >
                             <img src={item.poster?.url} alt={item.name}/>
                             <span>{item.name}</span>
@@ -105,9 +62,9 @@ export const MovieList = () => {
             </div>
 
             <div className={styles.pagination}>
-        <span id={'previousPage'} onClick={handlePreviousPageClick}>
-          <BackOutline className={styles.next}/>
-        </span>
+                <span id={'previousPage'} onClick={onPreviousPageClick}>
+                    <BackOutline className={styles.next}/>
+                </span>
                 {calculatePagination(pages, chosenPage).map((page) => {
                     return (
                         <span
@@ -118,17 +75,17 @@ export const MovieList = () => {
                             onClick={
                                 page !== ELLIPSIS
                                     ? () =>
-                                        handlePageClick(page as number)
+                                        onPageClick(page as number)
                                     : undefined
                             }
                         >
-              {page}
-            </span>
-                    );
-                })}
-                <span id={'nextPage'} onClick={handleNextPageClick}>
-          <ForwardOutline className={styles.next}/>
-        </span>
+                        {page}
+                        </span>);
+                })
+               }
+                <span id={'nextPage'} onClick={onNextPageClick}>
+                    <ForwardOutline className={styles.next}/>
+                </span>
             </div>
         </div>
     );

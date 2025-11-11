@@ -1,10 +1,8 @@
-// import {moviesListAPI} from "../../api/api";
 import { SET_MOVIES_LIST } from 'pages/FilmopoiskReact/const';
-// import { MOCK_DATA } from '../mock';
 import { ThunkAction } from 'redux-thunk';
 import { IAppState } from '../index';
 import { AnyAction, Dispatch } from 'redux';
-import { moviesListAPI } from 'pages/FilmopoiskReact/api/apiFilmopoisk';
+import {ApiClient} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
 import {IDropdownMovieListState, IMovie} from 'pages/FilmopoiskReact/Models';
 
 let initialState: IDropdownMovieListState = {
@@ -13,7 +11,7 @@ let initialState: IDropdownMovieListState = {
 
 export const mapToLoadedMovie = (movie: any): IMovie => {
   return {
-    id: String(movie.id),
+    id: movie.id,
     name: movie.name,
     rating: movie.rating || {},
     votes: movie.votes || {},
@@ -22,7 +20,7 @@ export const mapToLoadedMovie = (movie: any): IMovie => {
     shortDescription: movie.shortDescription || '',
     year: movie.year || '',
     alternativeName: movie.alternativeName,
-    ageRating: movie.ageRating,
+    ageRating: movie.ageRating || 0,
     isSeries: movie.isSeries,
     countries: movie.countries || [],
     genres: movie.genres || [],
@@ -59,7 +57,7 @@ export const getMoviesList = (
 ): ThunkAction<void, IAppState, unknown, any> => {
   return (dispatch: Dispatch): void => {
     //получили список фильмов по запросу на сервер
-    moviesListAPI.getMoviesList(name).then((response) => {
+    ApiClient.getMoviesList(name).then((response) => {
       const loadedMovieList: IMovie[] = response.docs
         .filter((data) => (data.rating?.kp ?? 0) > 5)
         .map(mapToLoadedMovie);
@@ -67,20 +65,4 @@ export const getMoviesList = (
       dispatch(setMoviesListAC(loadedMovieList));
     });
   };
-
-  // (movieData) => {
-  //           return movieData.rating.kp > 5;
-  //       }
-  //мок данные
-  // return (dispatch: Dispatch): void => {
-  //     const mockMovie = MOCK_DATA.docs.find(movie => movie.name.toLowerCase().includes(name.toLowerCase()));
-  //
-  //     const loadedMockMovieList: IMovie[] = MOCK_DATA.docs.map(mapToLoadedMovie);
-  //
-  //     if (mockMovie) {
-  //         dispatch(setMoviesListAC(loadedMockMovieList));
-  //     } else {
-  //         console.warn("Мок-данные не найдены по имени:", name);
-  //     }
-  // }
 };

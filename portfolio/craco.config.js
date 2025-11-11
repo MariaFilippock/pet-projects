@@ -18,6 +18,10 @@ module.exports = {
                         {
                             from: path.resolve(__dirname, '../weather_app_js'),
                             to: 'native_projects/weather_app_js'
+                        },
+                        {
+                            from: path.resolve(__dirname, '../filmopoisk_js'),
+                            to: 'native_projects/filmopoisk_js'
                         }
                     ]
                 })

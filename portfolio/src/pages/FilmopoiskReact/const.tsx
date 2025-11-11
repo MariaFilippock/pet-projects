@@ -8,10 +8,12 @@ export const SET_MOVIE_FILTER = 'SET_MOVIE_FILTER'; // установка фил
 export const SET_MOVIES = 'SET_MOVIES'; // установка списка фильмов с кол-вом страниц и выбранной страницей
 export const TOGGLE_FAVORITE_MOVIE = 'TOGGLE_FAVORITE_MOVIE'; // добавление фильма в список избранного
 export const SET_PAGE_TYPE = 'SET_PAGE_TYPE'; // определение типа страницы (список фильмов или карточка фильма и тд)
+export const SET_START_MOVIE_LIST = 'SET_START_MOVIE_LIST'; // переключение на стартовую страницу со списком топ-250 фильмов
 
 export const MAX_PAGES_COUNT = 8; // максимально допустимое количество страниц в пагинации при отображении
 export const CORNER_PAGE_COUNT = 5; // номер крайней страницы, при нажатии на которую должны увидеть следующте страницы для нажатия
 export const ELLIPSIS = '...';
+export const EVERY_YEAR = 'all';
 
 
 const getYearsArray = () => {

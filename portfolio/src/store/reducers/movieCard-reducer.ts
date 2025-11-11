@@ -1,13 +1,11 @@
-// import {moviesListAPI} from "../../api/api";
 import {SET_MOVIE, TOGGLE_FAVORITE_MOVIE} from 'pages/FilmopoiskReact/const';
-// import { MOCK_DATA } from '../mock';
 import {ThunkAction} from 'redux-thunk';
 import {IAppState} from '../index';
 import {AnyAction, Dispatch} from 'redux';
 import {
     mapToLoadedMovie
 } from './dropdownMovieList-reducer';
-import {moviesListAPI} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
+import {ApiClient, moviesListAPI} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
 import {setPageTypeAC} from './pageType-reducer';
 import {EPageType, IMovie, IMovieState} from 'pages/FilmopoiskReact/Models';
 
@@ -53,22 +51,16 @@ export const toggleFavoriteMovieAC = ({id, name, poster}: IMovie) => ({
 });
 
 export const getMovieById = (
-    id: string
+    id: number
 ): ThunkAction<void, IAppState, unknown, any> => {
     return async (dispatch: Dispatch) => {
-        debugger
         try {
-            const movieResponse = await moviesListAPI.getMovieById(id);
+            // debugger
+            const movieResponse = await ApiClient.getMovieById(id);
             dispatch(setPageTypeAC(EPageType.FilmCard));
             dispatch(setMovieDataAC(mapToLoadedMovie(movieResponse)));
         } catch (error) {
             console.error('Ошибка при получении фильма:', error);
         }
     };
-
-    // return (dispatch: Dispatch): void => {
-    //    const mockMovie = MOCK_DATA.docs.find((movie) => String(movie.id) === String(id));
-    //
-    //    dispatch(setMovieDataAC(mapToLoadedMovie(mockMovie)));
-    // }
 };

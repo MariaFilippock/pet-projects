@@ -7,7 +7,7 @@ export interface IPageTypeState {
 }
 
 const initialState = {
-    pageType: EPageType.FilmList,
+    pageType: EPageType.StartList,
 };
 
 export const setPageTypeAC = (pageType: string) => ({
