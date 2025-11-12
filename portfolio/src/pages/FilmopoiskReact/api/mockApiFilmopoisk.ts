@@ -46,11 +46,12 @@ export const moviesListMockAPI = {
         // debugger
         const filterData = MOCK_DATA_FILTER.docs.filter((movieItem) => {
             const matchYear = filters.year === EVERY_YEAR || movieItem.year === Number(filters.year);
-            const matchGenre = movieItem.genres.some((genre) => genre.name === filters.genre);
-            const matchType = movieItem.type === filters.type;
+            const matchGenre = !filters.genre || movieItem.genres.some((genre) => genre.name === filters.genre);
+            const matchType = !filters.type || movieItem.type === filters.type;
 
             return matchYear && matchGenre && matchType;
         });
+        console.log(filterData);
     // debugger
         return new Promise((resolve) => {
             setTimeout(() => {

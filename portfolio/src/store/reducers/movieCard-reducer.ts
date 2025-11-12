@@ -5,9 +5,9 @@ import {AnyAction, Dispatch} from 'redux';
 import {
     mapToLoadedMovie
 } from './dropdownMovieList-reducer';
-import {ApiClient, moviesListAPI} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
+import {ApiClient} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
 import {setPageTypeAC} from './pageType-reducer';
-import {EPageType, IMovie, IMovieState} from 'pages/FilmopoiskReact/Models';
+import {IMovie, IMovieState} from 'pages/FilmopoiskReact/Models';
 
 let initialState: IMovieState = {
     movie: null,
@@ -57,7 +57,7 @@ export const getMovieById = (
         try {
             // debugger
             const movieResponse = await ApiClient.getMovieById(id);
-            dispatch(setPageTypeAC(EPageType.FilmCard));
+            // dispatch(setPageTypeAC(EPageType.FilmCard));
             dispatch(setMovieDataAC(mapToLoadedMovie(movieResponse)));
         } catch (error) {
             console.error('Ошибка при получении фильма:', error);

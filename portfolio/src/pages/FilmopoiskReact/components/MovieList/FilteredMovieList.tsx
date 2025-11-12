@@ -4,8 +4,10 @@ import {useSelector} from 'react-redux';
 import {IAppState, useAppDispatch} from 'store/index';
 import {MovieList} from 'pages/FilmopoiskReact/components/MovieList/MovieList';
 import {getMovieById} from 'store/reducers/movieCard-reducer';
+import {useNavigate} from 'react-router-dom';
+import {ROUTES} from 'pages/FilmopoiskReact/const';
 
-export const FilteredMovieList = () => {
+const FilteredMovieList = () => {
     const movieList = useSelector(
         (state: IAppState) => state.movieList.moviesList
     );
@@ -20,6 +22,7 @@ export const FilteredMovieList = () => {
         (state: IAppState) => state.movieList.sideBarFilter
     );
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handlePageClick = (page: number) => {
         if (!page) {
@@ -33,6 +36,7 @@ export const FilteredMovieList = () => {
         if (!id) return;
 
         dispatch(getMovieById(Number(id)));
+        navigate(ROUTES.MOVIE_CARD);
     };
 
     const handleNextPageClick = () => {
@@ -66,3 +70,4 @@ export const FilteredMovieList = () => {
     />
 }
 
+export default FilteredMovieList;

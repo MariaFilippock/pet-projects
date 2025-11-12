@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/pet-projects/static/css/main.6f92489a.css",
-    "main.js": "/pet-projects/static/js/main.894c4c17.js",
+    "main.js": "/pet-projects/static/js/main.b1971d80.js",
     "static/js/934.4005c8e0.chunk.js": "/pet-projects/static/js/934.4005c8e0.chunk.js",
     "static/js/72.eebbfbbc.chunk.js": "/pet-projects/static/js/72.eebbfbbc.chunk.js",
     "static/js/854.acfd6f05.chunk.js": "/pet-projects/static/js/854.acfd6f05.chunk.js",
-    "static/css/225.1ce0b433.chunk.css": "/pet-projects/static/css/225.1ce0b433.chunk.css",
-    "static/js/225.44cc3033.chunk.js": "/pet-projects/static/js/225.44cc3033.chunk.js",
+    "static/css/601.98c8f436.chunk.css": "/pet-projects/static/css/601.98c8f436.chunk.css",
+    "static/js/601.9a6de49d.chunk.js": "/pet-projects/static/js/601.9a6de49d.chunk.js",
     "static/js/930.d1ce7f87.chunk.js": "/pet-projects/static/js/930.d1ce7f87.chunk.js",
     "static/js/434.0bfd9cb0.chunk.js": "/pet-projects/static/js/434.0bfd9cb0.chunk.js",
     "native_projects/filmopoisk_js/mock.js": "/pet-projects/native_projects/filmopoisk_js/mock.js",
@@ -45,17 +45,17 @@
     "native_projects/calculator_mvc/const.js": "/pet-projects/native_projects/calculator_mvc/const.js",
     "native_projects/filmopoisk_js/index.js": "/pet-projects/native_projects/filmopoisk_js/index.js",
     "main.6f92489a.css.map": "/pet-projects/static/css/main.6f92489a.css.map",
-    "main.894c4c17.js.map": "/pet-projects/static/js/main.894c4c17.js.map",
+    "main.b1971d80.js.map": "/pet-projects/static/js/main.b1971d80.js.map",
     "934.4005c8e0.chunk.js.map": "/pet-projects/static/js/934.4005c8e0.chunk.js.map",
     "72.eebbfbbc.chunk.js.map": "/pet-projects/static/js/72.eebbfbbc.chunk.js.map",
     "854.acfd6f05.chunk.js.map": "/pet-projects/static/js/854.acfd6f05.chunk.js.map",
-    "225.1ce0b433.chunk.css.map": "/pet-projects/static/css/225.1ce0b433.chunk.css.map",
-    "225.44cc3033.chunk.js.map": "/pet-projects/static/js/225.44cc3033.chunk.js.map",
+    "601.98c8f436.chunk.css.map": "/pet-projects/static/css/601.98c8f436.chunk.css.map",
+    "601.9a6de49d.chunk.js.map": "/pet-projects/static/js/601.9a6de49d.chunk.js.map",
     "930.d1ce7f87.chunk.js.map": "/pet-projects/static/js/930.d1ce7f87.chunk.js.map",
     "434.0bfd9cb0.chunk.js.map": "/pet-projects/static/js/434.0bfd9cb0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6f92489a.css",
-    "static/js/main.894c4c17.js"
+    "static/js/main.b1971d80.js"
   ]
 }

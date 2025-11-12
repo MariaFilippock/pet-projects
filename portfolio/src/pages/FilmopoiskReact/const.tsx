@@ -65,3 +65,10 @@ export const Text = {
 
     years: getYearsArray(),
 };
+
+export const ROUTES = {
+    FILMOPOISK: '/filmopoisk_react',
+    MOVIE_CARD: '/filmopoisk_react/movie_card',
+    START_LIST: '/filmopoisk_react/start_movie_list',
+    FILTERED_LIST: '/filmopoisk_react/filtered_movie_list',
+};

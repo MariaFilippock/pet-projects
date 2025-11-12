@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 import {IAppState} from 'store';
 
 /** Карточка с информацией по фильму (название, постер, описание) и видеоплеером */
-export const MovieCard = () => {
+const MovieCard = () => {
     const {movie, favoritesMovieList} = useSelector((state: IAppState) => state.movie ?? {});
     const isFavorite = favoritesMovieList.some((favMovie) => favMovie.id  === movie?.id
     );
@@ -27,3 +27,5 @@ export const MovieCard = () => {
         </>
     );
 };
+
+export default MovieCard;

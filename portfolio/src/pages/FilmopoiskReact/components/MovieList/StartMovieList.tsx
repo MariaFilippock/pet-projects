@@ -4,8 +4,10 @@ import {IAppState, useAppDispatch} from 'store/index';
 import {MovieList} from 'pages/FilmopoiskReact/components/MovieList/MovieList';
 import {getMovieById} from 'store/reducers/movieCard-reducer';
 import {setStartMovieList} from 'store/reducers/startMovieList-reducer';
+import {useNavigate} from 'react-router-dom';
+import {ROUTES} from 'pages/FilmopoiskReact/const';
 
-export const StartMovieList = () => {
+const StartMovieList = () => {
     const movieList = useSelector(
         (state: IAppState) => state.startMoviesList.startMoviesList
     );
@@ -16,6 +18,7 @@ export const StartMovieList = () => {
         return {pages, chosenPage};
     });
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handlePageClick = (page: number) => {
         if (!page) {
@@ -29,6 +32,7 @@ export const StartMovieList = () => {
         if (!id) return;
 
         dispatch(getMovieById(Number(id)));
+        navigate(ROUTES.MOVIE_CARD);
     };
 
     const handleNextPageClick = () => {
@@ -63,4 +67,4 @@ export const StartMovieList = () => {
     />
 }
 
-
+export default StartMovieList;
