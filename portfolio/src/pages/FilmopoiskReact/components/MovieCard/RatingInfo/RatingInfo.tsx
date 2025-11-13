@@ -1,7 +1,5 @@
 import React from 'react';
 import styles from './RatingInfo.module.scss';
-import {getMovieById} from 'store/reducers/movieCard-reducer';
-import {useAppDispatch} from 'store';
 import {IMovie} from 'pages/FilmopoiskReact/Models';
 import {useNavigate} from 'react-router-dom';
 import {ROUTES} from 'pages/FilmopoiskReact/const';
@@ -12,7 +10,6 @@ interface IProps {
 }
 
 export const RatingInfo: React.FC<IProps> = ({movie, favoriteMovieList}) => {
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const handleSearchMovieById = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -20,8 +17,7 @@ export const RatingInfo: React.FC<IProps> = ({movie, favoriteMovieList}) => {
 
         if (!id) return;
 
-        dispatch(getMovieById(id));
-        navigate(ROUTES.MOVIE_CARD);
+        navigate(`${ROUTES.MOVIE_CARD}/${id}`);
     };
 
     return (
@@ -34,22 +30,27 @@ export const RatingInfo: React.FC<IProps> = ({movie, favoriteMovieList}) => {
                 {movie.votes?.filmCritics} рецензий
             </a>
 
-            <h4 className={styles.favoritesTitle}> Мое избранное </h4>
-            {favoriteMovieList.map((favMovie) => (
-                <div
-                    className={styles.favoriteMovieItem}
-                    data-film-id={favMovie.id}
-                    key={'favorite' + favMovie.id}
-                    onClick={handleSearchMovieById}
-                >
-                    <img
-                        className={styles.favoriteMoviePoster}
-                        alt={''}
-                        src={favMovie.poster?.url}
-                    />
-                    <div className={styles.favoriteMovieName}>{favMovie.name}</div>
-                </div>
-            ))}
+            {favoriteMovieList.length ? (
+                <>
+                    <h4 className={styles.favoritesTitle}> Мое избранное </h4>
+                    {favoriteMovieList.map((favMovie) => (
+                            <div
+                                className={styles.favoriteMovieItem}
+                                data-film-id={favMovie.id}
+                                key={'favorite' + favMovie.id}
+                                onClick={handleSearchMovieById}
+                            >
+                                <img
+                                    className={styles.favoriteMoviePoster}
+                                    alt={''}
+                                    src={favMovie.poster?.url || ''}
+                                />
+                                <div className={styles.favoriteMovieName}>{favMovie.name}</div>
+                            </div>
+                        ))
+                    }
+                </>
+            ) : null}
         </div>
     );
 };

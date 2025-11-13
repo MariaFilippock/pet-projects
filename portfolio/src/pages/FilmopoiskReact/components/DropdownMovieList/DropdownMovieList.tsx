@@ -26,8 +26,7 @@ export const DropdownMovieList = () => {
         const id = Number(movieItem.id);
 
         if (id) {
-            dispatch(getMovieById(id));
-            navigate(ROUTES.MOVIE_CARD);
+            navigate(`${ROUTES.MOVIE_CARD}/${id}`);
         }
 
         setName('');
@@ -56,8 +55,8 @@ export const DropdownMovieList = () => {
             return;
         }
 
+        navigate(`${ROUTES.MOVIE_CARD}/${foundMovie.id}`);
         dispatch(getMovieById(foundMovie.id));
-        navigate(ROUTES.MOVIE_CARD);
 
         setName('');
     };

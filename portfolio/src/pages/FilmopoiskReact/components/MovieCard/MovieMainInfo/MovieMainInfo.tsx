@@ -52,7 +52,7 @@ export const MovieMainInfo: React.FC<IProps> = ({movie, isFavorite}) => {
     return (
         <div className={styles.wrapperJoinRow}>
             <div className={styles.poster}>
-                <img src={movie.poster?.url} alt={''}/>
+                <img src={movie.poster?.url || ''} alt={''}/>
             </div>
             <div className={styles.mainMovieInfo}>
                 <div

@@ -17,7 +17,7 @@ const FilmopoiskReact = () => {
                 <SideBar/>
                 <div id="wrapper" className={styles.wrapper}>
                     <Routes>
-                        <Route path='movie_card' element={<MovieCard/>} />
+                        <Route path='movie_card/:id' element={<MovieCard/>} />
                         <Route index path='start_movie_list' element={<StartMovieList/>} />
                         <Route path='filtered_movie_list' element={<FilteredMovieList/>} />
                     </Routes>

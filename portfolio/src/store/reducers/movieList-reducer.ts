@@ -1,27 +1,24 @@
 import {AnyAction} from 'redux';
-import {SET_MOVIE_FILTER, SET_MOVIES} from 'pages/FilmopoiskReact/const';
+import {SET_IS_LOADING, SET_MOVIE_FILTER, SET_MOVIES} from 'pages/FilmopoiskReact/const';
 import {ThunkAction} from 'redux-thunk';
 import {IAppState} from '../index';
 import {Dispatch} from 'redux';
 import {ApiClient} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
-import {setPageTypeAC} from './pageType-reducer';
-import {EPageType, IMovie, IMovieListState, ISideBarFilter} from 'pages/FilmopoiskReact/Models';
+import {IMovie, IMovieListState, ISideBarFilter} from 'pages/FilmopoiskReact/Models';
 
 export const setMovieFilterAC = (filters: ISideBarFilter) => ({
     type: SET_MOVIE_FILTER,
     filters,
 });
 
-export const setMoviesAC = (
-    moviesList: IMovie[],
-    pages: number,
-    chosenPage: number
-) => ({
+export const setMoviesAC = (moviesList: IMovie[], pages: number, chosenPage: number) => ({
     type: SET_MOVIES,
     moviesList,
     pages: pages ?? 1,
     chosenPage: chosenPage ?? 1,
 });
+
+export const setIsLoadingAC = (isLoading: boolean) => ({type: SET_IS_LOADING, isLoading});
 
 export const setMovieFilter = (
     filters: ISideBarFilter,
@@ -29,13 +26,13 @@ export const setMovieFilter = (
 ): ThunkAction<any, IAppState, unknown, any> => {
     return async (dispatch: Dispatch) => {
         try {
-            //получаю с сервера данные со списком фильмов по фильтрам
+            dispatch(setIsLoadingAC(true));
+
             const movieListResponse = await ApiClient.getMovieListByFilter(
                 filters,
                 page
             );
 
-            dispatch(setPageTypeAC(EPageType.FilmList));
             dispatch(setMovieFilterAC(filters));
             dispatch(
                 setMoviesAC(
@@ -46,6 +43,8 @@ export const setMovieFilter = (
             );
         } catch (error) {
             console.error('Ошибка при попытке фильтрации', error);
+        } finally {
+            dispatch(setIsLoadingAC(false));
         }
     };
 };
@@ -61,6 +60,7 @@ const initialState: IMovieListState = {
         chosenPage: 1,
         pages: 1,
     },
+    isLoading: false,
 };
 
 export const movieListReducer = (state = initialState, action: AnyAction) => {
@@ -81,6 +81,12 @@ export const movieListReducer = (state = initialState, action: AnyAction) => {
                     chosenPage: action.chosenPage,
                 },
             };
+        }
+        case SET_IS_LOADING: {
+            return {
+                ...state,
+                isLoading: action.isLoading,
+            }
         }
         default:
             return state;

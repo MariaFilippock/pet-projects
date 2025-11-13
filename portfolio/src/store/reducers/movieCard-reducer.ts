@@ -1,4 +1,4 @@
-import {SET_MOVIE, TOGGLE_FAVORITE_MOVIE} from 'pages/FilmopoiskReact/const';
+import {SET_IS_LOADING, SET_MOVIE, TOGGLE_FAVORITE_MOVIE} from 'pages/FilmopoiskReact/const';
 import {ThunkAction} from 'redux-thunk';
 import {IAppState} from '../index';
 import {AnyAction, Dispatch} from 'redux';
@@ -6,12 +6,12 @@ import {
     mapToLoadedMovie
 } from './dropdownMovieList-reducer';
 import {ApiClient} from 'pages/FilmopoiskReact/api/apiFilmopoisk';
-import {setPageTypeAC} from './pageType-reducer';
 import {IMovie, IMovieState} from 'pages/FilmopoiskReact/Models';
 
 let initialState: IMovieState = {
     movie: null,
     favoritesMovieList: [],
+    isLoading: false,
 };
 
 export const movieCardReducer = (state = initialState, action: AnyAction) => {
@@ -36,6 +36,12 @@ export const movieCardReducer = (state = initialState, action: AnyAction) => {
                     : [...state.favoritesMovieList, action.favoriteMovie],
             };
         }
+        case SET_IS_LOADING: {
+            return {
+                ...state,
+                isLoading: action.isLoading,
+            }
+        }
         default:
             return state;
     }
@@ -50,17 +56,21 @@ export const toggleFavoriteMovieAC = ({id, name, poster}: IMovie) => ({
     favoriteMovie: {id, name, poster},
 });
 
+export const setIsLoadingAC = (isLoading: boolean) => ({type: SET_IS_LOADING, isLoading});
+
 export const getMovieById = (
     id: number
 ): ThunkAction<void, IAppState, unknown, any> => {
     return async (dispatch: Dispatch) => {
         try {
-            // debugger
+            dispatch(setIsLoadingAC(true));
+
             const movieResponse = await ApiClient.getMovieById(id);
-            // dispatch(setPageTypeAC(EPageType.FilmCard));
             dispatch(setMovieDataAC(mapToLoadedMovie(movieResponse)));
         } catch (error) {
             console.error('Ошибка при получении фильма:', error);
+        } finally {
+            dispatch(setIsLoadingAC(false));
         }
     };
 };

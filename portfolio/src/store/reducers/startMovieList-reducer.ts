@@ -1,6 +1,6 @@
 import {IMovie, IStartMoviesListState} from 'pages/FilmopoiskReact/Models';
 import {AnyAction, Dispatch} from 'redux';
-import {SET_START_MOVIE_LIST} from 'pages/FilmopoiskReact/const';
+import {SET_IS_LOADING, SET_START_MOVIE_LIST} from 'pages/FilmopoiskReact/const';
 import {ThunkAction} from 'redux-thunk';
 import {IAppState} from 'store/index';
 import {setMovieFilterAC} from 'store/reducers/movieList-reducer';
@@ -12,22 +12,25 @@ const initialState: IStartMoviesListState = {
         chosenPage: 1,
         pages: 1,
     },
+    isLoading: false,
 };
 
-export const setStartMoviesListAC = (
-    startMoviesList: IMovie[],
-    pages: number,
-    chosenPage: number) => ({
+export const setStartMoviesListAC = (startMoviesList: IMovie[], pages: number, chosenPage: number) => ({
     type: SET_START_MOVIE_LIST,
     startMoviesList,
     pages: pages ?? 1,
     chosenPage: chosenPage ?? 1,
 });
 
+export const setIsLoadingAC = (isLoading: boolean) => ({type: SET_IS_LOADING, isLoading});
+
 export const setStartMovieList = (page: number): ThunkAction<any, IAppState, unknown, any> => {
     return async (dispatch: Dispatch) => {
         try {
+            dispatch(setIsLoadingAC(true));
+
             const startMovieListResponse = await ApiClient.getTop250MoviesList(page);
+
             dispatch(setStartMoviesListAC(startMovieListResponse.docs, startMovieListResponse.pages, page));
             dispatch(setMovieFilterAC({
                 genre: '',
@@ -36,6 +39,8 @@ export const setStartMovieList = (page: number): ThunkAction<any, IAppState, unk
             }));
         } catch (error) {
             console.error('Ошибка при поиске ТОП-250 фильмов', error);
+        } finally {
+            dispatch(setIsLoadingAC(false));
         }
     }
 };
