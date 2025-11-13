@@ -2,17 +2,17 @@ import React from 'react';
 import styles from './Header.module.scss';
 import { DropdownMovieList } from '../DropdownMovieList/DropdownMovieList';
 import {useAppDispatch} from 'store/index';
-import {setPageTypeAC} from 'store/reducers/pageType-reducer';
-import {EPageType} from 'pages/FilmopoiskReact/Models';
 import {setStartMovieList} from 'store/reducers/startMovieList-reducer';
+import {useNavigate} from 'react-router-dom';
+import {ROUTES} from 'pages/FilmopoiskReact/const';
 
 const Header = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handleShowRandomMovieList = () => {
-        // debugger
         dispatch(setStartMovieList(1));
-        dispatch(setPageTypeAC(EPageType.StartList));
+        navigate(ROUTES.START_LIST);
     };
 
   return (

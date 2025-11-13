@@ -2,8 +2,8 @@ import {EVERY_YEAR} from "./const.js";
 import {MockApiClient} from "./api_mock.js";
 
 const headers = {
-    "X-API-KEY": "61WD0E0-9P9MS93-JT98B6D-YA058KJ",
-    // "X-API-KEY": "B8Y4Q8Y-SSG4FVM-QQ1WBYN-RTF0J37"
+    // "X-API-KEY": "61WD0E0-9P9MS93-JT98B6D-YA058KJ",
+    "X-API-KEY": "B8Y4Q8Y-SSG4FVM-QQ1WBYN-RTF0J37"
 };
 
 let counter = 0;
@@ -16,8 +16,7 @@ export class BackendApiClient {
     static getMoviesByFirstLetters = (name, page = 1, limit = 30) => {
         counter++;
         const localCount = counter;
-        const url = `https://api.kinopoisk.dev/v1.4/movie/search?query=${name}&limit=${limit}&page=${page}`;
-        // const url = `https://poiskkino.dev/v1.4/movie/search?query=${name}&limit=${limit}&page=${page}`;
+        const url = `https://poiskkino.dev/v1.4/movie/search?query=${name}&limit=${limit}&page=${page}`;
 
         return fetch(url, {
             headers: headers,
@@ -56,7 +55,7 @@ export class BackendApiClient {
             return searchParams.append("notNullFields", field);
         });
 
-        const url = `https://api.kinopoisk.dev/v1.4/movie?` + searchParams.toString();
+        const url = `https://poiskkino.dev/v1.4/movie?` + searchParams.toString();
 
         return fetch(url, {
             headers: headers,
@@ -90,7 +89,7 @@ export class BackendApiClient {
             return searchParams.append("notNullFields", field);
         });
 
-        const url = `https://api.kinopoisk.dev/v1.4/movie?` + searchParams.toString();
+        const url = `https://poiskkino.dev/v1.4/movie?` + searchParams.toString();
 
         return fetch(url, {
             headers: headers,
@@ -100,7 +99,7 @@ export class BackendApiClient {
     }
 
     static getMoviesById = (id) => {
-        const url = `https://api.kinopoisk.dev/v1.4/movie/${id}`;
+        const url = `https://poiskkino.dev/v1.4/movie/${id}`;
 
         return fetch(url, {
             headers: headers,
@@ -113,7 +112,7 @@ export class BackendApiClient {
 /**
  * Флаг, через который меняем способ подключения для получения данных
  */
-const IS_MOCK_API = false;
+const IS_MOCK_API = true;
 
 /**
  * Итоговая обертка, через которую в приложении как раз и работаем.

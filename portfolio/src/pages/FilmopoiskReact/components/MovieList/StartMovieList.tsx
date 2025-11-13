@@ -2,12 +2,14 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {IAppState, useAppDispatch} from 'store/index';
 import {MovieList} from 'pages/FilmopoiskReact/components/MovieList/MovieList';
-import {getMovieById} from 'store/reducers/movieCard-reducer';
 import {setStartMovieList} from 'store/reducers/startMovieList-reducer';
+import {useNavigate} from 'react-router-dom';
+import {ROUTES} from 'pages/FilmopoiskReact/const';
+import common from 'pages/FilmopoiskReact/FilmopoiskReact.module.scss';
 
-export const StartMovieList = () => {
-    const movieList = useSelector(
-        (state: IAppState) => state.startMoviesList.startMoviesList
+const StartMovieList = () => {
+    const { startMoviesList, isLoading } = useSelector(
+        (state: IAppState) => state.startMoviesList
     );
     const {pages, chosenPage} = useSelector((state: IAppState) => {
         const pages = state.startMoviesList.pagination.pages ?? 1;
@@ -16,6 +18,7 @@ export const StartMovieList = () => {
         return {pages, chosenPage};
     });
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handlePageClick = (page: number) => {
         if (!page) {
@@ -28,7 +31,8 @@ export const StartMovieList = () => {
     const handleSearchMovieById = (id: number) => {
         if (!id) return;
 
-        dispatch(getMovieById(Number(id)));
+        navigate(`${ROUTES.MOVIE_CARD}/${id}`);
+        // dispatch(getMovieById(Number(id)));
     };
 
     const handleNextPageClick = () => {
@@ -51,10 +55,16 @@ export const StartMovieList = () => {
         dispatch(setStartMovieList(previousPage));
     };
 
+    if (isLoading) {
+        return <div className={common.preloaderWrapper}>
+            <div className={common.preloader}></div>
+        </div>
+    }
+
     return <MovieList
         onPageClick={handlePageClick}
         onSearchMovieById={handleSearchMovieById}
-        movieList={movieList}
+        movieList={startMoviesList}
         onNextPageClick={handleNextPageClick}
         onPreviousPageClick={handlePreviousPageClick}
         pages={pages}
@@ -63,4 +73,4 @@ export const StartMovieList = () => {
     />
 }
 
-
+export default StartMovieList;

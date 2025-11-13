@@ -54,7 +54,7 @@ export const MovieList: React.FC<IProps> = ({onPageClick, onSearchMovieById, mov
                             key={item.id}
                             onClick={() => onSearchMovieById(item.id)}
                         >
-                            <img src={item.poster?.url} alt={item.name}/>
+                            <img src={item.poster?.url || ''} alt={item.name}/>
                             <span>{item.name}</span>
                         </div>
                     );

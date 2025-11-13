@@ -9,11 +9,13 @@ export const SET_MOVIES = 'SET_MOVIES'; // установка списка фи�
 export const TOGGLE_FAVORITE_MOVIE = 'TOGGLE_FAVORITE_MOVIE'; // добавление фильма в список избранного
 export const SET_PAGE_TYPE = 'SET_PAGE_TYPE'; // определение типа страницы (список фильмов или карточка фильма и тд)
 export const SET_START_MOVIE_LIST = 'SET_START_MOVIE_LIST'; // переключение на стартовую страницу со списком топ-250 фильмов
+export const SET_IS_LOADING = 'SET_IS_LOADING';
 
 export const MAX_PAGES_COUNT = 8; // максимально допустимое количество страниц в пагинации при отображении
 export const CORNER_PAGE_COUNT = 5; // номер крайней страницы, при нажатии на которую должны увидеть следующте страницы для нажатия
 export const ELLIPSIS = '...';
 export const EVERY_YEAR = 'all';
+export const LIMIT = 7; // количество элементов на странице
 
 
 const getYearsArray = () => {
@@ -64,4 +66,11 @@ export const Text = {
     ],
 
     years: getYearsArray(),
+};
+
+export const ROUTES = {
+    FILMOPOISK: '/filmopoisk_react',
+    MOVIE_CARD: '/filmopoisk_react/movie_card',
+    START_LIST: '/filmopoisk_react/start_movie_list',
+    FILTERED_LIST: '/filmopoisk_react/filtered_movie_list',
 };

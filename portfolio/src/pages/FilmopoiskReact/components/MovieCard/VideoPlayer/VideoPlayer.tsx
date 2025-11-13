@@ -8,8 +8,8 @@ interface IProps {
 
 export const VideoPlayer: React.FC<IProps> = ({movie}) => {
     const trailers = movie?.trailers?.filter((trailer) => trailer.url) || [];
-    const [selectedTrailerUrl, setSelectTrailerUrl] = useState( 'https://www.youtube.com/');
-
+    const [selectedTrailerUrl, setSelectTrailerUrl] = useState('https://www.youtube.com/');
+    console.log(movie);
     useEffect(() => {
         setSelectTrailerUrl(trailers[0]?.url || '');
     }, [movie.trailers]);
@@ -41,6 +41,19 @@ export const VideoPlayer: React.FC<IProps> = ({movie}) => {
                 </>
             ) : (
                 <div className={styles.undefinedVideo}>Видеоплеер отсутствует</div>
+            )}
+            {movie.similarMovies?.length && (
+                <div className={styles.similarMoviesContainer}>
+                    <h3 className={styles.similarMovieTitle}>Похожие фильмы</h3>
+                    <div className={styles.similarMovieList}>
+                        {movie.similarMovies.map((similarMovie) => (
+                            <div className={styles.similarMovieItem}>
+                                <img alt="Фильм" className={styles.similarMoviePoster} src={similarMovie?.poster?.url || ''}/>
+                                <div className={styles.similarMovieName}>${similarMovie.name}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             )}
         </div>
     );

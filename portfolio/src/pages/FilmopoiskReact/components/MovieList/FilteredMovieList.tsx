@@ -3,11 +3,13 @@ import {setMovieFilter} from 'store/reducers/movieList-reducer';
 import {useSelector} from 'react-redux';
 import {IAppState, useAppDispatch} from 'store/index';
 import {MovieList} from 'pages/FilmopoiskReact/components/MovieList/MovieList';
-import {getMovieById} from 'store/reducers/movieCard-reducer';
+import {useNavigate} from 'react-router-dom';
+import {ROUTES} from 'pages/FilmopoiskReact/const';
+import common from 'pages/FilmopoiskReact/FilmopoiskReact.module.scss';
 
-export const FilteredMovieList = () => {
-    const movieList = useSelector(
-        (state: IAppState) => state.movieList.moviesList
+const FilteredMovieList = () => {
+    const {moviesList, isLoading} = useSelector(
+        (state: IAppState) => state.movieList
     );
 
     const {pages, chosenPage} = useSelector((state: IAppState) => {
@@ -20,6 +22,7 @@ export const FilteredMovieList = () => {
         (state: IAppState) => state.movieList.sideBarFilter
     );
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handlePageClick = (page: number) => {
         if (!page) {
@@ -32,7 +35,7 @@ export const FilteredMovieList = () => {
     const handleSearchMovieById = (id: number) => {
         if (!id) return;
 
-        dispatch(getMovieById(Number(id)));
+        navigate(`${ROUTES.MOVIE_CARD}/${id}`);
     };
 
     const handleNextPageClick = () => {
@@ -55,10 +58,16 @@ export const FilteredMovieList = () => {
         dispatch(setMovieFilter(filters, previousPage));
     };
 
+    if (isLoading) {
+        return <div className={common.preloaderWrapper}>
+            <div className={common.preloader}></div>
+        </div>
+    }
+
     return <MovieList
         onPageClick={handlePageClick}
         onSearchMovieById={handleSearchMovieById}
-        movieList={movieList}
+        movieList={moviesList}
         onNextPageClick={handleNextPageClick}
         onPreviousPageClick={handlePreviousPageClick}
         pages={pages}
@@ -66,3 +75,4 @@ export const FilteredMovieList = () => {
     />
 }
 
+export default FilteredMovieList;

@@ -333,7 +333,6 @@ function handleSimilarMoviesClick(event) {
 function onCardClick(movieId) {
     Store.setIsLoading(true);
     render();
-    debugger
     const foundFilm = Store.state.favoritesMovieList.find((favorite) => favorite.idMovie === movieId);
 
     if (foundFilm) {

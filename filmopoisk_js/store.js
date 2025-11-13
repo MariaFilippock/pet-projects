@@ -7,7 +7,7 @@ const Store = {
         isLoadedListVisible: false,
         loadedList: [],
         favoritesMovieList: [],
-        pageType: PAGE_TYPE.FilmList,
+        pageType: PAGE_TYPE.StartList,
         moviesList: [],
 
         sideBarFilter: {

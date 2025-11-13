@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {ISideBarFilter, MovieResponse} from 'pages/FilmopoiskReact/Models';
 import {moviesListMockAPI} from 'pages/FilmopoiskReact/api/mockApiFilmopoisk';
+import {LIMIT} from 'pages/FilmopoiskReact/const';
 
 const config: { headers: { 'X-API-KEY': string }; baseURL: string } = {
   baseURL: 'https://api.poiskkino.dev/v1.4/movie/',
@@ -14,7 +15,7 @@ const instance = axios.create(config);
 
 export const moviesListAPI = {
   /** Список фильмов по введенным в поиск словам */
-  getMoviesList(name: string, limit = 30, page = 1): Promise<MovieResponse> {
+  getMoviesList(name: string, limit = LIMIT, page = 1): Promise<MovieResponse> {
     return instance
       .get<MovieResponse>(`search?query=${name}&limit=${limit}&page=${page}`)
       .then((response) => {
@@ -23,7 +24,7 @@ export const moviesListAPI = {
   },
 
   /** получение списка топ-фильмов по клику на "фильмопоиск" */
-  getTop250MoviesList(page: number, limit = 14): Promise<MovieResponse> {
+  getTop250MoviesList(page: number, limit = LIMIT): Promise<MovieResponse> {
     const queryParams = {
             page: String(page),
             limit: String(limit),
@@ -66,7 +67,7 @@ export const moviesListAPI = {
   getMovieListByFilter(
     filters: ISideBarFilter,
     page: number,
-    limit = 14
+    limit = LIMIT
   ): Promise<MovieResponse> {
     const queryParams: Record<string, string | number> = {
       page: String(page),

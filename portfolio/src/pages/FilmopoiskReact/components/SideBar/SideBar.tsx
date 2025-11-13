@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './SideBar.module.scss';
-import {Text} from '../../const';
+import {ROUTES, Text} from '../../const';
 import {IAppState, useAppDispatch} from 'store';
 import {setMovieFilter} from 'store/reducers/movieList-reducer';
 import {useSelector} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 
 type GenreKey = keyof typeof Text.GenresMap;
 
@@ -12,14 +13,17 @@ const SideBar = () => {
         (state: IAppState) => state.movieList.sideBarFilter
     );
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const genres: string[] = Object.keys(Text.GenresMap);
 
     const getHandleChangeTypeFilter = (type: string) => {
         dispatch(setMovieFilter({...filters, type}, 1));
+        navigate(ROUTES.FILTERED_LIST);
     };
 
     const getHandleChangeGenresFilter = (genre: string) => {
         dispatch(setMovieFilter({...filters, genre}, 1));
+        navigate(ROUTES.FILTERED_LIST);
     };
 
     const getHandleChangeYearFilter = (
@@ -27,6 +31,7 @@ const SideBar = () => {
     ) => {
         const year = e.target.value;
         dispatch(setMovieFilter({...filters, year}, 1));
+        navigate(ROUTES.FILTERED_LIST);
     };
 
     return (

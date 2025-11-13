@@ -27,6 +27,9 @@ export const mapToLoadedMovie = (movie: any): IMovie => {
     movieLength: movie.movieLength || 0,
     seriesLength: movie.seriesLength || 0,
     trailers: movie.videos?.trailers || [],
+    persons: movie.persons || [],
+    sequelsAndPrequels: movie.sequelsAndPrequels || [],
+    similarMovies: movie.similarMovies || [],
   };
 };
 

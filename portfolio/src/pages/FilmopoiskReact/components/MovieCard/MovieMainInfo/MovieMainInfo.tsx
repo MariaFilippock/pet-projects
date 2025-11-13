@@ -6,6 +6,8 @@ import {toggleFavoriteMovieAC} from 'store/reducers/movieCard-reducer';
 import {IAppState, useAppDispatch} from 'store';
 import {setMovieFilter} from 'store/reducers/movieList-reducer';
 import {IMovie} from 'pages/FilmopoiskReact/Models';
+import {useNavigate} from 'react-router-dom';
+import {ROUTES} from 'pages/FilmopoiskReact/const';
 
 let countHoursAndMinutes = (minutes?: number, tvMinutes?: number): string => {
     if (minutes) {
@@ -29,10 +31,12 @@ export const MovieMainInfo: React.FC<IProps> = ({movie, isFavorite}) => {
         (state: IAppState) => state.movieList.sideBarFilter
     );
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const {id, name, poster}: IMovie = movie;
 
     const getHandleChangeGenresFilter = (genre: string) => {
         dispatch(setMovieFilter({...filters, genre}, 1));
+        navigate(ROUTES.FILTERED_LIST);
     };
 
     const handleToggleFavouriteMovie = () => {
@@ -48,7 +52,7 @@ export const MovieMainInfo: React.FC<IProps> = ({movie, isFavorite}) => {
     return (
         <div className={styles.wrapperJoinRow}>
             <div className={styles.poster}>
-                <img src={movie.poster?.url} alt={''}/>
+                <img src={movie.poster?.url || ''} alt={''}/>
             </div>
             <div className={styles.mainMovieInfo}>
                 <div

@@ -11,10 +11,6 @@ import {thunk, ThunkDispatch} from 'redux-thunk';
 import {useDispatch} from 'react-redux';
 import {movieCardReducer} from './reducers/movieCard-reducer';
 import {movieListReducer} from './reducers/movieList-reducer';
-import {
-    IPageTypeState,
-    pageTypeReducer,
-} from './reducers/pageType-reducer';
 import {IDropdownMovieListState, IMovieListState, IMovieState, IStartMoviesListState} from 'pages/FilmopoiskReact/Models';
 import {startMovieListReducer} from 'store/reducers/startMovieList-reducer';
 
@@ -22,7 +18,6 @@ export interface IAppState {
     dropdownMovieList: IDropdownMovieListState;
     movie: IMovieState;
     movieList: IMovieListState;
-    pageType: IPageTypeState;
     startMoviesList: IStartMoviesListState;
 }
 
@@ -30,7 +25,6 @@ let reducers = combineReducers({
     dropdownMovieList: dropdownMovieListReducer,
     movie: movieCardReducer,
     movieList: movieListReducer,
-    pageType: pageTypeReducer,
     startMoviesList: startMovieListReducer,
 });
 

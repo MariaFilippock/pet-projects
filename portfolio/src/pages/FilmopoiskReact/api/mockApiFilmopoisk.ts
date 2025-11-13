@@ -1,6 +1,6 @@
 import {IMovie, ISideBarFilter, MovieResponse} from 'pages/FilmopoiskReact/Models';
 import {MOCK_DATA_BY_ID, MOCK_DATA_BY_NAME, MOCK_DATA_FILTER, MOCK_DATA_TOP_250} from 'pages/FilmopoiskReact/api/mock';
-import {EVERY_YEAR} from 'pages/FilmopoiskReact/const';
+import {EVERY_YEAR, LIMIT} from 'pages/FilmopoiskReact/const';
 
 
 export const moviesListMockAPI = {
@@ -14,8 +14,8 @@ export const moviesListMockAPI = {
     },
     /** Данные по id фильма */
     getMovieById(id: number): Promise<IMovie> {
-        // debugger
         const foundMovie = MOCK_DATA_BY_ID.find((el) => el.id === Number(id));
+        console.log(foundMovie);
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 if (foundMovie) {
@@ -34,7 +34,7 @@ export const moviesListMockAPI = {
                 resolve({
                     "docs": top250MovieListPerPage,
                     "total": MOCK_DATA_TOP_250.docs.length,
-                    "limit": 7,
+                    "limit": LIMIT,
                     "page": 1,
                     "pages": Number(Math.ceil(MOCK_DATA_TOP_250.docs.length / 7)),
 
@@ -43,21 +43,20 @@ export const moviesListMockAPI = {
         })
     },
     getMovieListByFilter(filters: ISideBarFilter, page: number): Promise<MovieResponse> {
-        // debugger
         const filterData = MOCK_DATA_FILTER.docs.filter((movieItem) => {
             const matchYear = filters.year === EVERY_YEAR || movieItem.year === Number(filters.year);
-            const matchGenre = movieItem.genres.some((genre) => genre.name === filters.genre);
-            const matchType = movieItem.type === filters.type;
+            const matchGenre = !filters.genre || movieItem.genres.some((genre) => genre.name === filters.genre);
+            const matchType = !filters.type || movieItem.type === filters.type;
 
             return matchYear && matchGenre && matchType;
         });
-    // debugger
+
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve({
                     "docs": filterData.slice((page-1)*MOCK_DATA_FILTER.limit, page*MOCK_DATA_FILTER.limit),
                     "total": MOCK_DATA_FILTER.docs.length,
-                    "limit": 7,
+                    "limit": LIMIT,
                     "page": page,
                     "pages": Number(Math.ceil(filterData.length / 7)),
                 })
