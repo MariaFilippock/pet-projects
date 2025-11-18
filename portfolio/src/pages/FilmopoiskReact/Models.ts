@@ -40,6 +40,13 @@ export interface IMovie {
     persons?: IPerson[] | [];
     sequelsAndPrequels?: ISequelAndPrequel[] | [];
     similarMovies?: ISimilarMovie[] | [];
+    facts?: IFact[] | [];
+}
+
+interface IFact {
+      value?: string | null,
+      type?: string | null,
+      spoiler?: boolean,
 }
 
 interface IPerson {

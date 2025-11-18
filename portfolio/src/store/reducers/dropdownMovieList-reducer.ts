@@ -30,6 +30,7 @@ export const mapToLoadedMovie = (movie: any): IMovie => {
     persons: movie.persons || [],
     sequelsAndPrequels: movie.sequelsAndPrequels || [],
     similarMovies: movie.similarMovies || [],
+    facts: movie.facts || [],
   };
 };
 

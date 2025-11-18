@@ -15,7 +15,7 @@ export const moviesListMockAPI = {
     /** Данные по id фильма */
     getMovieById(id: number): Promise<IMovie> {
         const foundMovie = MOCK_DATA_BY_ID.find((el) => el.id === Number(id));
-        console.log(foundMovie);
+
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 if (foundMovie) {

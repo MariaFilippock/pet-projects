@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from './MovieCard.module.scss';
 import common from '../../FilmopoiskReact.module.scss'
 import {MovieMainInfo} from './MovieMainInfo/MovieMainInfo';
@@ -13,6 +13,7 @@ import {getMovieById} from 'store/reducers/movieCard-reducer';
 const MovieCard = () => {
     const dispatch = useAppDispatch();
     const {id} = useParams<{ id: string }>();
+    const videoContainer = useRef<HTMLDivElement | null>(null);
 
 
     useEffect(() => {
@@ -32,8 +33,8 @@ const MovieCard = () => {
     return movie ? (
                 <>
                     <div className={styles.wrapperJoinColumn}>
-                        <MovieMainInfo movie={movie} isFavorite={isFavorite}/>
-                        <VideoPlayer movie={movie}/>
+                        <MovieMainInfo movie={movie} isFavorite={isFavorite} videoContainer={videoContainer}/>
+                        <VideoPlayer movie={movie} videoContainer={videoContainer}/>
                     </div>
                     <RatingInfo movie={movie} favoriteMovieList={favoritesMovieList}/>
                 </>

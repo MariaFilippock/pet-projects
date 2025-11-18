@@ -1,5 +1,5 @@
 import React, {lazy} from 'react';
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import styles from './FilmopoiskReact.module.scss';
 import Header from './components/Header/Header';
 import SideBar from 'pages/FilmopoiskReact/components/SideBar/SideBar';
@@ -17,8 +17,10 @@ const FilmopoiskReact = () => {
                 <SideBar/>
                 <div id="wrapper" className={styles.wrapper}>
                     <Routes>
+                        <Route index element={<Navigate to={'start_movie_list'} replace />}/>
+
                         <Route path='movie_card/:id' element={<MovieCard/>} />
-                        <Route index path='start_movie_list' element={<StartMovieList/>} />
+                        <Route path='start_movie_list' element={<StartMovieList/>} />
                         <Route path='filtered_movie_list' element={<FilteredMovieList/>} />
                     </Routes>
                 </div>

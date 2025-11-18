@@ -32,7 +32,6 @@ const StartMovieList = () => {
         if (!id) return;
 
         navigate(`${ROUTES.MOVIE_CARD}/${id}`);
-        // dispatch(getMovieById(Number(id)));
     };
 
     const handleNextPageClick = () => {
