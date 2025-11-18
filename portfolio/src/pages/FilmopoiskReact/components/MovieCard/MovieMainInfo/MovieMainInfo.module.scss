@@ -123,3 +123,92 @@ a:hover {
   background-color: #FF3D00;
   color: white;
 }
+
+.actorsContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
+}
+
+.actorsTitle {
+  margin-bottom: 28px;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.actorList {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+  padding: 0;
+}
+
+.actorItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 110px;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.actorItem:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.actorPhoto {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.actorName {
+  padding: 8px;
+  font-size: 16px;
+  text-align: center;
+  width: 100%;
+}
+
+.factsList {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.factsList {
+  :global(.all) {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.factsList {
+  :global(a:hover) {
+    text-decoration: none;
+  }
+}
+
+.factItem {
+  padding: 16px 0 16px 24px;
+  border-top: 1px solid rgb(53 59 66);
+}
+
+.visibilityBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: inherit;
+  font-weight: bold;
+  padding: 8px 0 8px 16px;
+  color: #18181a;
+  background-color: #8e8e8e;
+  border: 1px solid rgb(53 59 66);
+  border-radius: 24px;
+  width: 25%;
+  cursor: pointer;
+}

@@ -14,7 +14,7 @@
   color: #8e8e8e;
 }
 
-.rating-details {
+.ratingDetails {
   display: inline-block;
 }
 
@@ -28,7 +28,7 @@
   margin-left: 20px;
 }
 
-.favoritesTitle {
+.favoritesTitle, .sequelTitle {
   margin-top: 100px;
   margin-bottom: 16px;
   color: #8e8e8e;
@@ -42,12 +42,12 @@
   cursor: pointer;
 }
 
-.favoriteMoviePoster {
+.favoriteMoviePoster, .sequelPrequelPoster {
   transition: all 200ms ease-in-out;
   padding-bottom: 4px;
 }
 
-.favoriteMoviePoster:hover {
+.favoriteMoviePoster:hover, .sequelPrequelPoster:hover {
   scale: 1.05;
 }
 
@@ -55,5 +55,26 @@
   display: flex;
   justify-content: center;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
+}
+
+.sequelsAndPrequelsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.sequelPrequelItem {
+  max-width: 180px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #ffffff;
+  padding-bottom: 15px;
+  cursor: pointer;
+}
+
+.sequelPrequelName {
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
 }

@@ -81,7 +81,7 @@ export function renderMovieCard() {
             ${url ? `  
             ${createPlayerSelectField()}<iframe id = "iframe-player" src="${url}" width="100%" height="800px" style = "border: none; border-radius: 3px;"></iframe>`
         :
-        `<div class = "video-is-undefined">Видеоплеер отсутствует</div>`}
+        `<div class = "video-is-undefined">Видео отсутствует</div>`}
         </div>
         
         ${Store.state.movie.similarMovies ?
@@ -151,12 +151,12 @@ function createActorsList() {
     const actorsList = Store.state.movie.persons.filter((person) => {
         return person.enProfession === PERSON_PROFESSION_TYPE.actor && person.name
     });
-    const list = actorsList.map((person) => {
+    const list = actorsList.slice(0, MAX_ELEMENT_NUMBER).map((person) => {
         return `<div class="actor-item" id="${person.id}">
                     <img alt="photo" class="actor-photo" src="${person.photo}" />
                     <div class="actor-name">${person.name}</div>
                 </div>`;
-    }).slice(0, MAX_ELEMENT_NUMBER);
+    });
 
     return `<div id="actor-list">${list.join(' ')}</div>`;
 }
@@ -173,12 +173,12 @@ function createSequelsAndPrequelsList() {
 }
 
 function createSimilarMoviesList() {
-    const list = Store.state.movie.similarMovies.map((movie) => {
+    const list = Store.state.movie.similarMovies.slice(0, MAX_ELEMENT_NUMBER).map((movie) => {
         return `<div id="${movie.id}" class="similar-movie-item">
                     <img alt="similar-movie" class="similar-movie-poster" src="${movie.poster.url}" />
                     <div class="similar-movie-name">${movie.name}</div>
                 </div>`
-    }).slice(0, MAX_ELEMENT_NUMBER);
+    });
 
     return `<div id="similar-movie-list">${list.join(' ')}</div>`;
 }

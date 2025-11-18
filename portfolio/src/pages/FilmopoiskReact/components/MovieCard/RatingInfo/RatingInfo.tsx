@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './RatingInfo.module.scss';
 import {IMovie} from 'pages/FilmopoiskReact/Models';
 import {useNavigate} from 'react-router-dom';
-import {ROUTES} from 'pages/FilmopoiskReact/const';
+import {MAX_ELEMENT_COUNT, ROUTES} from 'pages/FilmopoiskReact/const';
 
 interface IProps {
     movie: IMovie;
@@ -26,28 +26,39 @@ export const RatingInfo: React.FC<IProps> = ({movie, favoriteMovieList}) => {
             <span className={styles.ratingCounts}>
         {movie.votes?.kp?.toLocaleString()} оценки
       </span>
-            <a className={styles.ratingDetails}>
-                {movie.votes?.filmCritics} рецензий
-            </a>
+            <a className={styles.ratingDetails}>{movie.votes?.filmCritics} рецензий</a>
+
+            {movie.sequelsAndPrequels?.length ? (
+                <div className={styles.sequelsAndPrequelsContainer}>
+                    <h4 className={styles.sequelTitle}>Сиквелы и приквелы</h4>
+                    {movie.sequelsAndPrequels.slice(0, MAX_ELEMENT_COUNT).map((element) => (
+                        <div key={'sequelPrequel' + element.id} className={styles.sequelPrequelItem} data-film-id={element.id}
+                             onClick={handleSearchMovieById}>
+                            <img alt={'Постер'} className={styles.sequelPrequelPoster} src={element?.poster?.url || ''}/>
+                            <div className={styles.sequelPrequelName}>{element.name}</div>
+                        </div>
+                    ))}
+                </div>
+            ) : null}
 
             {favoriteMovieList.length ? (
                 <>
                     <h4 className={styles.favoritesTitle}> Мое избранное </h4>
                     {favoriteMovieList.map((favMovie) => (
-                            <div
-                                className={styles.favoriteMovieItem}
-                                data-film-id={favMovie.id}
-                                key={'favorite' + favMovie.id}
-                                onClick={handleSearchMovieById}
-                            >
-                                <img
-                                    className={styles.favoriteMoviePoster}
-                                    alt={''}
-                                    src={favMovie.poster?.url || ''}
-                                />
-                                <div className={styles.favoriteMovieName}>{favMovie.name}</div>
-                            </div>
-                        ))
+                        <div
+                            className={styles.favoriteMovieItem}
+                            data-film-id={favMovie.id}
+                            key={'favorite' + favMovie.id}
+                            onClick={handleSearchMovieById}
+                        >
+                            <img
+                                className={styles.favoriteMoviePoster}
+                                alt={''}
+                                src={favMovie.poster?.url || ''}
+                            />
+                            <div className={styles.favoriteMovieName}>{favMovie.name}</div>
+                        </div>
+                    ))
                     }
                 </>
             ) : null}
