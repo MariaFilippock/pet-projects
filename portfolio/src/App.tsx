@@ -8,6 +8,7 @@ const FilmopoiskJS = lazy(() => import('./pages/FilmopoiskJS/FilmopoiskJS'));
 const CalculatorMVC = lazy(() => import('./pages/CalculatorMVC/CalculatorMVC'));
 const FilmopoiskReact = lazy(() => import('./pages/FilmopoiskReact/FilmopoiskReact'));
 const WeatherForecastJS = lazy(() => import('./pages/WeatherForecastJS/WeatherForecastJS'));
+const LineChartPage = lazy(() => import('./pages/LineChart/LineChartReact'));
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
                     <Route path='/calculator_mvc' element={<CalculatorMVC/>}/>
                     <Route path='/filmopoisk_react/*' element={<FilmopoiskReact/>}/>
                     <Route path='/weather_forecast_js' element={<WeatherForecastJS/>}/>
+                    <Route path='/linechart' element={<LineChartPage/>} />
                 </Routes>
             </div>
         </div>
