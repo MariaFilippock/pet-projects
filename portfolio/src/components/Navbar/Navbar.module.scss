@@ -17,24 +17,14 @@
     text-decoration: none;
     font-size: 20px;
     transition: color 0.2s;
-    margin: 12px 0;
+    padding: 12px;
 }
 
 .navbar a:hover {
     color: #a8adb0;
 }
 
-//@media (max-width: 250px) {
-//    .navbar {
-//        position: relative;
-//        width: 100%;
-//        height: auto;
-//        flex-direction: row;
-//        justify-content: space-around;
-//    }
-//
-//    .navbar a {
-//        margin: 0;
-//        padding: 10px;
-//    }
-//}
+.active {
+    background-color: #8e8e8e91;
+    border-radius: 4px;
+}

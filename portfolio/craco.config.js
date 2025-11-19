@@ -22,7 +22,7 @@ module.exports = {
                         {
                             from: path.resolve(__dirname, '../filmopoisk_js'),
                             to: 'native_projects/filmopoisk_js'
-                        }
+                        },
                     ]
                 })
             );
