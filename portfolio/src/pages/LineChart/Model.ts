@@ -34,3 +34,13 @@ export type LineChartPoint = {
   [variationKey: string]: number | null | string;
 };
 
+export interface CustomTooltipProps {
+    active?: boolean;
+    payload?: {
+        name?: string;
+        value?: number;
+        color?: string;
+        dataKey?: string;
+    }[];
+    label?: string | number;
+}
