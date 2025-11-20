@@ -93,7 +93,9 @@ const LineChartReact = () => {
                 onChange={handleSelectVariations}
                 value={selectedVariations}
             />
-
+            <h3 style={{textAlign: "center", marginBottom: 12}}>
+                Conversion Rate by Variations
+            </h3>
             <div className={styles.chartContainer}>
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart className={styles.lineChart} data={formattedData}>
