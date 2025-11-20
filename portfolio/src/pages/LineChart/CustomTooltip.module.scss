@@ -1,0 +1,48 @@
+.tooltipContainer {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.labelTitle {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #33333345;
+}
+
+.tooltipWrapper {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.tooltipItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.variation {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 4px;
+}
+
+.colorCircle {
+  width: 10px;
+  margin-right: 6px;
+  height: 10px;
+  border-radius: 50%;
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import {LineChartData} from './Data';
 import {LineChartPoint} from 'pages/LineChart/Model';
 import {ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid} from 'recharts';
+import CustomTooltip from 'pages/LineChart/CustomTooltip';
 
 /** Функция по преобразованию исходных данных для отрисовки графика.
  * Создаем объект с ключами:
@@ -55,7 +56,7 @@ const LineChartReact = () => {
     const {formattedData, variationKeys, variationNameByKey, linesConfig} = formatLineChartData(LineChartData);
 
     return (
-        <div style={{display:'flex', justifyItems: 'center', flex: '1', width: "100%", height: "70vh", maxWidth: "1100px", margin: "100px 50px"}}>
+        <div style={{display:'flex', justifyItems: 'center', flex: '1', width: "100%", height: "70vh", maxWidth: "1100px", margin: "100px 50px", fontSize: "14px"}}>
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart style={{minWidth: '100%'}}
                            data={formattedData}
@@ -63,8 +64,7 @@ const LineChartReact = () => {
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey="date"/>
                     <YAxis width="auto" tickFormatter={value => `${value}%`}/>
-                    <Tooltip formatter={value => `${value}%`} />
-                    <Legend />
+                    <Tooltip content={<CustomTooltip/>} />
 
                     {variationKeys.map((key) => (
                         <Line key={key} dataKey={key} name={variationNameByKey[key]} type="monotone" dot={false} stroke={linesConfig[key]}/>
