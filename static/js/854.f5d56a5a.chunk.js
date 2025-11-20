@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkportfolio=self.webpackChunkportfolio||[]).push([[854],{5854:(e,t,l)=>{l.r(t),l.d(t,{default:()=>c});l(5043);var r=l(579);const c=()=>(0,r.jsx)("div",{children:(0,r.jsx)("iframe",{src:"".concat("/pet-projects","/native_projects/calculator_mvc/index.html"),title:"\u041a\u0430\u043b\u044c\u043a\u0443\u043b\u044f\u0442\u043e\u0440 MVC",width:"800",height:"600",frameBorder:"0",allowFullScreen:!0,loading:"lazy"})})}}]);
+//# sourceMappingURL=854.f5d56a5a.chunk.js.map

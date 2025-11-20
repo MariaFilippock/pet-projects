@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkportfolio=self.webpackChunkportfolio||[]).push([[72],{4072:(t,e,o)=>{o.r(e),o.d(e,{default:()=>i});o(5043);var s=o(579);const i=()=>(0,s.jsx)("iframe",{src:"".concat("/pet-projects","/native_projects/filmopoisk_js/index.html"),title:"\u0424\u0438\u043b\u044c\u043c\u043e\u043f\u043e\u0438\u0441\u043a JS",loading:"lazy"})}}]);
+//# sourceMappingURL=72.81e8e5bb.chunk.js.map
