@@ -7,3 +7,10 @@ export const buttonType = {
     calendarIcon: () => <IoCalendarOutline/>,
 };
 
+export const Text = {
+    allVariations: {
+        value: 'all',
+        label: 'All variations selected'
+    },
+};
+

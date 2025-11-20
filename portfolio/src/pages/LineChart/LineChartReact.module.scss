@@ -1,0 +1,23 @@
+.mainContainer {
+  padding: 30px;
+}
+
+.variationsSelector {
+  width: 275px;
+  padding-left: 30px;
+}
+
+.chartContainer {
+  display: flex;
+  justify-items: center;
+  flex: 1;
+  width: 100%;
+  height: 70vh;
+  max-width: 1100px;
+  padding: 30px;
+  font-size: 14px;
+}
+
+.lineChart {
+  min-width: 100%;
+}

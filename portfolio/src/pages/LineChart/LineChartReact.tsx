@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {LineChartData} from './Data';
 import {LineChartPoint} from 'pages/LineChart/Model';
-import {ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid} from 'recharts';
+import {ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid} from 'recharts';
 import CustomTooltip from 'pages/LineChart/CustomTooltip';
+import {Select} from 'antd';
+import {Text} from './const';
+import styles from './LineChartReact.module.scss';
 
 /** Функция по преобразованию исходных данных для отрисовки графика.
  * Создаем объект с ключами:
@@ -52,25 +55,60 @@ const formatLineChartData = (chart: typeof LineChartData) => {
     return {formattedData, variationKeys, variationNameByKey, linesConfig};
 };
 
+const ALL_VARIATIONS_ID = Text.allVariations.value;
+
 const LineChartReact = () => {
     const {formattedData, variationKeys, variationNameByKey, linesConfig} = formatLineChartData(LineChartData);
+    const [selectedVariations, setSelectedVariations] = useState<string[]>([ALL_VARIATIONS_ID]);
+    const realSelected = selectedVariations[0] === ALL_VARIATIONS_ID ? variationKeys : selectedVariations;
+
+    const handleSelectVariations = (values: string[]) => {
+        if (values.length === 0) {
+            return
+        }
+
+        if (values.length === variationKeys.length || values[values.length - 1] === ALL_VARIATIONS_ID) {
+            setSelectedVariations([ALL_VARIATIONS_ID]);
+        } else if (values[0] === ALL_VARIATIONS_ID) {
+            const filteredVariations = values.filter((value) => value !== ALL_VARIATIONS_ID)
+            setSelectedVariations(filteredVariations);
+        } else {
+            setSelectedVariations(values);
+        }
+    };
 
     return (
-        <div style={{display:'flex', justifyItems: 'center', flex: '1', width: "100%", height: "70vh", maxWidth: "1100px", margin: "100px 50px", fontSize: "14px"}}>
-            <ResponsiveContainer width="100%" height="100%">
-                <LineChart style={{minWidth: '100%'}}
-                           data={formattedData}
-                >
-                    <CartesianGrid strokeDasharray="3 3"/>
-                    <XAxis dataKey="date"/>
-                    <YAxis width="auto" tickFormatter={value => `${value}%`}/>
-                    <Tooltip content={<CustomTooltip/>} />
+        <div className={styles.mainContainer}>
+            <Select
+                mode="multiple"
+                className={styles.variationsSelector}
+                defaultValue={[ALL_VARIATIONS_ID]}
+                options={[
+                    Text.allVariations,
+                    ...variationKeys.map((key) => ({
+                        value: key,
+                        label: variationNameByKey[key],
+                    }))
+                ]}
+                onChange={handleSelectVariations}
+                value={selectedVariations}
+            />
 
-                    {variationKeys.map((key) => (
-                        <Line key={key} dataKey={key} name={variationNameByKey[key]} type="monotone" dot={false} stroke={linesConfig[key]}/>
-                    ))}
-                </LineChart>
-            </ResponsiveContainer>
+            <div className={styles.chartContainer}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart className={styles.lineChart} data={formattedData}>
+                        <CartesianGrid strokeDasharray="3 3"/>
+                        <XAxis dataKey="date"/>
+                        <YAxis width="auto" tickFormatter={value => `${value}%`}/>
+                        <Tooltip content={<CustomTooltip/>}/>
+
+                        {realSelected.map((key) => (
+                            <Line key={key} dataKey={key} name={variationNameByKey[key]} type="monotone" dot={false}
+                                  stroke={linesConfig[key]}/>
+                        ))}
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
         </div>
     );
 };
