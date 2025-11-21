@@ -20,7 +20,7 @@ const CustomTooltip = (props: TooltipProps<any, any> & CustomTooltipProps) => {
                 {label}</div>
             <div className={styles.tooltipWrapper}>
                 {sortedData.map((item, index) => (
-                    <div className={styles.tooltipItem}>
+                    <div className={styles.tooltipItem} key={item.dataKey}>
 
                         <div className={styles.variation}>
                             <div className={styles.colorCircle} style={{backgroundColor: item.color}}/>

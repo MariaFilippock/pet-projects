@@ -12,5 +12,15 @@ export const Text = {
         value: 'all',
         label: 'All variations selected'
     },
+    periods: [
+        {
+            value: 'Day',
+            label: 'Day',
+        },
+        {
+            value: 'Week',
+            label: 'Week',
+        }
+    ],
 };
 
