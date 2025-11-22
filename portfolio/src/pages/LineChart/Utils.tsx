@@ -1,3 +1,4 @@
+import React from 'react';
 import {LineChartData} from 'pages/LineChart/Data';
 import {LineChartPoint} from 'pages/LineChart/Model';
 
@@ -62,7 +63,7 @@ export const formatWeeklyLineChartData = (chart: typeof LineChartData) => {
         const date = new Date(day.date);
 
         const year = date.getFullYear();
-        const month = date.getMonth()+1;
+        const month = date.getMonth() + 1;
         const week = Math.ceil((((date.getTime() - new Date(year, 0, 1).getTime()) / 86400000) + new Date(year, 0, 1).getDay() + 1) / 7);
         const weekKey = `${year}-${month}-W${week}`;
 
@@ -100,3 +101,64 @@ export const formatWeeklyLineChartData = (chart: typeof LineChartData) => {
 
     return {formattedData, variationKeys, variationNameByKey};
 };
+
+
+/**
+ * Экспорт стилей для картинки PNG
+ */
+function getAllCSS() {
+    let css = "";
+    for (const sheet of document.styleSheets) {
+        try {
+            for (const rule of sheet.cssRules) {
+                css += rule.cssText;
+            }
+        } catch {
+        }
+    }
+    return css;
+}
+
+/**
+ * Функция по экспорту графика в PNG-формат.
+ */
+export const exportChartToPNG = (svgElement: SVGSVGElement | null) => {
+    if (!svgElement) return;
+
+    //добавляем стиль
+    const styleTag = document.createElement('style');
+    styleTag.textContent = getAllCSS();
+    svgElement.prepend(styleTag);
+
+    const svgData = new XMLSerializer().serializeToString(svgElement);
+
+    styleTag.remove();
+
+    const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+    const url = URL.createObjectURL(svgBlob);
+
+
+    const img = new Image();
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+            ctx.fillStyle = "#ffffff"; // фон (можно изменить)
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+        }
+
+        const pngUrl = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = 'chart.png';
+        link.href = pngUrl;
+        link.click();
+
+        URL.revokeObjectURL(url);
+    };
+    img.src = url;
+};
+
+
