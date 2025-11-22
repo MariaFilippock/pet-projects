@@ -3,10 +3,11 @@ import {LineChartData} from './Data';
 import {ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Area, AreaChart} from 'recharts';
 import CustomTooltip from 'pages/LineChart/CustomTooltip';
 import {Select} from 'antd';
-import {Text} from './const';
+import {Text, ThemeList} from './const';
 import styles from './LineChartReact.module.scss';
 import {exportChartToPNG, formatDailyLineChartData, formatWeeklyLineChartData} from 'pages/LineChart/Utils';
-import {buttonType} from './const';
+import {IoDownloadOutline, IoMoonOutline, IoSunnyOutline} from 'react-icons/io5';
+import {IThemeOption} from 'pages/LineChart/Model';
 
 const linesConfig: Record<string, string> = {
     '0': '#8884d8',
@@ -17,13 +18,10 @@ const linesConfig: Record<string, string> = {
 
 const ALL_VARIATIONS_ID = Text.allVariations.value;
 
-// const lineTypeMap: Record<string, CurveType> = {
-//     smooth: 'monotone',
-//     // area: 'area',
-//     line: 'linear',
-// };
+
 
 const LineChartReact = () => {
+    const [chartTheme, setChartTheme] = useState<IThemeOption>(ThemeList[0]);
     const [lineType, setLineType] = useState<'monotone' | 'area' | 'linear'>('linear');
     const [selectedVariations, setSelectedVariations] = useState<string[]>([ALL_VARIATIONS_ID]);
     const [selectedPeriod, setSelectedPeriod] = useState<'Day' | 'Week'>('Day');
@@ -55,6 +53,12 @@ const LineChartReact = () => {
         exportChartToPNG(chartRef.current);
     };
 
+    const handleThemeChange = (_value: string, selectedOption?: IThemeOption | IThemeOption[]) => {
+        if (selectedOption && !Array.isArray(selectedOption)) {
+            setChartTheme(selectedOption);
+        }
+    }
+
     return (
         <div className={styles.mainContainer}>
 
@@ -81,7 +85,7 @@ const LineChartReact = () => {
                         value={selectedPeriod}
                     />
                 </div>
-                <div className={styles.buttonsContainer}>
+                <div className={styles.rightGroupActions}>
                     <Select
                         className={styles.lineTypeSelector}
                         onChange={setLineType}
@@ -90,8 +94,21 @@ const LineChartReact = () => {
                     />
 
                     <button className={styles.downloadBtn} onClick={handleExportToPNG}>
-                        <buttonType.downloadIcon/>
+                        <IoDownloadOutline/>
                     </button>
+
+                    <Select
+                        className={styles.themeSelector}
+                        onChange={handleThemeChange}
+                        options={ThemeList}
+                        optionRender={(option) => (
+                            <div className={styles.themeOption}>
+                                {option.data.icon}
+                                <span>{option.data.label}</span>
+                            </div>
+                        )}
+                        value={chartTheme.value}
+                    />
 
                 </div>
             </div>
@@ -103,7 +120,7 @@ const LineChartReact = () => {
                 <ResponsiveContainer width="100%" height="100%">
                     {lineType === 'area' ? (
 
-                            <AreaChart key={realSelected.join('-') + lineType} className={styles.lineChart} ref={chartRef} data={formattedData}>
+                            <AreaChart key={realSelected.join('-') + lineType} style={{backgroundColor: chartTheme.background}} className={styles.lineChart} ref={chartRef} data={formattedData}>
                                 <CartesianGrid strokeDasharray="3 3"/>
                                 <XAxis dataKey="date"/>
                                 <YAxis width="auto" tickFormatter={value => `${value}%`}/>
@@ -114,7 +131,7 @@ const LineChartReact = () => {
                                           fill={linesConfig[key] + "33"} isAnimationActive={true}/>)}
                             </AreaChart>)
                         : (
-                            <LineChart key={realSelected.join('-') + lineType} className={styles.lineChart} ref={chartRef}
+                            <LineChart style={{backgroundColor: chartTheme.background}} key={realSelected.join('-') + lineType} className={styles.lineChart} ref={chartRef}
                                        data={formattedData}>
                                 <CartesianGrid strokeDasharray="3 3"/>
                                 <XAxis dataKey="date"/>

@@ -44,3 +44,15 @@ export interface CustomTooltipProps {
     }[];
     label?: string | number;
 }
+
+export enum EChartTheme {
+    Light= 'Light',
+    Dark = 'Dark'
+}
+
+export interface IThemeOption  {
+    value: EChartTheme,
+    label: string,
+    background: string;
+    icon: JSX.Element;
+}
