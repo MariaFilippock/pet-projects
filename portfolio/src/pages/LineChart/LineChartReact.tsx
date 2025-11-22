@@ -6,7 +6,7 @@ import {Select} from 'antd';
 import {Text, ThemeList} from './const';
 import styles from './LineChartReact.module.scss';
 import {exportChartToPNG, formatDailyLineChartData, formatWeeklyLineChartData} from 'pages/LineChart/Utils';
-import {IoDownloadOutline, IoMoonOutline, IoSunnyOutline} from 'react-icons/io5';
+import {IoDownloadOutline, IoRefreshOutline} from 'react-icons/io5';
 import {IThemeOption} from 'pages/LineChart/Model';
 
 const linesConfig: Record<string, string> = {
@@ -19,6 +19,7 @@ const linesConfig: Record<string, string> = {
 const ALL_VARIATIONS_ID = Text.allVariations.value;
 
 
+const ZOOM_STEP = 0.2;
 
 const LineChartReact = () => {
     const [chartTheme, setChartTheme] = useState<IThemeOption>(ThemeList[0]);
@@ -33,6 +34,36 @@ const LineChartReact = () => {
 
     const realSelected = selectedVariations[0] === ALL_VARIATIONS_ID ? variationKeys : selectedVariations;
     const chartRef = useRef<SVGSVGElement | null>(null);
+
+
+    //TODO не работает для  week, нужно посмотреть эту часть и корректно собирать timestamp там
+    //для zoom
+    const timestamps = formattedData.map(d => d.timestamp);
+    const dataMin = Math.min(...timestamps);
+    const dataMax = Math.max(...timestamps);
+
+    const [xDomain, setXDomain] = useState<[number, number] | undefined>(undefined);
+    const zoom = xDomain || [dataMin, dataMax]
+        const zoomedData = formattedData.filter(d => d.timestamp >= zoom[0] && d.timestamp <= zoom[1]);
+
+    const applyZoom = (zoom: number) => {
+        const [min, max] = xDomain || [dataMin, dataMax];
+        const range = max - min;
+        const offset = range * zoom;
+
+        const newMin = min + offset;
+        const newMax = max - offset;
+
+        if (newMax - newMin < 100) return;
+
+        setXDomain([newMin, newMax]);
+    };
+
+    const handleZoomIn = () => applyZoom(ZOOM_STEP);
+
+    const handleZoomOut = () => applyZoom(-ZOOM_STEP);
+
+    const handleResetZoom = () => setXDomain(undefined);
 
     const handleSelectVariations = (values: string[]) => {
         if (values.length === 0) {
@@ -58,6 +89,9 @@ const LineChartReact = () => {
             setChartTheme(selectedOption);
         }
     }
+
+    console.log(xDomain);
+    // console.log(formattedData)
 
     return (
         <div className={styles.mainContainer}>
@@ -110,6 +144,12 @@ const LineChartReact = () => {
                         value={chartTheme.value}
                     />
 
+                    <div className={styles.zoomButtons}>
+                        <button className={styles.zoomIn} onClick={handleZoomIn}>＋</button>
+                        <button className={styles.zoomOut} onClick={handleZoomOut}>－</button>
+                        <button className={styles.refreshBtn} onClick={handleResetZoom}><IoRefreshOutline/></button>
+                    </div>
+
                 </div>
             </div>
 
@@ -120,9 +160,10 @@ const LineChartReact = () => {
                 <ResponsiveContainer width="100%" height="100%">
                     {lineType === 'area' ? (
 
-                            <AreaChart key={realSelected.join('-') + lineType} style={{backgroundColor: chartTheme.background}} className={styles.lineChart} ref={chartRef} data={formattedData}>
+                            <AreaChart key={realSelected.join('-') + lineType} style={{backgroundColor: chartTheme.background}}
+                                       className={styles.lineChart} ref={chartRef} data={zoomedData}>
                                 <CartesianGrid strokeDasharray="3 3"/>
-                                <XAxis dataKey="date"/>
+                                <XAxis dataKey="timestamp" domain={xDomain || zoom} type="number" tickFormatter={v => new Date(v).toLocaleDateString()}/>
                                 <YAxis width="auto" tickFormatter={value => `${value}%`}/>
                                 <Tooltip content={<CustomTooltip/>}/>
 
@@ -131,10 +172,12 @@ const LineChartReact = () => {
                                           fill={linesConfig[key] + "33"} isAnimationActive={true}/>)}
                             </AreaChart>)
                         : (
-                            <LineChart style={{backgroundColor: chartTheme.background}} key={realSelected.join('-') + lineType} className={styles.lineChart} ref={chartRef}
-                                       data={formattedData}>
+                            <LineChart style={{backgroundColor: chartTheme.background}} key={realSelected.join('-') + lineType}
+                                       className={styles.lineChart} ref={chartRef}
+                                       data={zoomedData}>
                                 <CartesianGrid strokeDasharray="3 3"/>
-                                <XAxis dataKey="date"/>
+                                <XAxis dataKey="timestamp" type="number" domain={xDomain || zoom}
+                                       tickFormatter={v => new Date(v).toLocaleDateString()}/>
                                 <YAxis width="auto" tickFormatter={value => `${value}%`}/>
                                 <Tooltip content={<CustomTooltip/>}/>
                                 {realSelected.map((key) => (

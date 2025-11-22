@@ -24,7 +24,11 @@ export const formatDailyLineChartData = (chart: typeof LineChartData) => {
 
     //преобразовываем в формат для Recharts по дням
     const formattedData: LineChartPoint[] = chart.data.map((item) => {
-        const row: LineChartPoint = {date: item.date};
+        const row: LineChartPoint = {
+            date: item.date,
+            timestamp: new Date(item.date).getTime()
+        };
+        // debugger
         //находим по ключам и добавляем новые значения
         variationKeys.forEach((key) => {
             // @ts-ignore
