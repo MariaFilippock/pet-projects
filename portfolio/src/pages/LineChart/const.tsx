@@ -1,12 +1,6 @@
 import React from 'react';
-import {IoCalendarOutline, IoDownloadOutline, IoTrophyOutline} from 'react-icons/io5';
-
-//иконки
-export const buttonType = {
-    trophyIcon: () => <IoTrophyOutline/>,
-    calendarIcon: () => <IoCalendarOutline/>,
-    downloadIcon: () => <IoDownloadOutline/>,
-};
+import {IoMoonOutline, IoSunnyOutline} from 'react-icons/io5';
+import {EChartTheme, IThemeOption} from 'pages/LineChart/Model';
 
 export const Text = {
     allVariations: {
@@ -36,6 +30,20 @@ export const Text = {
             value: 'area',
             label: 'Area',
         }
-    ],
+    ]
 };
 
+export const ThemeList: IThemeOption[] = [
+    {
+        value: EChartTheme.Light,
+        label: 'Light theme',
+        background: '#fff',
+        icon: <IoSunnyOutline/>,
+    },
+    {
+        value: EChartTheme.Dark,
+        label: 'Dark theme',
+        background: '#232222',
+        icon: <IoMoonOutline/>,
+    }
+]
