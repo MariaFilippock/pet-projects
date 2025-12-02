@@ -31,39 +31,40 @@ const LineChartReact = () => {
         variationKeys,
         variationNameByKey
     } = selectedPeriod === 'Day' ? formatDailyLineChartData(LineChartData) : formatWeeklyLineChartData(LineChartData);
-
     const realSelected = selectedVariations[0] === ALL_VARIATIONS_ID ? variationKeys : selectedVariations;
     const chartRef = useRef<SVGSVGElement | null>(null);
 
-
-    //TODO не работает для  week, нужно посмотреть эту часть и корректно собирать timestamp там
     //для zoom
-    const timestamps = formattedData.map(d => d.timestamp);
+    const timestamps = formattedData.map(d => d.timestamp) as number[];
     const dataMin = Math.min(...timestamps);
     const dataMax = Math.max(...timestamps);
+    const baseRange = dataMax - dataMin;
 
-    const [xDomain, setXDomain] = useState<[number, number] | undefined>(undefined);
-    const zoom = xDomain || [dataMin, dataMax]
-        const zoomedData = formattedData.filter(d => d.timestamp >= zoom[0] && d.timestamp <= zoom[1]);
+    const [scale, setScale] = useState(1);
+    //текущий домен на основе масштаба
+    const currentRange = baseRange / scale;
+    const center = dataMin + baseRange / 2;
+    //домен текущего зума
+    const zoomMin = center - currentRange / 2;
+    const zoomMax = center + currentRange / 2;
+
+    const zoomedData = formattedData.filter((d) => d.timestamp != null && d.timestamp >= zoomMin && d.timestamp <= zoomMax);
 
     const applyZoom = (zoom: number) => {
-        const [min, max] = xDomain || [dataMin, dataMax];
-        const range = max - min;
-        const offset = range * zoom;
+        setScale((prev) => {
+            const newScale = prev * zoom;
+            if (newScale < 1) return 1;
+            if (newScale > 500) return prev;
 
-        const newMin = min + offset;
-        const newMax = max - offset;
-
-        if (newMax - newMin < 100) return;
-
-        setXDomain([newMin, newMax]);
+            return newScale;
+        })
     };
 
-    const handleZoomIn = () => applyZoom(ZOOM_STEP);
+    const handleZoomIn = () => applyZoom(1 + ZOOM_STEP);
 
-    const handleZoomOut = () => applyZoom(-ZOOM_STEP);
+    const handleZoomOut = () => applyZoom(1 / (1 + ZOOM_STEP));
 
-    const handleResetZoom = () => setXDomain(undefined);
+    const handleResetZoom = () => setScale(1);
 
     const handleSelectVariations = (values: string[]) => {
         if (values.length === 0) {
@@ -90,14 +91,12 @@ const LineChartReact = () => {
         }
     }
 
-    console.log(xDomain);
-    // console.log(formattedData)
-
     return (
         <div className={styles.mainContainer}>
 
             <div className={styles.headerActions}>
                 <div className={styles.selectorsContainer}>
+                    {/* Фильтр выбора кривых на графике */}
                     <Select
                         mode="multiple"
                         className={styles.variationsSelector}
@@ -112,6 +111,7 @@ const LineChartReact = () => {
                         onChange={handleSelectVariations}
                         value={selectedVariations}
                     />
+                    {/* Отображение по дням/неделям */}
                     <Select
                         className={styles.periodsSelector}
                         options={Text.periods}
@@ -119,7 +119,9 @@ const LineChartReact = () => {
                         value={selectedPeriod}
                     />
                 </div>
+
                 <div className={styles.rightGroupActions}>
+                    {/* Вид кривой графика */}
                     <Select
                         className={styles.lineTypeSelector}
                         onChange={setLineType}
@@ -127,10 +129,12 @@ const LineChartReact = () => {
                         value={lineType}
                     />
 
+                    {/* Выгрузка графика в формате png */}
                     <button className={styles.downloadBtn} onClick={handleExportToPNG}>
                         <IoDownloadOutline/>
                     </button>
 
+                    {/* Темная/светлая тема */}
                     <Select
                         className={styles.themeSelector}
                         onChange={handleThemeChange}
@@ -144,9 +148,10 @@ const LineChartReact = () => {
                         value={chartTheme.value}
                     />
 
+                    {/* Зум */}
                     <div className={styles.zoomButtons}>
-                        <button className={styles.zoomIn} onClick={handleZoomIn}>＋</button>
-                        <button className={styles.zoomOut} onClick={handleZoomOut}>－</button>
+                        <button className={styles.zoomIn} disabled={zoomedData.length === 3} onClick={handleZoomIn}>＋</button>
+                        <button className={styles.zoomOut} disabled={zoomedData.length === formattedData.length} onClick={handleZoomOut}>－</button>
                         <button className={styles.refreshBtn} onClick={handleResetZoom}><IoRefreshOutline/></button>
                     </div>
 
@@ -159,13 +164,16 @@ const LineChartReact = () => {
             <div className={styles.chartContainer}>
                 <ResponsiveContainer width="100%" height="100%">
                     {lineType === 'area' ? (
-
                             <AreaChart key={realSelected.join('-') + lineType} style={{backgroundColor: chartTheme.background}}
                                        className={styles.lineChart} ref={chartRef} data={zoomedData}>
                                 <CartesianGrid strokeDasharray="3 3"/>
-                                <XAxis dataKey="timestamp" domain={xDomain || zoom} type="number" tickFormatter={v => new Date(v).toLocaleDateString()}/>
+                                <XAxis dataKey="timestamp" type="number"
+                                       domain={[zoomMin, zoomMax]}
+                                       scale="time"
+                                       tickFormatter={v => new Date(v).toLocaleDateString()}
+                                />
                                 <YAxis width="auto" tickFormatter={value => `${value}%`}/>
-                                <Tooltip content={<CustomTooltip/>}/>
+                                <Tooltip content={<CustomTooltip/>} labelFormatter={label => new Date(label).toLocaleDateString()}/>
 
                                 {realSelected.map((key) =>
                                     <Area key={key} dataKey={key} name={variationNameByKey[key]} stroke={linesConfig[key]}
@@ -176,16 +184,18 @@ const LineChartReact = () => {
                                        className={styles.lineChart} ref={chartRef}
                                        data={zoomedData}>
                                 <CartesianGrid strokeDasharray="3 3"/>
-                                <XAxis dataKey="timestamp" type="number" domain={xDomain || zoom}
-                                       tickFormatter={v => new Date(v).toLocaleDateString()}/>
+                                <XAxis dataKey="timestamp" type="number"
+                                       domain={[zoomMin, zoomMax]}
+                                       scale="time"
+                                       tickFormatter={v => new Date(v).toLocaleDateString()}
+                                />
                                 <YAxis width="auto" tickFormatter={value => `${value}%`}/>
-                                <Tooltip content={<CustomTooltip/>}/>
+                                <Tooltip content={<CustomTooltip/>} labelFormatter={label => new Date(label).toLocaleDateString()}/>
                                 {realSelected.map((key) => (
                                     <Line key={key} dataKey={key} name={variationNameByKey[key]} type={lineType} dot={false}
                                           stroke={linesConfig[key]} isAnimationActive={true}/>)
                                 )}
                             </LineChart>)
-
                     }
                 </ResponsiveContainer>
             </div>

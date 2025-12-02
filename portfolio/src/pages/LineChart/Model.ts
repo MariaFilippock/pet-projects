@@ -32,6 +32,7 @@ export interface IDataPerDay {
 export type LineChartPoint = {
   date: string;
   [variationKey: string]: number | null | string;
+  // timestamp?: number;
 };
 
 export interface CustomTooltipProps {
