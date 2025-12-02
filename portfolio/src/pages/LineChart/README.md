@@ -27,7 +27,7 @@ https://github.com/MariaFilippock/pet-projects/tree/master/portfolio/src/pages/L
 ✅ Выбор типа графика: **Line / Smooth / Area**  
 ✅ Переключение темы: **Light / Dark**  
 ✅ Экспорт графика в PNG  
-❌ Zoom / Reset Zoom (не реализовано для weekly режима)
+✅ Zoom / Reset Zoom
 
 ---
 

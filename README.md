@@ -40,6 +40,7 @@ https://mariafilippock.github.io/pet-projects/#/filmopoisk_react/start_movie_lis
 - выбор типов линий графика
 - светлая/тёмная тема  
 - экспорт в PNG
+- зум +/- и сброс зума
 
 ---
 
