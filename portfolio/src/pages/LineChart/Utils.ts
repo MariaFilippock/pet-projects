@@ -1,4 +1,3 @@
-import React from 'react';
 import {LineChartData} from 'pages/LineChart/Data';
 import {LineChartPoint} from 'pages/LineChart/Model';
 
@@ -24,13 +23,15 @@ export const formatDailyLineChartData = (chart: typeof LineChartData) => {
 
     //преобразовываем в формат для Recharts по дням
     const formattedData: LineChartPoint[] = chart.data.map((item) => {
-        const row: LineChartPoint = {date: item.date};
+        const row: LineChartPoint = {
+            date: item.date,
+            timestamp: new Date(item.date).getTime()
+        };
+
         //находим по ключам и добавляем новые значения
         variationKeys.forEach((key) => {
-            // @ts-ignore
-            const visit = item.visits[key];
-            // @ts-ignore
-            const conversion = item.conversions[key];
+            const visit = (item as any).visits[key];
+            const conversion = (item as any).conversions[key];
 
             if (visit === undefined || conversion === undefined) {
                 row[key] = null;
@@ -57,33 +58,39 @@ export const formatWeeklyLineChartData = (chart: typeof LineChartData) => {
         const key = variation.id !== undefined ? variation.id.toString() : '0';
         variationKeys.push(key);
         variationNameByKey[key] = variation.name;
-    })
+    });
+
+    let startDate = new Date(chart.data[0].date); //Wed Jan 01 2025 02:00:00 GMT+0200 (Восточная Европа, стандартное время)
+    let startKey = startDate.toISOString().split('T')[0]; //'2025-01-01'
+    weeklyData[startKey] = {visits: {}, conversions: {}};
 
     chart.data.forEach(day => {
         const date = new Date(day.date);
+        const diffDays = Math.floor((date.getTime() - startDate.getTime()) / 86400000);
 
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const week = Math.ceil((((date.getTime() - new Date(year, 0, 1).getTime()) / 86400000) + new Date(year, 0, 1).getDay() + 1) / 7);
-        const weekKey = `${year}-${month}-W${week}`;
-
-        if (!weeklyData[weekKey]) {
-            weeklyData[weekKey] = {visits: {}, conversions: {}};
+        if (diffDays > 6) {
+            //начинаем новую неделю
+            startDate = date;
+            startKey = startDate.toISOString().split('T')[0];
+            weeklyData[startKey] = {visits: {}, conversions: {}};
         }
 
         variationKeys.forEach(key => {
-            // @ts-ignore
-            const v = day.visits[key];
-            // @ts-ignore
-            const c = day.conversions[key];
+            const v = (day as any).visits[key];
+            const c = (day as any).conversions[key];
 
-            weeklyData[weekKey].visits[key] = (weeklyData[weekKey].visits[key] || 0) + (v ?? 0);
-            weeklyData[weekKey].conversions[key] = (weeklyData[weekKey].conversions[key] || 0) + (c ?? 0);
+            weeklyData[startKey].visits[key] = (weeklyData[startKey].visits[key] || 0) + (v ?? 0);
+            weeklyData[startKey].conversions[key] = (weeklyData[startKey].conversions[key] || 0) + (c ?? 0);
         });
     });
 
     const formattedData = Object.entries(weeklyData).map(([weekKey, data]) => {
-        const row: any = {date: weekKey};
+        const start = new Date(weekKey);
+        const timestamp = start.getTime();
+        const row: LineChartPoint = {
+            date: weekKey,
+            timestamp
+        };
 
         variationKeys.forEach(key => {
             const visits = data.visits[key];
@@ -91,8 +98,10 @@ export const formatWeeklyLineChartData = (chart: typeof LineChartData) => {
 
             if (visits === 0) {
                 return row[key] = 0;
-            } else {
+            } else if (visits > 0) {
                 row[key] = +((conv / visits) * 100).toFixed(2);
+            } else {
+                row[key] = null;
             }
         });
 

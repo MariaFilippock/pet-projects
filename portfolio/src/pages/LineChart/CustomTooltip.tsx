@@ -7,17 +7,18 @@ import {IoCalendarOutline, IoTrophyOutline} from 'react-icons/io5';
 
 const CustomTooltip = (props: TooltipProps<any, any> & CustomTooltipProps) => {
     const {active, payload, label} = props;
-
-    if (!active || !payload) {
+    if (!active || !payload || label == null) {
         return null
     }
+
+    const dateFormatLabel = new Date(label).toLocaleDateString();
 
     const sortedData = [...payload].sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
     return (
         <div className={styles.tooltipContainer}>
             <div className={styles.labelTitle}>
                 <IoCalendarOutline/>
-                {label}</div>
+                {dateFormatLabel}</div>
             <div className={styles.tooltipWrapper}>
                 {sortedData.map((item, index) => (
                     <div className={styles.tooltipItem} key={item.dataKey}>
