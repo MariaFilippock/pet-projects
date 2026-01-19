@@ -2,6 +2,7 @@ import React, {lazy} from 'react';
 import './App.scss';
 import {Routes, Route} from 'react-router-dom';
 import {Navbar} from 'components/Navbar/Navbar';
+import Ecommerce from 'pages/EcommerceReact/Ecommerce';
 
 const TodoMVC = lazy(() => import('./pages/TodoMVC/TodoMVC'));
 const FilmopoiskJS = lazy(() => import('./pages/FilmopoiskJS/FilmopoiskJS'));
@@ -22,6 +23,7 @@ const App = () => {
                     <Route path='/filmopoisk_react/*' element={<FilmopoiskReact/>}/>
                     <Route path='/weather_forecast_js' element={<WeatherForecastJS/>}/>
                     <Route path='/linechart' element={<LineChartPage/>} />
+                    <Route path='/ecommerce' element={<Ecommerce/>} />
                 </Routes>
             </div>
         </div>
