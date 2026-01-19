@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/pet-projects/static/css/main.06e08cff.css",
-    "main.js": "/pet-projects/static/js/main.4e0df5fc.js",
+    "main.css": "/pet-projects/static/css/main.b896c9ff.css",
+    "main.js": "/pet-projects/static/js/main.ef2a2bf5.js",
     "static/js/934.162b9a88.chunk.js": "/pet-projects/static/js/934.162b9a88.chunk.js",
     "static/js/72.81e8e5bb.chunk.js": "/pet-projects/static/js/72.81e8e5bb.chunk.js",
     "static/js/854.f5d56a5a.chunk.js": "/pet-projects/static/js/854.f5d56a5a.chunk.js",
@@ -26,6 +26,7 @@
     "native_projects/filmopoisk_js/store.js": "/pet-projects/native_projects/filmopoisk_js/store.js",
     "native_projects/weather_app_js/styles.css": "/pet-projects/native_projects/weather_app_js/styles.css",
     "native_projects/todo_mvc/view.js": "/pet-projects/native_projects/todo_mvc/view.js",
+    "native_projects/filmopoisk_js/.idea/workspace.xml": "/pet-projects/native_projects/filmopoisk_js/.idea/workspace.xml",
     "native_projects/calculator_mvc/view.js": "/pet-projects/native_projects/calculator_mvc/view.js",
     "native_projects/filmopoisk_js/src/components/MovieList/MovieList.js": "/pet-projects/native_projects/filmopoisk_js/src/components/MovieList/MovieList.js",
     "native_projects/filmopoisk_js/style.css": "/pet-projects/native_projects/filmopoisk_js/style.css",
@@ -40,6 +41,7 @@
     "native_projects/filmopoisk_js/src/components/MovieList/MovieList.css": "/pet-projects/native_projects/filmopoisk_js/src/components/MovieList/MovieList.css",
     "native_projects/filmopoisk_js/api_mock.js": "/pet-projects/native_projects/filmopoisk_js/api_mock.js",
     "native_projects/filmopoisk_js/src/components/DropdownMovieList/DropdownMovieList.js": "/pet-projects/native_projects/filmopoisk_js/src/components/DropdownMovieList/DropdownMovieList.js",
+    "native_projects/filmopoisk_js/.idea/inspectionProfiles/Project_Default.xml": "/pet-projects/native_projects/filmopoisk_js/.idea/inspectionProfiles/Project_Default.xml",
     "native_projects/calculator_mvc/controller.js": "/pet-projects/native_projects/calculator_mvc/controller.js",
     "native_projects/todo_mvc/index.html": "/pet-projects/native_projects/todo_mvc/index.html",
     "native_projects/filmopoisk_js/src/components/DropdownMovieList/DropdownMovieList.css": "/pet-projects/native_projects/filmopoisk_js/src/components/DropdownMovieList/DropdownMovieList.css",
@@ -47,14 +49,20 @@
     "native_projects/weather_app_js/index.html": "/pet-projects/native_projects/weather_app_js/index.html",
     "index.html": "/pet-projects/index.html",
     "native_projects/calculator_mvc/styles.css": "/pet-projects/native_projects/calculator_mvc/styles.css",
+    "native_projects/filmopoisk_js/.idea/filmopoisk_js.iml": "/pet-projects/native_projects/filmopoisk_js/.idea/filmopoisk_js.iml",
+    "native_projects/filmopoisk_js/.idea/modules.xml": "/pet-projects/native_projects/filmopoisk_js/.idea/modules.xml",
     "native_projects/calculator_mvc/index.html": "/pet-projects/native_projects/calculator_mvc/index.html",
+    "native_projects/filmopoisk_js/.idea/misc.xml": "/pet-projects/native_projects/filmopoisk_js/.idea/misc.xml",
+    "native_projects/filmopoisk_js/.idea/vcs.xml": "/pet-projects/native_projects/filmopoisk_js/.idea/vcs.xml",
+    "native_projects/filmopoisk_js/.idea/.gitignore": "/pet-projects/native_projects/filmopoisk_js/.idea/.gitignore",
+    "native_projects/filmopoisk_js/.idea/inspectionProfiles/profiles_settings.xml": "/pet-projects/native_projects/filmopoisk_js/.idea/inspectionProfiles/profiles_settings.xml",
     "native_projects/todo_mvc/const.js": "/pet-projects/native_projects/todo_mvc/const.js",
     "native_projects/calculator_mvc/app.js": "/pet-projects/native_projects/calculator_mvc/app.js",
     "native_projects/todo_mvc/index.js": "/pet-projects/native_projects/todo_mvc/index.js",
     "native_projects/calculator_mvc/const.js": "/pet-projects/native_projects/calculator_mvc/const.js",
     "native_projects/filmopoisk_js/index.js": "/pet-projects/native_projects/filmopoisk_js/index.js",
-    "main.06e08cff.css.map": "/pet-projects/static/css/main.06e08cff.css.map",
-    "main.4e0df5fc.js.map": "/pet-projects/static/js/main.4e0df5fc.js.map",
+    "main.b896c9ff.css.map": "/pet-projects/static/css/main.b896c9ff.css.map",
+    "main.ef2a2bf5.js.map": "/pet-projects/static/js/main.ef2a2bf5.js.map",
     "934.162b9a88.chunk.js.map": "/pet-projects/static/js/934.162b9a88.chunk.js.map",
     "72.81e8e5bb.chunk.js.map": "/pet-projects/static/js/72.81e8e5bb.chunk.js.map",
     "854.f5d56a5a.chunk.js.map": "/pet-projects/static/js/854.f5d56a5a.chunk.js.map",
@@ -73,7 +81,7 @@
     "434.494ac8a7.chunk.js.map": "/pet-projects/static/js/434.494ac8a7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.06e08cff.css",
-    "static/js/main.4e0df5fc.js"
+    "static/css/main.b896c9ff.css",
+    "static/js/main.ef2a2bf5.js"
   ]
 }
