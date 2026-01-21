@@ -26,10 +26,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && cp build/index.html build/404.html",
     "deploy": "gh-pages -d build",
     "start": "craco start",
     "build": "craco build",
+    "postbuild": "",
     "test": "craco test",
     "eject": "react-scripts eject"
   },

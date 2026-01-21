@@ -7,6 +7,7 @@ module.exports = {
             webpackConfig.plugins.push(
                 new CopyWebpackPlugin({
                     patterns: [
+                        // --- твои нативные проекты ---
                         {
                             from: path.resolve(__dirname, '../calculator_mvc'),
                             to: 'native_projects/calculator_mvc'
